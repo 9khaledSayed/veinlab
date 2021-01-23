@@ -1,0 +1,8 @@
+[1] /*Reception Form [3 Columns Horizontal Form Layout ]*/
+
+template/crud/forms/layouts/multi-column-forms.html
+
+
+[2] /*forms*/
+
+Vin/template/crud/forms/controls/base.html

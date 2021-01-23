@@ -1,0 +1,56 @@
+[1	] /*table for main analysis and sub analysis */
+
+template/crud/metronic-datatable/child/data-local.html
+جدول اساسي(للتحاليل الرئيسية) يحتوي علي جدول فرعي (التحاليل الفرعية) 
+
+
+[2] /*table for sub analysis their normal ranges */
+
+template/crud/metronic-datatable/child/data-local.html
+جدول اساسي(للتحاليل الفرعية) يحتوي علي جدول فرعي (normal ranges) 
+
+[3] /*Employee Table*/
+ template/crud/metronic-datatable/base/html-table.html
+ 
+ 
+
+[4] /*Hospital Table*/
+ template/crud/metronic-datatable/base/html-table.html
+ 
+
+
+[5] /*Patients Table*/
+ template/crud/metronic-datatable/base/html-table.html
+ 
+
+[6] /*table for  analysis their results */
+
+template/crud/metronic-datatable/child/data-local.html
+جدول اساسي(للتحاليل المطلوبة) يحتوي علي جدول فرعي (النتائج) وتظهر النتائج في حالة الانتهاء من هذا التحليل 
+    
+[7] /*Invoices Table*/
+ template/crud/metronic-datatable/base/html-table.html
+ 
+[8] /*Stock Table*/
+ template/crud/metronic-datatable/base/html-table.html
+  
+[9] /*Reports Table*/
+ template/crud/metronic-datatable/base/html-table.html
+
+[10] /*Home visits Table*/
+ template/crud/metronic-datatable/base/html-table.html
+  
+[11] /*Packages*/
+template/custom/pages/pricing/pricing-1.html
+
+
+[12] /*Promo Codes Table*/
+ template/crud/metronic-datatable/base/html-table.html
+ 
+ 
+[12] /*Financial*/
+ ??????
+ 
+ 2020_06_20_123908_create_analysis_table
+ 
+

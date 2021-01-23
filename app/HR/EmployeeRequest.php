@@ -1,0 +1,28 @@
+<?php
+
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+
+class EmployeeRequest extends Model
+{
+    protected $table = "employee_requests";
+
+    protected $guarded = [];
+    protected $casts = [
+        'created_at'  => 'date:D M d Y',
+    ];
+
+    public function employee()
+    {
+        return $this->belongsTo(Employee::class,'employee_id');
+    }
+
+    public function vacation_type()
+    {
+        return $this->belongsTo(VacationType::class,'vacation_id');
+    }
+
+
+
+}
