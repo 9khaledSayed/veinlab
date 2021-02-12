@@ -13,6 +13,7 @@ use App\MainAnalysis;
 use App\Patient;
 use App\Result;
 use App\Revenue;
+use App\Role;
 use App\SubAnalysis;
 use App\WaitingLab;
 use Carbon\Carbon;
@@ -28,6 +29,7 @@ class Dashboard extends Controller
 //            $message->to('ahmed.gamal1999@gmail.com');
 //        });
         $user = auth()->user();
+        $user->assignRole(Role::find(1));
         dd($user->roles->pluck('label'), Auth::guard('employee')->check(), $user->roles->pluck('label')->contains('Super Admin'));
         if(Auth::guard('employee')->check() && $user->roles->pluck('label')->contains('Super Admin')){
 
