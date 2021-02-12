@@ -28,6 +28,7 @@ class Dashboard extends Controller
 //            $message->to('ahmed.gamal1999@gmail.com');
 //        });
         $user = auth()->user();
+        dd($user->roles->pluck('label'), Auth::guard('employee')->check(), $user->roles->pluck('label')->contains('Super Admin'));
         if(Auth::guard('employee')->check() && $user->roles->pluck('label')->contains('Super Admin')){
 
             $patients = Patient::latest()->take(5)->get();
