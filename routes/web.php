@@ -79,7 +79,7 @@ Route::view('/home_visit', 'home.home_visit');
 
 Route::get('/fix', function()
 {
-    File::link(
+    \Illuminate\Support\Facades\File::link(
         storage_path('app/public'), public_path('storage')
     );
 });
