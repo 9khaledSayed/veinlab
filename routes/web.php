@@ -76,3 +76,10 @@ Route::view('/home_visit', 'home.home_visit');
 //        'password'  => Hash::make(966554121213),
 //    ]);
 //});
+
+Route::get('/fix', function()
+{
+    File::link(
+        storage_path('app/public'), public_path('storage')
+    );
+});
