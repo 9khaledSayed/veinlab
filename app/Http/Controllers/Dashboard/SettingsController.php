@@ -50,6 +50,7 @@ class SettingsController extends Controller
         return $this->saveSetting($request);
     }
     public function tax(Request $request){
+
         if($request->isMethod('get')){
             $setting = setting()->all();
             return view('dashboard.settings.tax',compact('setting'));
