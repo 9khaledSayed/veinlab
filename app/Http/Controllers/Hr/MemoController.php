@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Hr;
 
-use App\Branch;
+use App\HR\Branch;
 use App\Employee;
 use App\Memo;
 use App\Http\Controllers\Controller;

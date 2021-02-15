@@ -3,14 +3,13 @@
 namespace App\Http\Controllers\Hr;
 
 use App\AllowanceType;
-use App\Branch;
 use App\Employee;
+use App\HR\Branch;
 use App\Http\Controllers\Controller;
 use App\Nationality;
 use App\Role;
 use App\Template;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 
 class EmployeeController extends Controller
 {

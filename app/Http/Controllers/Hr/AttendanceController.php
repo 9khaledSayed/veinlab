@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Hr;
 
 use App\Attendance;
-use App\Branch;
 use App\Employee;
+use App\HR\Branch;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Notification;
 use Carbon\Carbon;

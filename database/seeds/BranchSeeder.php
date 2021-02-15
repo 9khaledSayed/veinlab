@@ -11,7 +11,7 @@ class BranchSeeder extends Seeder
      */
     public function run()
     {
-        \App\Branch::create([
+        \App\HR\Branch::create([
             'name'      => 'فرع الرياض',
             'address'      => 'المجمعة : طريق الأمير نايف بن عبدالعزيز',
         ]);

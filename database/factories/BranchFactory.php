@@ -2,7 +2,7 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Branch;
+use App\HR\Branch;
 use Faker\Generator as Faker;
 
 $factory->define(Branch::class, function (Faker $faker) {
