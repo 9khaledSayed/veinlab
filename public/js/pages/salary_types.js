@@ -126,6 +126,19 @@ var KTContactsAdd = function () {
 
                         }
 
+                    },
+                    error:function (err){
+                        KTApp.unprogress(btn);
+                        let response = err.responseJSON;
+                        let errors = '';
+                        $.each(response.errors, function( index, value ) {
+                            errors += value + '\n';
+                        });
+                        swal.fire({
+                            title: locator.__(response.message),
+                            text: errors,
+                            type: 'error'
+                        });
                     }
                 });
             }

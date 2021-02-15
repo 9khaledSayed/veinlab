@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Hr;
 
 use App\Http\Controllers\Controller;
-use App\Salary;
+use App\HR\Salary;
 use Illuminate\Http\Request;
 
 class SalaryController extends Controller

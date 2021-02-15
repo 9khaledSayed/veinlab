@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Hr;
 
-use App\Decision;
+use App\HR\Decision;
 use App\Employee;
 use App\Http\Controllers\Controller;
 
 use App\Nationality;
-use App\SalaryReport;
+use App\HR\SalaryReport;
 use App\Template;
 use Carbon\Carbon;
 use Dompdf\Dompdf;

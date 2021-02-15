@@ -70,11 +70,13 @@ class CreateEmployeeRequestsTable extends Migration
 
             $table->foreign('employee_id')
                 ->references('id')
-                ->on('employees');
+                ->on('employees')
+                ->onDelete('cascade');
 
             $table->foreign('vacation_id')
                 ->references('id')
-                ->on('vacation_types');
+                ->on('vacation_types')
+                ->onDelete('cascade');
         });
     }
 

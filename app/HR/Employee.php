@@ -1,7 +1,8 @@
 <?php
 
-namespace App;
-use App\HR\Branch;
+namespace App\HR;
+use App\AllowanceType;
+use App\Role;
 use Carbon\Carbon;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;

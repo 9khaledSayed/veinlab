@@ -46,8 +46,7 @@
                                                                     <label>{{__('Addition Reason')}} *</label>
                                                                     <select class="form-control kt-selectpicker" title="Choose"
                                                                             name="reason">
-                                                                        <option value="general">{{__('General')}}</option>
-                                                                        @foreach($reasons as $reason)
+                                                                        @foreach($reasons->where('operation_type', '2') as $reason)
                                                                             <option value="{{$reason->name()}}">
                                                                                 {{$reason->name()}}</option>
                                                                         @endforeach

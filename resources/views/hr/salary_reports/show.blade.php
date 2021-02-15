@@ -242,7 +242,7 @@
                 </div>
                 <div class="kt-portlet__head-toolbar">
                     <div class="kt-portlet__head-actions">
-                        @if($salaryReport->status != 2)
+{{--                        @if($salaryReport->status != 2)--}}
                         <a class="btn btn-warning btn-sm btn-loading" href="{{route('dashboard.hr.salary_reports.reissue', $salaryReport->id)}}">
                             <i class="fa fa-redo"></i>
                             {{__('Reissue')}}
@@ -259,7 +259,7 @@
                             <i class="fa fa-ban"></i>
                             {{__('Cancel')}}
                         </a>
-                        @endif
+{{--                        @endif--}}
                     </div>
                 </div>
             </div>

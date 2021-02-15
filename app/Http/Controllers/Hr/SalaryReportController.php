@@ -2,18 +2,17 @@
 
 namespace App\Http\Controllers\Hr;
 
-use App\Addition;
-use App\Deduction;
+use App\HR\Addition;
+use App\HR\Deduction;
 use App\Employee;
 use App\Exports;
 use App\Holiday;
 use App\Http\Controllers\Controller;
 use App\Rules\UniqueMonth;
-use App\Salary;
-use App\SalaryReport;
+use App\HR\Salary;
+use App\HR\SalaryReport;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 
 class SalaryReportController extends Controller
 {
@@ -99,7 +98,13 @@ class SalaryReportController extends Controller
         $this->authorize('view_all_salaries');
         if($request->ajax()){
             $salaries = Salary::with(['employee', 'salary_report', 'employee.roles'])
-                        ->where('salary_report_id', $salaryReport->id)->get();
+                        ->where('salary_report_id', $salaryReport->id)->get()->filter(function ($salary){
+                    if(isset($salary->employee)){
+                        return $salary;
+                    }else{
+                        $salary->delete();
+                    }
+                });
             return response()->json($salaries);
         }
         return view('hr.salary_reports.show', compact('salaryReport'));

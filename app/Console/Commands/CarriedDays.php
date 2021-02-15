@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\LeaveBalance;
+use App\Hr\LeaveBalance;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 

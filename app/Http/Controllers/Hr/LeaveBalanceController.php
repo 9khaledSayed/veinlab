@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Hr;
 
 use App\Employee;
 use App\Http\Controllers\Controller;
-use App\LeaveBalance;
-use App\VacationType;
+use App\HR\LeaveBalance;
+use App\HR\VacationType;
 use Illuminate\Http\Request;
 
 class LeaveBalanceController extends Controller
@@ -15,11 +15,15 @@ class LeaveBalanceController extends Controller
             $this->authorize('view_vacations_Balances');
             if ($request->ajax()) {
 
-                $vacations_balances = LeaveBalance::with('employee','vacation_type')->get();
+                $vacations_balances = LeaveBalance::with('employee','vacation_type')->get()->filter(function ($vacationsBalances){
+                    if(isset($vacationsBalances->employee)){
+                        return $vacationsBalances;
+                    }else{
+                        $vacationsBalances->delete();
+                    }
+                });
 
-                $data['data'] = $vacations_balances;
-
-                return response()->json($data);
+                return response()->json($vacations_balances);
             }
 
             $vacation_types = VacationType::all();

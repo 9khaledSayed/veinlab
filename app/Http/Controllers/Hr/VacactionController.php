@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\Hr;
 
-use App\Attendance;
+use App\HR\Attendance;
 use App\Employee;
 use App\Http\Controllers\Controller;
-use App\LeaveBalance;
-use App\VacationType;
+use App\HR\LeaveBalance;
+use App\HR\VacationType;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\EmployeeRequest;
+use App\HR\EmployeeRequest;
 use Setting;
 class VacactionController extends Controller
 {
@@ -26,9 +26,14 @@ class VacactionController extends Controller
             $id = Auth::guard('employee')->user()->id;
             $employee_vacations = EmployeeRequest::where([
                 ['employee_id','=',$id],
-                ['type','=',2]])->with('employee','vacation_type')->get();
-            $data['data'] = $employee_vacations;
-            return response()->json($data);
+                ['type','=',2]])->with('employee','vacation_type')->get()->filter(function ($employeeVacations){
+                if(isset($employeeVacations->employee)){
+                    return $employeeVacations;
+                }else{
+                    $employeeVacations->delete();
+                }
+            });
+            return response()->json($employee_vacations);
         }
         $vacation_types = VacationType::all();
         return view('hr.vacations.my_vacations',compact('vacation_types'));
@@ -40,9 +45,14 @@ class VacactionController extends Controller
         if ($request->ajax()) {
             $employee_vacations = EmployeeRequest::where([
                 ['type','=',2],
-                ['status','=',1]])->with('employee','vacation_type')->get();
-            $data['data'] = $employee_vacations;
-            return response()->json($data);
+                ['status','=',1]])->with('employee','vacation_type')->get()->filter(function ($employeeVacations){
+                if(isset($employeeVacations->employee)){
+                    return $employeeVacations;
+                }else{
+                    $employeeVacations->delete();
+                }
+            });
+            return response()->json($employee_vacations);
         }
         $vacation_types = VacationType::all();
         return view('hr.vacations.vacations',compact('vacation_types'));

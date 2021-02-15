@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers\Hr;
 
-use App\Attendance;
+use App\HR\Attendance;
 use App\Employee;
 use App\Http\Controllers\Controller;
-use App\LeaveBalance;
+use App\HR\LeaveBalance;
 use App\Nationality;
 use App\Template;
-use App\VacationType;
+use App\HR\VacationType;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use App\EmployeeRequest;
+use App\HR\EmployeeRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
 use Setting;
@@ -58,11 +58,13 @@ class RequestsController extends Controller
         $this->authorize('view_employees_requests');
         if ($request->ajax()) {
 
-            $employee_requests = EmployeeRequest::where('status',1)->with('employee')->get();
+            $employee_requests = EmployeeRequest::where('status',1)->with('employee')->get()->filter(function ($employeeRequest){
+                if(isset($employeeRequest->employee)){
+                    return $employeeRequest;
+                }
+            });
 
-            $data['data'] = $employee_requests;
-
-            return response()->json($data);
+            return response()->json($employee_requests);
         }
         return view('hr.requests.finished_requests');
     }

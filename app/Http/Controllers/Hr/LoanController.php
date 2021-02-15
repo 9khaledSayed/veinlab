@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Hr;
 
-use App\Loan;
+use App\HR\Loan;
 use App\Http\Controllers\Controller;
-use App\SalaryReport;
+use App\HR\SalaryReport;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -90,9 +90,9 @@ class LoanController extends Controller
             'type' => 'required',
             'status' => 'required',
             'reason' => 'required',
-            'amount' => 'required',
-            'date' => 'nullable',
-            'num_of_months' => 'nullable',
+            'amount' => 'required|numeric',
+            'date' => 'nullable|date',
+            'num_of_months' => 'nullable|numeric',
             'effective_date' => 'required',
             'end_date' => 'nullable',
             'operational_date' => 'nullable',

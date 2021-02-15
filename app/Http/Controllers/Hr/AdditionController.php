@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Hr;
 
-use App\Addition;
+use App\HR\Addition;
 use App\additionDeductionTypes;
 use App\Http\Controllers\Controller;
-use App\SalaryReport;
+use App\HR\SalaryReport;
 use Illuminate\Http\Request;
 
 class AdditionController extends Controller
@@ -21,7 +21,7 @@ class AdditionController extends Controller
             $additions = Addition::with('employee')->where('type', 2)->get();
             return response()->json($additions);
         }
-        $reasons = additionDeductionTypes::where('operation_type', 2)->get();
+        $reasons = additionDeductionTypes::where('operation_type', '2')->get();
         return view('hr.additions.index', compact('reasons'));
     }
 
@@ -88,7 +88,7 @@ class AdditionController extends Controller
             'type' => 'required',
             'status' => 'required',
             'reason' => 'required',
-            'amount' => 'required',
+            'amount' => 'required|numeric',
             'date' => 'nullable',
             'effective_date' => 'required',
             'operational_date' => 'nullable',

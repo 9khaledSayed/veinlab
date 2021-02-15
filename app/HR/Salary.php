@@ -1,7 +1,8 @@
 <?php
 
-namespace App;
+namespace App\HR;
 
+use App\HR\SalaryReport;
 use Illuminate\Database\Eloquent\Model;
 
 class Salary extends Model

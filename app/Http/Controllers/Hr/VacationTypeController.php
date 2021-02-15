@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Hr;
 
 use App\Http\Controllers\Controller;
-use App\VacationType;
+use App\HR\VacationType;
 use Illuminate\Http\Request;
 
 class VacationTypeController extends Controller

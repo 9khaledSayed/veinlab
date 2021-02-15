@@ -1,7 +1,8 @@
 <?php
 
-namespace App;
+namespace App\HR;
 
+use App\HR\VacationType;
 use Illuminate\Database\Eloquent\Model;
 
 class EmployeeRequest extends Model

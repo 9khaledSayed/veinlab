@@ -3,10 +3,9 @@
 namespace App\Http\Controllers\Hr;
 
 use App\additionDeductionTypes;
-use App\Deduction;
-use App\Employee;
+use App\HR\Deduction;
 use App\Http\Controllers\Controller;
-use App\SalaryReport;
+use App\HR\SalaryReport;
 use App\Template;
 use Illuminate\Http\Request;
 

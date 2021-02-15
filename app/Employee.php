@@ -1,7 +1,15 @@
 <?php
 
 namespace App;
+use App\HR\Addition;
+use App\HR\Attendance;
 use App\HR\Branch;
+use App\HR\Decision;
+use App\HR\Deduction;
+use App\HR\LeaveBalance;
+use App\HR\Loan;
+use App\HR\EmployeeRequest;
+use App\HR\Salary;
 use Carbon\Carbon;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;

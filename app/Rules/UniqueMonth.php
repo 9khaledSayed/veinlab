@@ -2,7 +2,7 @@
 
 namespace App\Rules;
 
-use App\SalaryReport;
+use App\HR\SalaryReport;
 use Illuminate\Contracts\Validation\Rule;
 
 class UniqueMonth implements Rule

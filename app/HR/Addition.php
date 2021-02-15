@@ -1,7 +1,8 @@
 <?php
 
-namespace App;
+namespace App\HR;
 
+use App\Employee;
 use Illuminate\Database\Eloquent\Model;
 
 class Addition extends Model
