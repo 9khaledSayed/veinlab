@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\HR\Branch;
 use Illuminate\Database\Eloquent\Model;
 
 class Memo extends Model

@@ -20,7 +20,7 @@
     };
 </script>
 <script src="{{asset('assets/plugins/global/plugins.bundle.js')}}" type="text/javascript"></script>
-<script src="{{asset('assets/js/scripts.bundle.js')}}" type="text/javascript"></script>
+<script src="{{asset('assets/js/main_scripts.bundle.js')}}" type="text/javascript"></script>
 <script src="{{asset('assets/js/pages/dashboard.js')}}" type="text/javascript"></script>
 <script src="{{asset('js/validation_messages.js')}}" type="text/javascript"></script>
 @stack('scripts')

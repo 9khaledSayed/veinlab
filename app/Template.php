@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\HR\Decision;
 use Illuminate\Database\Eloquent\Model;
 use Setting;
 
@@ -9,7 +10,7 @@ class Template extends Model
 {
     protected $guarded = [];
 
-    public function employee_results(Employee $employee)
+    public function employee_results(\App\HR\Employee $employee)
     {
         return [
             'fullname_arabic' => $employee->fullname_arabic(),
@@ -64,7 +65,7 @@ class Template extends Model
         ];
     }
 
-    public function salary_results(Employee $employee)
+    public function salary_results(\App\HR\Employee $employee)
     {
         return [
             'basic_salary' => $employee->basic_salary,
@@ -203,7 +204,7 @@ class Template extends Model
     {
         return ['date' => now()->format('Y-m-d')];
     }
-    public function salary_table(Employee $employee)
+    public function salary_table(\App\HR\Employee $employee)
     {
         $table_start = '<table dir="rtl" style="border-collapse: collapse; width: 100%;" border="1">
                         <tbody>
