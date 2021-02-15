@@ -97,5 +97,5 @@
 @endsection
 
 @push('scripts')
-    <script src="{{asset('js/datatables/waiting_labs.js')}}" type="text/javascript"></script>
+    <script src="{{asset('js/datatables/waiting_labs_updated.js')}}" type="text/javascript"></script>
 @endpush

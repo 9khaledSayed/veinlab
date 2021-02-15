@@ -31,7 +31,17 @@ class WaitingLabController extends Controller
     {
         $this->authorize('view_waiting_labs');
         if ($request->ajax()) {
-            $waiting_lab = WaitingLab::with(['patient', 'main_analysis', 'invoice'])->where('result','<','3')->get();
+            $waiting_lab = WaitingLab::where('result','<','3')->get()->map(function ($waitingLab){
+                return [
+                    'id' => $waitingLab->id,
+                    'patient_name' => $waitingLab->patient->name,
+                    'main_analysis_name' => $waitingLab->main_analysis->general_name,
+                    'invoice_bar_code' => $waitingLab->invoice->bar_code,
+                    'invoice_serial_no' => $waitingLab->invoice->serial_no,
+                    'status' => $waitingLab->status,
+                    'result' => $waitingLab->result,
+                ];
+            });
             return response()->json($waiting_lab);
         }
         return view('dashboard.waiting_labs.index');
