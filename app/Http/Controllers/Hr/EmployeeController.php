@@ -96,12 +96,10 @@ class EmployeeController extends Controller
         if ($request->ajax()){
             return response()->json($employee);
         }
-        $nationalities = Nationality::all();
-        $roles = Role::all();
         return view('hr.employees.show', [
             'employee' => $employee,
-            'nationalities' => $nationalities,
-            'roles' => $roles,
+            'nationalities' => Nationality::all(),
+            'roles' => Role::all(),
             'contract_type' => $this->contract_type,
             'allowances' =>$allowances,
             'branches' =>$branches
