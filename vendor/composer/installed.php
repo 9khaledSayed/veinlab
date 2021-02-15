@@ -1,12 +1,12 @@
 <?php return array (
   'root' => 
   array (
-    'pretty_version' => 'dev-master',
-    'version' => 'dev-master',
+    'pretty_version' => 'dev-main',
+    'version' => 'dev-main',
     'aliases' => 
     array (
     ),
-    'reference' => 'd7c14ddf2af3146daba968b5e4405f0e0d5b8aee',
+    'reference' => 'c57564bcc52387167bed6b833c7a514758f24a70',
     'name' => 'laravel/laravel',
   ),
   'versions' => 
@@ -498,12 +498,12 @@
     ),
     'laravel/laravel' => 
     array (
-      'pretty_version' => 'dev-master',
-      'version' => 'dev-master',
+      'pretty_version' => 'dev-main',
+      'version' => 'dev-main',
       'aliases' => 
       array (
       ),
-      'reference' => 'd7c14ddf2af3146daba968b5e4405f0e0d5b8aee',
+      'reference' => 'c57564bcc52387167bed6b833c7a514758f24a70',
     ),
     'laravel/nexmo-notification-channel' => 
     array (
