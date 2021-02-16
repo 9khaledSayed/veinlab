@@ -40,6 +40,7 @@ class WaitingLabController extends Controller
                     'invoice_serial_no' => $waitingLab->invoice->serial_no,
                     'status' => $waitingLab->status,
                     'result' => $waitingLab->result,
+                    'created_at' => $waitingLab->created_at,
                 ];
             });
             return response()->json($waiting_lab);

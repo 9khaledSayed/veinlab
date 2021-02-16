@@ -259,7 +259,6 @@ class ResultController extends Controller implements FromCollection , WithHeadin
                 'amount_paid' =>$invoice->amount_paid,
                 'due' =>$invoice->amount_paid - $invoice->total_price,
                 'pay_method' =>$paymentMethod,
-                'receiver' => $invoice->employee->fullname(),
                 'barcode' =>'data:image/png;base64,' . DNS1D::getBarcodePNG($invoice->barcode, 'C39',2,44,array(1,1,1), true)
             ],
         ];
