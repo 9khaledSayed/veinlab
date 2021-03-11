@@ -314,10 +314,10 @@ var KTUserListDatatable = function() {
         init: function() {
             init();
             search();
-            selection();
-            selectedFetch();
-            selectedStatusUpdate();
-            selectedDelete();
+            // selection();
+            // selectedFetch();
+            // selectedStatusUpdate();
+            // selectedDelete();
             updateTotal();
         },
     };
