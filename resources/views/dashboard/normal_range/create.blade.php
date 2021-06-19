@@ -41,6 +41,7 @@
                         </select>
                     </div>
                 </div>
+
                 <div id="repeater_div">
                 <div class="form-group row">
                     <label class="col-form-label col-lg-3 col-sm-12">{{__('Gender')}}</label>
@@ -70,9 +71,7 @@
                         <label for="example-text-input" class="col-form-label col-lg-3 col-sm-12">{{__('Normal')}}</label>
                         <div class="col-lg-6 col-md-9 col-sm-12">
     {{--                        <textarea class="form-control" type="text"   ></textarea>--}}
-                            <textarea placeholder="{{__('Normal Range')}}" value="{{old('value')}}" id="normal_value" class="tox-target">
-
-                            </textarea>
+                            <textarea placeholder="{{__('Normal Range')}}"   class="tox-target normal_value">{{old('value')}}</textarea>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -107,6 +106,9 @@
                         <td><button type="button" class="btn-sm btn btn-bold" onclick="remove_row( document.getElementById('row_{{$index}}'))" style="background-color:transparent;border:0px;text-align:center"><i class="la la-trash-o"></i> {{__('Delete')}}</button></td>
                     </tr>
                 @endforeach
+
+
+
                 </tbody>
             </table>
         </div>

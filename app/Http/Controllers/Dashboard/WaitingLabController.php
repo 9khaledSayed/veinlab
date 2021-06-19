@@ -36,7 +36,7 @@ class WaitingLabController extends Controller
                     'id' => $waitingLab->id,
                     'patient_name' => $waitingLab->patient->name,
                     'main_analysis_name' => $waitingLab->main_analysis->general_name,
-                    'invoice_bar_code' => $waitingLab->invoice->bar_code,
+                    'invoice_bar_code' => $waitingLab->invoice->barcode,
                     'invoice_serial_no' => $waitingLab->invoice->serial_no,
                     'status' => $waitingLab->status,
                     'result' => $waitingLab->result,

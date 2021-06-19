@@ -102,7 +102,7 @@ class HospitalController extends Controller implements  FromCollection, WithHead
     public function collection()
     {
 
-        $patients = Hospital::select('name','phone','email','wallet','no_patients')->get();
+        $patients = Hospital::select('name','phone','email','no_patients')->get();
         return $patients;
     }
 
