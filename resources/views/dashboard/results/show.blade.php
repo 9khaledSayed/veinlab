@@ -49,64 +49,71 @@
                             </div>
                         </div>
                         @foreach($waiting_labs as $waiting_lab)
-                            <div class="kt-portlet__head">
-                                <div class="kt-portlet__head-label" style="margin: auto">
-                                    <h3 class="kt-portlet__head-title">
-                                        {{__('Analysis')}} :   {{$waiting_lab->main_analysis->general_name}}
-                                    </h3>
+
+                            @if($waiting_lab->results->count() > 0)
+                                <div class="kt-portlet__head">
+                                    <div class="kt-portlet__head-label" style="margin: auto">
+                                        <h3 class="kt-portlet__head-title" style="direction: ltr">
+                                            <h3 class="mr-3 ml-3"> {{$waiting_lab->main_analysis->general_name}} </h3>
+                                            <h2  style="font-weight: 900">Report</h2>
+                                        </h3>
+                                    </div>
                                 </div>
-                            </div>
-                            <table class="table table-striped- table-bordered table-hover" id="kt_table_1">
-                                @if($waiting_labs->first() == $waiting_lab)
-                                <thead class="thead-light">
-                                <tr>
-                                    <th style="width: 10%">#</th>
-                                    <th style="width: 22.5%">{{__('Test Name')}}</th>
-                                    <th style="width: 22.5%">{{__('Result')}}</th>
-                                    <th style="width: 22.5%">{{__('Unit')}}</th>
-                                    <th style="width: 22.5%">{{__('Normal Range')}}</th>
-                                </tr>
-                                </thead>
-                                @endif
-                                <tbody>
-                                @php
-                                $k = 1;
-                                @endphp
-                                @foreach($waiting_lab->results as $result)
-                                    <tr>
-                                        <td style="width: 10%">{{$k++}}</td>
-                                        <td style="width: 22.5%">{{$result->sub_analysis->name ?? ''}}</td>
-                                        <td style="width: 22.5%">{{$result->result ?? ''}}</td>
-                                        <td style="width: 22.5%">{{$result->sub_analysis->unit ?? ''}}</td>
-                                        @if(isset($result->sub_analysis) && isset($result->sub_analysis->normal_ranges))
-                                        <td style="width: 22.5%">{!! $result->sub_analysis->normal_ranges->whereIn('gender', [$gender, 3])->first()->value ??' '!!}</td>
-                                        @else
-                                        <td style="width: 22.5%"> </td>
-                                        @endif
-                                    </tr>
-                                @endforeach
+                                <table class="table table-striped- table-bordered table-hover" id="kt_table_1">
+                                    @if($waiting_labs->first() == $waiting_lab)
+                                        <thead class="thead-light">
+                                        <tr>
+                                            <th style="width: 10%">#</th>
+                                            <th style="width: 22.5%">{{__('Test Name')}}</th>
+                                            <th style="width: 22.5%">{{__('Result')}}</th>
+                                            <th style="width: 22.5%">{{__('Unit')}}</th>
+                                            <th style="width: 22.5%">{{__('Normal Range')}}</th>
+                                        </tr>
+                                        </thead>
+                                    @endif
+                                    <tbody>
+                                    @php
+                                        $k = 1;
+                                    @endphp
+                                    @foreach($waiting_lab->results as $result)
+                                        <tr>
+                                            <td style="width: 10%">{{$k++}}</td>
+                                            <td style="width: 22.5%; direction: ltr;">{{$result->sub_analysis->name ?? ''}}</td>
+                                            <td style="width: 22.5%; direction: ltr;">{{$result->result ?? ''}}</td>
+                                            <td style="width: 22.5%; direction: ltr;">{{$result->sub_analysis->unit ?? ''}}</td>
+                                            @if(isset($result->sub_analysis) && isset($result->sub_analysis->normal_ranges))
+                                                <td style="width: 22.5%; direction: ltr;">{!! $result->sub_analysis->normal_ranges->whereIn('gender', [$gender, 3])->first()->value ??' '!!}</td>
+                                            @else
+                                                <td style="width: 22.5%; direction: ltr;"> </td>
+                                            @endif
+                                        </tr>
+                                    @endforeach
 
-                                </tbody>
-                            </table>
+                                    </tbody>
+                                </table>
+                            @endif
 
-                        @if(isset($waiting_lab->notes->lab_notes))
-                            <div class="kt-portlet__foot">
-                                <div class="kt-form__actions">
-                                    <div class="row ">
-                                        <div class="col-lg-12 text-center" >
-                                            <h4 class="mt-3 mb-3 lab"> {{ __('Lab Notes')}} </h4>
-                                            <p>{!! $waiting_lab->notes->lab_notes !!} </p>
+                            @if(isset($waiting_lab->notes->lab_notes))
+                                <div class="kt-portlet__foot">
+                                    <div class="kt-form__actions">
+                                        <div class="row ">
+                                            <div class="col-lg-12 text-center" >
+                                                <h4 class="mt-3 mb-3 lab"> {{ __('Lab Notes')}} </h4>
+                                                <p>{!! $waiting_lab->notes->lab_notes !!} </p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        @endif
-                        @can('reject_results')
-                            <form  data-id = "{{$waiting_lab->id}}"  data-analysis = "{{$waiting_lab->main_analysis->general_name}}" style="text-align:center"  class="mb-5 mt-5">
-                                <button type="submit"  class="btn btn-danger font-weight-bold btnprn" >{{__('Disapprove')}}</button>
-                            </form>
-                        @endcan
+                            @endif
 
+
+                            @if($waiting_lab->results->count() > 0)
+                                @can('reject_results')
+                                <form  data-id = "{{$waiting_lab->id}}"  data-analysis = "{{$waiting_lab->main_analysis->general_name}}" style="text-align:center"  class="mb-5 mt-5">
+                                    <button type="submit"  class="btn btn-danger font-weight-bold btnprn" >{{__('Disapprove')}}</button>
+                                </form>
+                            @endcan
+                            @endif
                         @endforeach
                     </div>
                     @if(Auth::guard('patient')->check() || Auth::guard('hospital')->check())

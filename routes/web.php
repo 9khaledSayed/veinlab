@@ -1,5 +1,6 @@
 <?php
 
+use App\Role;
 use Illuminate\Support\Facades\Route;
 use Jenssegers\Date\Date;
 
@@ -82,4 +83,14 @@ Route::get('/fix', function()
     \Illuminate\Support\Facades\File::link(
         storage_path('app/public'), public_path('storage')
     );
+});
+
+
+Route::get('/link_with_roles', function()
+{
+    foreach (\App\Employee::get() as $employee) {
+        $employee->assignRole(Role::where('label', 'Hr')->first());
+    }
+
+    dd('done');
 });

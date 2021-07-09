@@ -10,7 +10,7 @@ class SubAnalysis extends Model
     use SoftDeletes;
 
 
-    protected $dates = ['deleted_at'];
+    protected $dates = ['deleted_at', 'created_at'];
     protected $fillable = ['name','unit','main_analysis_id'];
     protected $casts = [
         'created_at'  => 'date:D M d Y',

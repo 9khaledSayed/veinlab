@@ -29,7 +29,7 @@
 
     <!-- begin:: Title -->
     <h3 class="kt-header__title kt-grid__item">
-        {{__('Vein')}}
+        {{app()->isLocale('ar')? setting('NameArabic'): setting('NameEnglish')}}
     </h3>
 
     <!-- end:: Title -->

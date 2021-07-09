@@ -205,7 +205,7 @@
                             <div class="form-group row">
                                 <label class="col-xl-3 col-lg-3 col-form-label">{{__('Logo')}}</label>
                                 <div class="col-lg-9 col-xl-6">
-                                    <div class="kt-avatar kt-avatar--outline kt-avatar--circle" id="kt_user_avatar_3">
+                                    <div class="kt-avatar kt-avatar--outline kt-avatar--circle" id="kt_user_avatar_1">
                                             <div class="kt-avatar__holder" style="background-image: url({{asset($setting['logo_path'])}})"></div>
                                         <label class="kt-avatar__upload" data-toggle="kt-tooltip" title="" data-original-title="Change avatar">
                                             <i class="fa fa-pen"></i>
@@ -226,7 +226,7 @@
                             <div class="form-group row">
                                 <label class="col-xl-3 col-lg-3 col-form-label">{{__('Company Stamp')}}</label>
                                 <div class="col-lg-9 col-xl-6">
-                                    <div class="kt-avatar kt-avatar--outline kt-avatar--circle" id="kt_user_avatar_3">
+                                    <div class="kt-avatar kt-avatar--outline kt-avatar--circle" id="kt_user_avatar_2">
                                         <div class="kt-avatar__holder" style="background-image: url({{asset($setting['company_stamp_path'] ?? '')}})"></div>
                                         <label class="kt-avatar__upload" data-toggle="kt-tooltip" title="" data-original-title="Change avatar">
                                             <i class="fa fa-pen"></i>
@@ -268,7 +268,7 @@
                             <div class="form-group row">
                                 <label class="col-xl-3 col-lg-3 col-form-label">{{__('Header')}}</label>
                                 <div class="col-lg-9 col-xl-6">
-                                    <div class="kt-avatar kt-avatar--outline kt-avatar--circle" id="kt_user_avatar_3">
+                                    <div class="kt-avatar kt-avatar--outline kt-avatar--circle" id="kt_user_avatar_4">
                                         <div class="kt-avatar__holder" style="background-image: url({{asset($setting['header_path'] ?? '')}})"></div>
                                         <label class="kt-avatar__upload" data-toggle="kt-tooltip" title="" data-original-title="Change avatar">
                                             <i class="fa fa-pen"></i>
@@ -291,7 +291,7 @@
                             <div class="form-group row">
                                 <label class="col-xl-3 col-lg-3 col-form-label">{{__('Footer')}}</label>
                                 <div class="col-lg-9 col-xl-6">
-                                    <div class="kt-avatar kt-avatar--outline kt-avatar--circle" id="kt_user_avatar_3">
+                                    <div class="kt-avatar kt-avatar--outline kt-avatar--circle" id="kt_user_avatar_5">
                                         <div class="kt-avatar__holder" style="background-image: url({{asset($setting['footer_path'] ?? '')}})"></div>
                                         <label class="kt-avatar__upload" data-toggle="kt-tooltip" title="" data-original-title="Change avatar">
                                             <i class="fa fa-pen"></i>
@@ -333,7 +333,17 @@
         $(function (){
            $('.kt-select2').select2({
                placeholder:'{{__('Choose')}}'
-           })
+           });
+
+            initKTAvatars();
         });
+
+        var initKTAvatars = function () {
+            new KTAvatar('kt_user_avatar_1');
+            new KTAvatar('kt_user_avatar_2');
+            new KTAvatar('kt_user_avatar_3');
+            new KTAvatar('kt_user_avatar_4');
+            new KTAvatar('kt_user_avatar_5');
+        }
     </script>
 @endpush

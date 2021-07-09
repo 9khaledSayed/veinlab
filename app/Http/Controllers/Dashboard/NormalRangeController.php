@@ -33,13 +33,7 @@ class NormalRangeController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-           'gender4' => 'required',
-           'from4' => 'required|min:0',
-           'to4' => 'required|min:0',
-           'normal4' => 'required',
-        ]);
-        dd($request->toArray());
+
         $noNormRanges = (int)  $request['number_ranges'];
         $subAnalysis = SubAnalysis::find($request->sub_analysis_id);
         $subAnalysis->normal_ranges()->delete();

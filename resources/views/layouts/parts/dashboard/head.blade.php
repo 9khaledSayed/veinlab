@@ -1,6 +1,6 @@
 <base href="">
 <meta charset="utf-8" />
-<title>{{__('Vien | Dashboard')}}</title>
+<title>{{app()->isLocale('ar')? setting('NameArabic'): setting('NameEnglish')}}</title>
 <meta name="description" content="Latest updates and statistic charts">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="csrf-token" content="{{ csrf_token() }}" />

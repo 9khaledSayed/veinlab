@@ -49,8 +49,8 @@
                                 @foreach($sub_analysis as $sub)
                                     <tr>
                                         <th scope="row">{{$sub->id}}</th>
-                                        <td>{{$sub->name}}</td>
-                                        <td>
+                                        <td style="direction: ltr;">{{$sub->name}}</td>
+                                        <td style="direction: ltr;">
                                             <input type="text"
                                                    class="form-control @error('result_' . $sub->id)is-invalid @enderror"
                                                    name="{{'result_' . $sub->id}}"
@@ -63,8 +63,8 @@
                                             @enderror
                                         </td>
                                         <td>{{$sub->unit}}</td>
-                                        <td>
-                                            <textarea style="display: none">{!!$sub->normal_ranges->where('gender', $gender)->first()->value ?? $sub->normal_ranges->where('gender', 3)->first()->value ?? ''!!}</textarea>
+                                        <td style="direction: ltr;">
+                                            <textarea style="display: none;">{!!$sub->normal_ranges->where('gender', $gender)->first()->value ?? $sub->normal_ranges->where('gender', 3)->first()->value ?? ''!!}</textarea>
                                             <div>{!!$sub->normal_ranges->where('gender', $gender)->first()->value ?? $sub->normal_ranges->where('gender', 3)->first()->value ?? ''!!}</div>
                                         </td>
                                     </tr>

@@ -145,7 +145,7 @@ var KTDatatableChildRemoteDataDemo = function() {
                     textAlign: 'center',
                     sortable: 'asc',
                 }, {
-                    field: 'main_analysis.general_name',
+                    field: 'general_name',
                     title: locator.__('Main Name'),
                     textAlign: 'center',
                     sortable: 'asc',
