@@ -20,16 +20,8 @@ class SubAnalysisController extends Controller implements  FromCollection, WithH
     {
         $this->authorize('view_sub_analysis');
         if ($request->ajax()) {
-            $sub_analysis = SubAnalysis::get()->map(function ($sub){
-                return [
-                  'id' => $sub->id,
-                  'name' => $sub->name,
-                  'general_name' => $sub->main_analysis->general_name,
-                  'unit' => $sub->unit,
-                  'created_at' => $sub->created_at->format('Y-m-d'),
-                ];
-            });
-            return response()->json($sub_analysis);
+            $response = getModelData(new SubAnalysis(), $request, ['main_analysis' => ['general_name']]);
+            return response()->json($response);
         }
         return view('dashboard.sub_analysis.index');
     }

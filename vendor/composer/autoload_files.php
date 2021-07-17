@@ -110,4 +110,5 @@ return array(
     '6124b4c8570aa390c21fafd04a26c69f' => $vendorDir . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
     'b6b991a57620e2fb6b2f66f03fe9ddc2' => $vendorDir . '/symfony/string/Resources/functions.php',
     '9475354b4ef53b0ad02aebf6d3246661' => $vendorDir . '/anlutro/l4-settings/src/helpers.php',
+    '646961a8eab48144f6c03fc7c3185753' => $baseDir . '/app/Http/Helpers/Functions.php',
 );

@@ -20,6 +20,6 @@ class PromoCode extends Model
 
     public function main_analysis()
     {
-        return $this->belongsTo(MainAnalysis::class);
+        return $this->belongsTo(MainAnalysis::class)->withTrashed();
     }
 }

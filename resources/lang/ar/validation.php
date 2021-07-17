@@ -157,6 +157,18 @@ return [
         'sector_id' => [
             'required_if' => 'حقل :attribute مطلوب إذا كان العميل تابع الي قطاع.',
         ],
+        'high_sensitive_to.*.name' => [
+            'required_if' => 'حقل :attribute مطلوب.',
+        ],
+        'moderate_sensitive_to.*.name' => [
+            'required_if' => 'حقل :attribute مطلوب.',
+        ],
+        'resistant_to.*.name' => [
+            'required_if' => 'حقل :attribute مطلوب.',
+        ],
+        'cultivation' => [
+            'required_if' => 'حقل :attribute مطلوب.',
+        ],
     ],
 
     /*
@@ -214,5 +226,11 @@ return [
         'basic_salary'                  => 'الراتب اساسي',
         'phone'                  => 'رقم الجوار',
         'password'                  => 'كلمه السر',
+        'sub_analyses.*.name' => 'الاسم',
+        'sub_analyses.*.unit' => 'الوحدة',
+        'sub_analyses.*.classification' => 'التصنيف',
+        'high_sensitive_to.*.name' => 'الاسم',
+        'moderate_sensitive_to.*.name' => 'الاسم',
+        'resistant_to.*.name' => 'الاسم',
     ],
 ];

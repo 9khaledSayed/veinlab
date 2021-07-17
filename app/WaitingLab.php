@@ -17,12 +17,12 @@ class WaitingLab extends Model
     ];
     public function patient()
     {
-        return $this->belongsTo(Patient::class);
+        return $this->belongsTo(Patient::class)->withTrashed();
     }
 
     public function main_analysis()
     {
-        return $this->belongsTo(MainAnalysis::class);
+        return $this->belongsTo(MainAnalysis::class)->withTrashed();
     }
 
     public function results()
@@ -37,6 +37,47 @@ class WaitingLab extends Model
 
     public function notes (){
         return $this->hasOne(Notes::class);
+    }
+
+    public function setHighSensitiveToAttribute($value)
+    {
+        if (isset($value)){
+            $this->attributes['high_sensitive_to'] = serialize($value);
+        }
+    }
+    public function setModerateSensitiveToAttribute($value)
+    {
+        if (isset($value)){
+            $this->attributes['moderate_sensitive_to'] = serialize($value);
+        }
+    }
+    public function setResistantToAttribute($value)
+    {
+        if (isset($value)){
+            $this->attributes['resistant_to'] = serialize($value);
+        }
+    }
+
+    public function getHighSensitiveToAttribute()
+    {
+        if (isset($this->attributes['high_sensitive_to'])){
+            return unserialize($this->attributes['high_sensitive_to']);
+        }
+        return [];
+    }
+    public function getModerateSensitiveToAttribute($value)
+    {
+        if (isset($this->attributes['moderate_sensitive_to'])){
+            return unserialize($this->attributes['moderate_sensitive_to']);
+        }
+        return [];
+    }
+    public function getResistantToAttribute($value)
+    {
+        if (isset($this->attributes['resistant_to'])){
+            return unserialize($this->attributes['resistant_to']);
+        }
+        return [];
     }
 
 

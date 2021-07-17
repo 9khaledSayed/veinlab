@@ -17,10 +17,52 @@ class SubAnalysis extends Model
     ];
     public function main_analysis()
     {
-        return $this->belongsTo(MainAnalysis::class,'main_analysis_id');
+        return $this->belongsTo(MainAnalysis::class,'main_analysis_id')->withTrashed();
     }
     public function normal_ranges()
     {
         return $this->hasMany(NormalRange::class);
+    }
+
+    public function spans($gender)
+    {
+        if(!isset($this->unit) && $this->normal($gender) == null){
+            return 3;
+        }elseif(!isset($this->unit) || !$this->normal($gender)){
+            return 2;
+        }else{
+            return 1;
+        }
+    }
+
+    public function normal($gender)
+    {
+        if($this->normal_ranges->count() > 0){
+            return $this->normal_ranges->whereIn('gender', [$gender, 3])->first()->value;
+        }else{
+            return null;
+        }
+
+    }
+
+    public function getUnitAttribute()
+    {
+        $unit = $this->attributes['unit'];
+        $power = "";
+        if (strpos($unit, '^') != false){
+            $parts = explode('^', $unit);
+            $numbersAfterCarrot = array_filter(preg_split("/\D+/", $parts[1]));
+
+            if (count($numbersAfterCarrot) > 0){
+                $power = $numbersAfterCarrot[0];
+            }
+
+            $prefix = $parts[0];
+            $suffix = str_replace($power, "", $parts[1]);
+
+            return "<span>$prefix<sup>$power</sup>$suffix</span>";
+        }
+
+        return $unit;
     }
 }

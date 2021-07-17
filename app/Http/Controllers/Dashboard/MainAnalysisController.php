@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Role;
 use App\SubAnalysis;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
@@ -23,8 +24,8 @@ class MainAnalysisController extends Controller implements  FromCollection, With
     {
         $this->authorize('view_main_analysis');
         if ($request->ajax()) {
-            $analysis = MainAnalysis::get();
-            return response()->json($analysis);
+            $response = getModelData(new MainAnalysis(), $request);
+            return response()->json($response);
         }
         $isSuperAdmin = auth()->user()->roles->contains(Role::where('label', 'Super Admin')->firstOrFail());
         $isLab = auth()->user()->roles->contains(Role::where('label', 'Lab')->firstOrFail());
@@ -41,27 +42,33 @@ class MainAnalysisController extends Controller implements  FromCollection, With
     {
         $this->authorize('create_main_analysis');
 
-        $rules = MainAnalysis::$rules;
+        $data = $request->validate([
+            'general_name' => ['required', 'string', 'max:200'],
+            'abbreviated_name' => ['required', 'string', 'max:100'],
+            'code' => 'required|string|max:255|sometimes|unique:main_analyses',
+            'cost' => ['required', 'min:0'],
+            'discount' => ['required', 'min:0'],
+            'price' => ['required', 'min:0'],
+            'price_insurance' => ['required', 'min:0'],
+            'price_hospital' => ['required', 'min:0'],
+        ]);
+        $request->validate([
+            'sub_analyses.*.name'  => 'required|string|max:195',
+            'sub_analyses.*.unit'  => 'nullable|string|max:195',
+            'sub_analyses.*.classification'  => 'nullable|string|max:195',
+        ]);
 
-        $mainAnalysis = MainAnalysis::create($this->validate($request,$rules));
 
-        $noSubAnalysis = (int)  $request['number_sub_analysis'];
+        $mainAnalysis = MainAnalysis::create($data);
 
-        for ($i = $noSubAnalysis; $i >= 1 ; $i-- )
-        {
-
-            if ( $request['sub_analysis'.$i] != null || $request['unit'.$i] != null )
-            {
-                $subAnalysis = new SubAnalysis();
-                $subAnalysis->main_analysis_id = $mainAnalysis->id;
-                $subAnalysis->name             = $request['sub_analysis'.$i];
-                $subAnalysis->unit             = $request['unit'.$i];
-                $subAnalysis->save();
-            }
-
+        foreach ($request->sub_analyses ?? [] as $subAnalyses){
+            $subAnalysis = new SubAnalysis();
+            $subAnalysis->main_analysis_id = $mainAnalysis->id;
+            $subAnalysis->name             = $subAnalyses['name'];
+            $subAnalysis->unit             = $subAnalyses['unit'];
+            $subAnalysis->classification   = $subAnalyses['classification'];
+            $subAnalysis->save();
         }
-
-
 
         return redirect(route('dashboard.main_analysis.index'));
     }
@@ -87,27 +94,48 @@ class MainAnalysisController extends Controller implements  FromCollection, With
 
         $this->authorize('update_main_analysis');
 
-        $rules = MainAnalysis::$rules;
-        $rules['code'] = ( $rules['code'] . ',code,' . $id ) ;
+        $data = $request->validate([
+            'general_name' => ['required', 'string', 'max:200'],
+            'abbreviated_name' => ['required', 'string', 'max:100'],
+            'code' => 'required|string|max:255|sometimes|unique:main_analyses,code,' . $id,
+            'cost' => ['required', 'min:0'],
+            'discount' => ['required', 'min:0'],
+            'price' => ['required', 'min:0'],
+            'price_insurance' => ['required', 'min:0'],
+            'price_hospital' => ['required', 'min:0'],
+        ]);
+        $request->validate([
+            'sub_analyses.*.name'  => 'required|string|max:195',
+            'sub_analyses.*.unit'  => 'nullable|string|max:195',
+            'sub_analyses.*.classification'  => 'nullable|string|max:195',
+        ]);
+
 
         $main_analysis = MainAnalysis::find($id);
-        $main_analysis->update($this->validate($request,$rules));
-
-        $main_analysis->sub_analysis()->delete();
-
-        $noSubAnalysis = (int)  $request['number_sub_analysis'];
+        $main_analysis->update($data);
 
 
-        for ($i = $noSubAnalysis; $i >= 1 ; $i-- )
-        {
+        /** remove the deleted items form the database **/
+        $diff = array_diff($main_analysis->sub_analysis->pluck('id')->toArray(), collect($request->sub_analyses)->pluck('id')->toArray());
 
-            if ( $request['sub_analysis'.$i] != null || $request['unit'.$i] != null )
-            {
-                $subAnalysis = new SubAnalysis();
-                $subAnalysis->main_analysis_id = $main_analysis->id;
-                $subAnalysis->name             = $request['sub_analysis'.$i];
-                $subAnalysis->unit             = $request['unit'.$i];
-                $subAnalysis->save();
+        SubAnalysis::whereIn('id', $diff)->delete();
+//        dd('done');
+
+        foreach ($request->sub_analyses ?? [] as $key => $subAnalyses) {
+
+            /** delete the ids that doesnt come from the form **/
+
+            /** 1- Check if there is an id then update**/
+            if(isset($subAnalyses['id'])){
+                SubAnalysis::find($subAnalyses['id'])->update($subAnalyses);
+
+            }else{ /** 2- If there is no id found then create new bank account **/
+
+                $subAnalyses['main_analysis_id'] = $main_analysis->id;
+                unset($subAnalyses['id']);
+
+                SubAnalysis::create($subAnalyses);
+
             }
 
         }

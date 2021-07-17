@@ -22,6 +22,13 @@ class CreateWaitingLabsTable extends Migration
             $table->integer('result')->default(1);
             $table->integer('status')->default(1);
             $table->string('report')->nullable();
+
+            $table->string('cultivation')->nullable();
+            $table->enum('growth_status', ['no_growth', 'growth'])->nullable();
+            $table->longText('high_sensitive_to')->nullable();
+            $table->longText('moderate_sensitive_to')->nullable();
+            $table->longText('resistant_to')->nullable();
+
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('patient_id')

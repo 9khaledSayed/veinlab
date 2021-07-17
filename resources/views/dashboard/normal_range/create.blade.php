@@ -47,10 +47,10 @@
                     <label class="col-form-label col-lg-3 col-sm-12">{{__('Gender')}}</label>
                     <div class="col-lg-6 col-md-9 col-sm-12">
                         <select class="form-control kt-selectpicker" id="select_gender" >
-                               <option value="0"  style="font-size:large" >Male</option>
+                               <option value="0" selected style="font-size:large" >Male</option>
                                <option value="1"  style="font-size:large" >Female</option>
                                <option value="2"  style="font-size:large" >Child</option>
-                               <option value="3"  style="font-size:large" >All</option>
+                               <option value="3"   style="font-size:large" >All</option>
                         </select>
                     </div>
                 </div>
@@ -59,10 +59,10 @@
                 <div class="form-group row">
                     <label for="example-text-input" class="col-form-label col-lg-3 col-sm-12">{{__('Age')}}</label>
                     <div class="col-lg-3 col-md-9 col-sm-12">
-                        <input class="form-control" type="number" value="{{old('from')}}" placeholder="{{__('From')}}" id="from">
+                        <input class="form-control" type="number" value="{{old('from') ?? 0}}"  placeholder="{{__('From')}}" id="from">
                     </div>
                     <div class="col-lg-3 col-md-9 col-sm-12">
-                        <input class="form-control" type="number" value="{{old('to')}}" placeholder="{{__('To')}}" id="to">
+                        <input class="form-control" type="number" value="{{old('to') ?? 100}}" placeholder="{{__('To')}}" id="to">
 
                     </div>
                 </div>
@@ -71,7 +71,7 @@
                         <label for="example-text-input" class="col-form-label col-lg-3 col-sm-12">{{__('Normal')}}</label>
                         <div class="col-lg-6 col-md-9 col-sm-12">
     {{--                        <textarea class="form-control" type="text"   ></textarea>--}}
-                            <textarea placeholder="{{__('Normal Range')}}"   class="tox-target normal_value">{{old('value')}}</textarea>
+                            <textarea placeholder="{{__('Normal Range')}}"   class="tox-target normal_value" id="normal_value">{{old('value')}}</textarea>
                         </div>
                     </div>
                     <div class="form-group row">

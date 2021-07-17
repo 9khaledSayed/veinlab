@@ -780,5 +780,8 @@
     "Welcome To Vein Medical Laboratories":"مرحبا بك في مختبرات ڤين الطبية",
     "Patient Results":"دخول العملاء",
     "hospital Results":"دخول المراكز الطبية",
+    "Classification (optional)":"التصنيف (اختياري)",
+    "Sub Analysis ( Tests )":"التحاليل الفرعية ( الاختبارات )",
+    "Unit (optional)":"الوحدة (اختياري)",
     "Whoops! Something went wrong.": "خطــأ! هناك خطأ في البيانات"
 }

@@ -39,7 +39,7 @@ class Invoice extends Model
     
     public function patient()
     {
-        return $this->belongsTo(Patient::class);
+        return $this->belongsTo(Patient::class)->withTrashed();
     }
     public function employee()
     {

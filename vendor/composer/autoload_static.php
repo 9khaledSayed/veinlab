@@ -111,6 +111,7 @@ class ComposerStaticInitdc60bbecde18435f8840b46044e45f73
         '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
         'b6b991a57620e2fb6b2f66f03fe9ddc2' => __DIR__ . '/..' . '/symfony/string/Resources/functions.php',
         '9475354b4ef53b0ad02aebf6d3246661' => __DIR__ . '/..' . '/anlutro/l4-settings/src/helpers.php',
+        '646961a8eab48144f6c03fc7c3185753' => __DIR__ . '/../..' . '/app/Http/Helpers/Functions.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -746,6 +747,18 @@ class ComposerStaticInitdc60bbecde18435f8840b46044e45f73
         'App\\Employee' => __DIR__ . '/../..' . '/app/Employee.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
         'App\\Exports' => __DIR__ . '/../..' . '/app/Exports.php',
+        'App\\HR\\Addition' => __DIR__ . '/../..' . '/app/HR/Addition.php',
+        'App\\HR\\Attendance' => __DIR__ . '/../..' . '/app/HR/Attendance.php',
+        'App\\HR\\Base' => __DIR__ . '/../..' . '/app/HR/Base.php',
+        'App\\HR\\Branch' => __DIR__ . '/../..' . '/app/HR/Branch.php',
+        'App\\HR\\Decision' => __DIR__ . '/../..' . '/app/HR/Decision.php',
+        'App\\HR\\Deduction' => __DIR__ . '/../..' . '/app/HR/Deduction.php',
+        'App\\HR\\EmployeeRequest' => __DIR__ . '/../..' . '/app/HR/EmployeeRequest.php',
+        'App\\HR\\LeaveBalance' => __DIR__ . '/../..' . '/app/HR/LeaveBalance.php',
+        'App\\HR\\Loan' => __DIR__ . '/../..' . '/app/HR/Loan.php',
+        'App\\HR\\Salary' => __DIR__ . '/../..' . '/app/HR/Salary.php',
+        'App\\HR\\SalaryReport' => __DIR__ . '/../..' . '/app/HR/SalaryReport.php',
+        'App\\HR\\VacationType' => __DIR__ . '/../..' . '/app/HR/VacationType.php',
         'App\\Holiday' => __DIR__ . '/../..' . '/app/Holiday.php',
         'App\\HomeVisit' => __DIR__ . '/../..' . '/app/HomeVisit.php',
         'App\\Hospital' => __DIR__ . '/../..' . '/app/Hospital.php',

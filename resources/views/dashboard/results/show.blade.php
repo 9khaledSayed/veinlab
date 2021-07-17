@@ -51,46 +51,107 @@
                         @foreach($waiting_labs as $waiting_lab)
 
                             @if($waiting_lab->results->count() > 0)
-                                <div class="kt-portlet__head">
+                                <div class="kt-portlet__head" style="border-bottom: 0px">
                                     <div class="kt-portlet__head-label" style="margin: auto">
-                                        <h3 class="kt-portlet__head-title" style="direction: ltr">
-                                            <h3 class="mr-3 ml-3"> {{$waiting_lab->main_analysis->general_name}} </h3>
-                                            <h2  style="font-weight: 900">Report</h2>
+                                        <h3 class="kt-portlet__head-title" style="direction: ltr;text-decoration: underline">
+                                            <h3 class="mr-3 ml-3" style="text-decoration: underline"> {{$waiting_lab->main_analysis->general_name}} </h3>
+                                            <h2  style="font-weight: 900;text-decoration: underline">Report</h2>
                                         </h3>
                                     </div>
                                 </div>
-                                <table class="table table-striped- table-bordered table-hover" id="kt_table_1">
-                                    @if($waiting_labs->first() == $waiting_lab)
-                                        <thead class="thead-light">
-                                        <tr>
-                                            <th style="width: 10%">#</th>
-                                            <th style="width: 22.5%">{{__('Test Name')}}</th>
-                                            <th style="width: 22.5%">{{__('Result')}}</th>
-                                            <th style="width: 22.5%">{{__('Unit')}}</th>
-                                            <th style="width: 22.5%">{{__('Normal Range')}}</th>
-                                        </tr>
-                                        </thead>
-                                    @endif
+                                @foreach($waiting_lab->results->groupBy('classification') as $classification => $results)
+                                    <h3 style="text-align: left; font-weight: bold">{{$classification}}</h3>
+                                <table class="table table-striped- table-bordered table-hover" style="direction: ltr" id="kt_table_1">
+{{--                                    @if($waiting_labs->first() == $waiting_lab)--}}
+{{--                                        <thead class="thead-light">--}}
+{{--                                        <tr>--}}
+{{--                                            <th style="width: 10%">#</th>--}}
+{{--                                            <th style="width: 22.5%">{{__('Test Name')}}</th>--}}
+{{--                                            <th style="width: 22.5%">{{__('Result')}}</th>--}}
+{{--                                            <th style="width: 22.5%">{{__('Unit')}}</th>--}}
+{{--                                            <th style="width: 22.5%">{{__('Normal Range')}}</th>--}}
+{{--                                        </tr>--}}
+{{--                                        </thead>--}}
+{{--                                    @endif--}}
                                     <tbody>
-                                    @php
-                                        $k = 1;
-                                    @endphp
-                                    @foreach($waiting_lab->results as $result)
+{{--                                    @php--}}
+{{--                                        $k = 1;--}}
+{{--                                    @endphp--}}
+                                    @foreach($results as $result)
                                         <tr>
-                                            <td style="width: 10%">{{$k++}}</td>
-                                            <td style="width: 22.5%; direction: ltr;">{{$result->sub_analysis->name ?? ''}}</td>
-                                            <td style="width: 22.5%; direction: ltr;">{{$result->result ?? ''}}</td>
-                                            <td style="width: 22.5%; direction: ltr;">{{$result->sub_analysis->unit ?? ''}}</td>
-                                            @if(isset($result->sub_analysis) && isset($result->sub_analysis->normal_ranges))
-                                                <td style="width: 22.5%; direction: ltr;">{!! $result->sub_analysis->normal_ranges->whereIn('gender', [$gender, 3])->first()->value ??' '!!}</td>
-                                            @else
-                                                <td style="width: 22.5%; direction: ltr;"> </td>
+{{--                                            <td style="width: 10%">{{$k++}}</td>--}}
+                                            <td style="width: 22.5%; direction: ltr; font-weight: 900">{{$result->sub_analysis->name}}</td>
+                                            <td colspan="{{$result->sub_analysis->spans($gender)}}" style="width: 22.5%; direction: ltr;">{{$result->result}}</td>
+                                            @if(isset($result->sub_analysis->unit))
+                                                <td style="width: 22.5%; direction: ltr;">{!! $result->sub_analysis->unit !!}</td>
                                             @endif
+                                            @if($result->sub_analysis->normal($gender))
+                                                <td style="width: 22.5%; direction: ltr;">{!! $result->sub_analysis->normal($gender)!!}</td>
+                                            @endif
+
                                         </tr>
                                     @endforeach
 
                                     </tbody>
                                 </table>
+                                @endforeach
+                            @endif
+
+                            @if($waiting_lab->main_analysis->has_cultivation)
+
+                                <div class="d-flex flex-column align-items-start" style="direction: ltr">
+                                    <h3 style="text-decoration: underline">Cultivation</h3>
+                                    <p style="font-size: 18px">On cultivation of the received specimen on the relevant media and after 24 hours of aerobic incubation, and sub-culturing suspicious colonies on selective media, the following was revealed.</p>
+                                </div>
+
+                                @if($waiting_lab->growth_status == 'growth')
+                                    <div class="text-center " style="padding:10px; border: 1px solid; margin: auto;font-weight: 900; font-size: 18px">
+                                        {{$waiting_lab->cultivation}}
+                                    </div>
+
+                                    <div style="direction: ltr ; text-align: left; margin-top: 20px">
+                                        <h2>The growth is highly Sensitive to: </h2>
+                                        <table class="table-bordered text-left" style="font-size: 25px">
+                                            <tbody>
+                                                <tr>
+                                                    @foreach($waiting_lab->high_sensitive_to as $highSensitiveTo)
+                                                        <td class="p-3">{{$loop->index + 1}}</td>
+                                                        <td class="p-3">{{$highSensitiveTo['name']}}</td>
+                                                    @endforeach
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <div style="direction: ltr ; text-align: left; margin-top: 20px">
+                                        <h2>The growth is Moderate Sensitive to: </h2>
+                                        <table class="table-bordered text-left" style="font-size: 25px">
+                                            <tbody>
+                                                <tr>
+                                                    @foreach($waiting_lab->moderate_sensitive_to as $moderateSensitiveTo)
+                                                        <td class="p-3">{{$loop->index + 1}}</td>
+                                                        <td class="p-3">{{$moderateSensitiveTo['name']}}</td>
+                                                    @endforeach
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <div style="direction: ltr ; text-align: left; margin-top: 20px">
+                                        <h2>The growth is Resistant to: </h2>
+                                        <table class="table-bordered text-left" style="font-size: 25px">
+                                            <tbody>
+                                                <tr>
+                                                    @foreach($waiting_lab->resistant_to as $resistantTo)
+                                                        <td class="p-3">{{$loop->index + 1}}</td>
+                                                        <td class="p-3">{{$resistantTo['name']}}</td>
+                                                    @endforeach
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                @endif
+
                             @endif
 
                             @if(isset($waiting_lab->notes->lab_notes))
@@ -98,7 +159,7 @@
                                     <div class="kt-form__actions">
                                         <div class="row ">
                                             <div class="col-lg-12 text-center" >
-                                                <h4 class="mt-3 mb-3 lab"> {{ __('Lab Notes')}} </h4>
+                                                <h4 class="mt-3 mb-3 lab"> {{ 'Comments'}} </h4>
                                                 <p>{!! $waiting_lab->notes->lab_notes !!} </p>
                                             </div>
                                         </div>

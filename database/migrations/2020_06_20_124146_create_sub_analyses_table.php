@@ -17,6 +17,7 @@ class CreateSubAnalysesTable extends Migration
             $table->id();
             $table->unsignedBigInteger('main_analysis_id');
             $table->longText('name');
+            $table->string('classification')->nullable();
             $table->string('unit')->nullable();
             $table->softDeletes();
             $table->timestamps();

@@ -43,6 +43,7 @@ class WaitingLabController extends Controller
                     'created_at' => $waitingLab->created_at,
                 ];
             });
+
             return response()->json($waiting_lab);
         }
         return view('dashboard.waiting_labs.index');

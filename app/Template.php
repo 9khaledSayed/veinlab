@@ -105,58 +105,123 @@ class Template extends Model
         $content = '';
         $waiting_labs = $invoice->waiting_labs;
         $gender = $waiting_labs[0]->patient->gender;
-        $index       = 0;
+
         foreach($waiting_labs as $waiting_lab){
             $notes = $waiting_lab->notes->lab_notes ?? null;
-            $content .= '<table class="table table-striped- table-bordered table-hover">';
+
             if($waiting_lab->results->count() > 0 || isset($notes)){
                 $content .= '
-                    <div class="kt-portlet__head">
+                    <div class="kt-portlet__head" style="border-bottom: 0px">
                         <div class="kt-portlet__head-label" style="margin: auto">
-                            <h3 class="kt-portlet__head-title text-center" dir="rtl">'
-                    . __('Analysis') .  ' : ' . $waiting_lab->main_analysis->general_name . '
+                            <h3 class="kt-portlet__head-title text-center" style="text-decoration: underline" dir="rtl">'
+                    . 'Report : ' . $waiting_lab->main_analysis->general_name . '
                             </h3>
                         </div>
                     </div>';
             }
 
-            if($index == 0){
-                $content .= '<thead class="thead-light">
-                                <tr>
-                                    <td style="width: 10%">#</td>
-                                    <td style="width: 22.5%">' . __('Test Name') . '</td>
-                                    <td style="width: 22.5%">' . __('Result') . '</td>
-                                    <td style="width: 22.5%">' . __('Unit') . '</td>
-                                    <td style="width: 22.5%">' . __('Normal Range') . '</td>
-                                </tr>
-                            </thead>';
-                $index++;
-            }
-            $content .= '<tbody>';
-            $counter = 1;
-            foreach($waiting_lab->results as $result){
-                $normal_range = '';
-                if(isset($result->sub_analysis->normal_ranges)){
-                    $normal_range = $result->sub_analysis->normal_ranges->whereIn('gender', [$gender, 3])->first()->value ??' ';
-                }
-                if($result->sub_analysis){
-                    $content .= '<tr>
-                    <td style="width: 10%">' . $counter++ . '</td>
-                    <td style="width: 22.5%">' . $result->sub_analysis->name  . '</td>
-                    <td style="width: 22.5%">' . $result->result . '</td>
-                    <td style="width: 22.5%">' . $result->sub_analysis->unit  . '</td>
-                    <td style="width: 22.5%">' . $normal_range  . '</td>
+            foreach ($waiting_lab->results->groupBy('classification') as $classification => $results) {
+                $content .= '<h3 style="text-align: left;font-weight: 900;text-decoration: underline">' . $classification . '</h3><table class="table table-striped- table-bordered table-hover" style="font-size: 14px;direction: ltr">';
+
+
+//                if($index == 0){
+//                    $content .= '<thead class="thead-light">
+//                                <tr>
+//                                    <td style="width: 22.5%"></td>
+//                                    <td colspan="2" style="width: 22.5%">Result</td>
+//                                    <td style="width: 22.5%">Expected Value</td>
+//                                </tr>
+//                            </thead>';
+//                    $index++;
+//                }
+                $content .= '<tbody>';
+                foreach($results as $result){
+                    $normal_range =  $result->sub_analysis->normal($gender) ? '<td style="width: 22.5%">' . $result->sub_analysis->normal($gender)  . '</td>' : '';
+//                    $unit =  $result->sub_analysis->unit ? '<td style="width: 22.5%">' . $result->sub_analysis->unit  . '</td>' : '';
+                    if($result->sub_analysis){
+                        $content .= '<tr>
+                    <td style="width: 22.5%;font-weight: 900">' . $result->sub_analysis->name . '  ' . htmlspecialchars_decode($result->sub_analysis->unit)  . '</td>
+                    <td style="width: 22.5%" colspan="' . $result->sub_analysis->spans($gender) . '">' . $result->result . '</td>
+               
+                    ' . $normal_range . '
                 </tr>';
+                    }
                 }
+
+
+                $content .= '</tbody></table>';
+
             }
-            $content .= '</tbody></table>';
+
+
+            /** check cultivation **/
+            if ($waiting_lab->main_analysis->has_cultivation){
+                $content .=
+                        "<div class='d-flex flex-column align-items-start' style='direction: ltr'>
+                            <h3 style='text-decoration: underline'>Cultivation</h3>
+                            <p style='font-size: 18px'>On cultivation of the received specimen on the relevant media and after 24 hours of aerobic incubation, and sub-culturing suspicious colonies on selective media, the following was revealed.</p>
+                        </div>
+                        <div class='text-center ' style='padding:10px; border: 1px solid; margin: auto;font-weight: 900; font-size: 18px'>
+                            $waiting_lab->cultivation
+                        </div>";
+
+                /** High Sensitive to **/
+                if ($waiting_lab->growth_status == 'growth') {
+                    $content .= '<div style="direction: ltr ; text-align: left; margin-top: 20px">
+                                        <h2>The growth is highly Sensitive to: </h2>
+                                        <table class="table-bordered text-left" style="font-size: 25px">
+                                            <tbody>
+                                                <tr>';
+
+                    foreach ($waiting_lab->high_sensitive_to as $key => $highSensitiveTo) {
+                        $content .= '<td class="p-3">' . ($key + 1) . '</td> <td class="p-3">' . $highSensitiveTo['name'] . '</td>';
+                    }
+
+                    $content .= "          </tbody>
+                                        </table>
+                                    </div>";
+
+                    /** Moderate Sensitive to **/
+                    $content .= '<div style="direction: ltr ; text-align: left; margin-top: 20px">
+                                        <h2>The growth is Moderate Sensitive to: </h2>
+                                        <table class="table-bordered text-left" style="font-size: 25px">
+                                            <tbody>
+                                                <tr>';
+
+                    foreach ($waiting_lab->moderate_sensitive_to as $key => $moderateSensitiveTo) {
+                        $content .= '<td class="p-3">' . ($key + 1) . '</td> <td class="p-3">' . $moderateSensitiveTo['name']. '</td>';
+                    }
+
+                    $content .= "          </tbody>
+                                        </table>
+                                    </div>";
+
+                    /** Resistant to **/
+                    $content .= '<div style="direction: ltr ; text-align: left; margin-top: 20px">
+                                        <h2>The growth is Resistant to: </h2>
+                                        <table class="table-bordered text-left" style="font-size: 25px">
+                                            <tbody>
+                                                <tr>';
+
+                    foreach ($waiting_lab->resistant_to as $key => $resistantTo) {
+                        $content .= '<td class="p-3">' . ($key + 1) . '</td> <td class="p-3">' . $resistantTo['name']. '</td>';
+                    }
+
+                    $content .= "          </tbody>
+                                        </table>
+                                    </div>";
+                }
+
+            }
+
+
             if(isset($notes)){
                 $content .=
                     '<div class="kt-portlet__foot">
                         <div class="kt-form__actions">
                             <div class="row " style="text-align: center" >
                                 <div class="col-lg-12" >
-                                    <h4 class="mt-3 mb-3 lab" dir="rtl">' .__('Lab Notes') . ' : ' . '</h4>
+                                    <h4 class="mt-3 mb-3 lab" dir="ltr">Lab Notes : ' . '</h4>
                                     <p>' . $notes . '</p>
                                 </div>
                             </div>

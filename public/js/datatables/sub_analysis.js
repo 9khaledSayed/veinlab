@@ -49,8 +49,9 @@ var KTDatatableChildRemoteDataDemo = function() {
                 },
                 pageSize: 10, // display 20 records per page
                 serverPaging: true,
-                serverFiltering: false,
+                serverFiltering: true,
                 serverSorting: true,
+                saveState: false,
             },
             success:function(response){
                 alert(response['data']);
@@ -145,7 +146,7 @@ var KTDatatableChildRemoteDataDemo = function() {
                     textAlign: 'center',
                     sortable: 'asc',
                 }, {
-                    field: 'general_name',
+                    field: 'main_analysis.general_name',
                     title: locator.__('Main Name'),
                     textAlign: 'center',
                     sortable: 'asc',
