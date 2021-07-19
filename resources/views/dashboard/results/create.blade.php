@@ -79,8 +79,8 @@
                             <label>{{__('Growth Status')}}</label>
                             <select class="form-control @error('growth_status') is-invalid @enderror selectpicker"
                                name="growth_status" title="Select">
-                                <option value="no_growth" {{old('growth_status') == 'no_growth' ? 'selected' : ''}}>Negative</option>
-                                <option value="growth" {{old('growth_status') == 'growth' ? 'selected' : ''}}>Positive</option>
+                                <option value="no_growth" {{old('growth_status') == 'no_growth' ? 'selected' : ''}}>No Growth</option>
+                                <option value="growth" {{old('growth_status') == 'growth' ? 'selected' : ''}}>Growth</option>
                             </select>
 
                             <div class="kt-separator kt-separator--border-dashed kt-separator--space-lg"></div>

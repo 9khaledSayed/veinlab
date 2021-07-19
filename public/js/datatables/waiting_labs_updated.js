@@ -87,20 +87,20 @@ var KTDatatableChildRemoteDataDemo = function() {
                     width: 20,
                     textAlign: 'center',
                 }, {
-                    field: 'patient.name',
+                    field: 'patient_name',
                     title: locator.__('Patient Name'),
                     sortable: 'asc',
                 }, {
-                    field: 'main_analysis.general_name',
+                    field: 'main_analysis_name',
                     title: locator.__('Analysis Name'),
                 }, {
-                    field: 'invoice.barcode',
+                    field: 'invoice_bar_code',
                     title: locator.__('Barcode'),
                     template: function(raw) {
-                        return '<a class="h5" href="/dashboard/barcodes/' + raw.invoice.barcode + '"><i class="flaticon-reply"></i>Barcode</a>';
+                        return '<a class="h5" href="/dashboard/barcodes/' + raw.invoice_bar_code + '"><i class="flaticon-reply"></i>Barcode</a>';
                     },
                 }, {
-                    field: 'invoice.serial_no',
+                    field: 'invoice_serial_no',
                     title: locator.__('Serial No'),
                 }, {
                     field: 'status',

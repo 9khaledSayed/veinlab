@@ -69,11 +69,13 @@ class WaitingLabController extends Controller
         $this->authorize('create_patients');
         $this->validator($request);
         if ($request->ajax()){
-            return response()->json($this->calculateTotalPrice($request, $responseArray));
+            $receipt = $this->calculateTotalPrice($request, $responseArray);
+            return response()->json($receipt);
         }else{
             $invoice = $this->calculateTotalPrice($request, $responseArray);
             $this->generateWaitingLabs($invoice);
             $this->assignTransfer($request, $invoice->total_price);
+
             return redirect(route('dashboard.invoices.show', $invoice->id));
         }
     }
@@ -134,6 +136,7 @@ class WaitingLabController extends Controller
         $mainAnalysis = MainAnalysis::whereIn('id', $request->main_analysis_id??[])->get();
         $packages = Package::whereIn('id', $request->package_id??[])->get();
         $purchases = [];
+
         switch ($request->transfer){
             case config('enums.transfer.contract'):
                 foreach ($mainAnalysis as $analysis) {
@@ -165,6 +168,7 @@ class WaitingLabController extends Controller
                     $purchases[$package->name] = ['price' => $package->price, 'code' => '-', 'discount' => 0];
                 }
         }
+
         if($request->home_visit_fees == 'on'){
             $price += setting('home_visit_fees');
             $purchases['Home Visit Fees'] = [
@@ -173,11 +177,14 @@ class WaitingLabController extends Controller
                 'discount' => 0
             ];
         }
+
         $tax = $this->getTax($request, $price);
         $price += $tax;
         $discount = $this->calculateDiscount($request, $price, $responseArray);
         $price -= $discount;
+
         if($request->ajax()){
+            $responseArray['total_price'] = $price;
             return $responseArray;
         }else{
             return $this->storeInvoice($request, $price, $discount, $tax, $purchases);
@@ -201,6 +208,7 @@ class WaitingLabController extends Controller
 
         $discount += $this->discountFromOffers($request, $totalPrice, $responseArray);
 
+        $discount += $request->discount;
         return $discount;
     }
 
@@ -346,6 +354,7 @@ class WaitingLabController extends Controller
             "amount_paid" => 'required_unless:pay_method,' . config('enums.payMethod.overdue'),
             "transfer" => 'required',
             "pay_method" => 'required',
+            "discount" => 'nullable|numeric|min:0',
             "code_id" => 'required_if:promo_code,1',
             "hospital_id" => 'required_if:transfer,' . config('enums.transfer.hospital'),
             "sector_id" => 'required_if:transfer,' . config('enums.transfer.sector'),
