@@ -11,6 +11,6 @@ class HomeVisitSeeder extends Seeder
      */
     public function run()
     {
-        factory(\App\HomeVisit::class, 5)->create();
+        factory(\App\HomeVisit::class, 500)->create();
     }
 }

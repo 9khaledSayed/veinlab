@@ -16,7 +16,7 @@ class EmployeeRequest extends Model
 
     public function employee()
     {
-        return $this->belongsTo(Employee::class,'employee_id');
+        return $this->belongsTo(Employee::class,'employee_id')->withTrashed();
     }
 
     public function vacation_type()

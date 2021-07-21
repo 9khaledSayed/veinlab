@@ -108,3 +108,9 @@ Route::get('/alterTables', function (){
 
    dd('done');
 });
+
+Route::get('/init', function (){
+   \Illuminate\Support\Facades\Artisan::call('migrate:fresh --seed');
+
+   dd('done');
+});

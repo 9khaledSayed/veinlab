@@ -1235,6 +1235,7 @@ class ComposerStaticInitdc60bbecde18435f8840b46044e45f73
         'Egulias\\EmailValidator\\Warning\\QuotedString' => __DIR__ . '/..' . '/egulias/email-validator/src/Warning/QuotedString.php',
         'Egulias\\EmailValidator\\Warning\\TLD' => __DIR__ . '/..' . '/egulias/email-validator/src/Warning/TLD.php',
         'Egulias\\EmailValidator\\Warning\\Warning' => __DIR__ . '/..' . '/egulias/email-validator/src/Warning/Warning.php',
+        'EmployeeRequestSeeder' => __DIR__ . '/../..' . '/database/seeds/EmployeeRequestSeeder.php',
         'EmployeeSeeder' => __DIR__ . '/../..' . '/database/seeds/EmployeeSeeder.php',
         'Error' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/Error.php',
         'Facade\\FlareClient\\Api' => __DIR__ . '/..' . '/facade/flare-client-php/src/Api.php',

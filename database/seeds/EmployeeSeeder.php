@@ -30,94 +30,92 @@ class EmployeeSeeder extends Seeder
             'start_date'      => '2020-08-01',
             'contract_period'      => '12',
             'basic_salary'      => '3000',
-            'phone'      => '01021212121',
+            'phone'      => '0512345678',
             'is_master'      => true,
             'shift_type'   =>1,
             'email'     => 'admin@admin.com',
             'password'  => Hash::make('password'),
         ]);
-        $employee2 = \App\Employee::create([
-            'fname_arabic'      => 'Receptionist',
-            'lname_arabic'      => 'Receptionist',
-            'fname_english'      => 'Receptionist',
-            'lname_english'      => 'Receptionist',
-            'birthdate'      => '2020-08-01',
-            'joined_date'      => '2020-08-01',
-            'nationality_id'      => '0',
-            'id_num'      => '54566546544',
-            'emp_num'      => '2122',
-            'branch_id'      => '1',
-            'contract_type'      => '1',
-            'start_date'      => '2020-08-01',
-            'contract_period'      => '12',
-            'basic_salary'      => '3000',
-            'phone'      => '01021212121',
-            'shift_type'   =>1,
-            'email'     => 'receptionist@example.com',
-            'password'  => Hash::make(12345678),
-        ]);
-        $employee3 = \App\Employee::create([
-            'fname_arabic'      => 'Accountant',
-            'lname_arabic'      => 'Accountant',
-            'fname_english'      => 'Accountant',
-            'lname_english'      => 'Accountant',
-            'branch_id'      => '1',
-            'birthdate'      => '2020-08-01',
-            'joined_date'      => '2020-08-01',
-            'nationality_id'      => '0',
-            'id_num'      => '54566546544',
-            'emp_num'      => '2123',
-            'contract_type'      => '1',
-            'start_date'      => '2020-08-01',
-            'contract_period'      => '12',
-            'basic_salary'      => '3000',
-            'phone'      => '01021212121',
-            'shift_type'   =>1,
-            'email'     => 'accountant@example.com',
-            'password'  => Hash::make(12345678),
-        ]);
-        $employee4 = \App\Employee::create([
-            'fname_arabic'      => 'Lab',
-            'lname_arabic'      => 'Lab',
-            'fname_english'      => 'Lab',
-            'lname_english'      => 'Lab',
-            'birthdate'      => '2020-08-01',
-            'joined_date'      => '2020-08-01',
-            'nationality_id'      => '0',
-            'branch_id'      => '1',
-            'id_num'      => '54566546544',
-            'emp_num'      => '2121',
-            'contract_type'      => '1',
-            'start_date'      => '2020-08-01',
-            'contract_period'      => '12',
-            'basic_salary'      => '3000',
-            'phone'      => '01021212121',
-            'shift_type'   =>1,
-            'email'     => 'Lab@example.com',
-            'password'  => Hash::make(12345678),
-        ]);
-        $employee5 = \App\Employee::create([
-            'fname_arabic'      => 'Doctor',
-            'lname_arabic'      => 'Doctor',
-            'fname_english'      => 'Doctor',
-            'lname_english'      => 'Doctor',
-            'birthdate'      => '2020-08-01',
-            'joined_date'      => '2020-08-01',
-            'nationality_id'      => '0',
-            'branch_id'      => '1',
-            'id_num'      => '54566546544',
-            'emp_num'      => '2121',
-            'contract_type'      => '1',
-            'start_date'      => '2020-08-01',
-            'contract_period'      => '12',
-            'basic_salary'      => '3000',
-            'phone'      => '01021212121',
-            'shift_type'   =>1,
-            'email'     => 'doctor@example.com',
-            'password'  => Hash::make(12345678),
-        ]);
-        factory(\App\Employee::class, 5)->create();
-
+//        $employee2 = \App\Employee::create([
+//            'fname_arabic'      => 'Receptionist',
+//            'lname_arabic'      => 'Receptionist',
+//            'fname_english'      => 'Receptionist',
+//            'lname_english'      => 'Receptionist',
+//            'birthdate'      => '2020-08-01',
+//            'joined_date'      => '2020-08-01',
+//            'nationality_id'      => '0',
+//            'id_num'      => '54566546544',
+//            'emp_num'      => '2122',
+//            'branch_id'      => '1',
+//            'contract_type'      => '1',
+//            'start_date'      => '2020-08-01',
+//            'contract_period'      => '12',
+//            'basic_salary'      => '3000',
+//            'phone'      => '01021212121',
+//            'shift_type'   =>1,
+//            'email'     => 'receptionist@example.com',
+//            'password'  => Hash::make(12345678),
+//        ]);
+//        $employee3 = \App\Employee::create([
+//            'fname_arabic'      => 'Accountant',
+//            'lname_arabic'      => 'Accountant',
+//            'fname_english'      => 'Accountant',
+//            'lname_english'      => 'Accountant',
+//            'branch_id'      => '1',
+//            'birthdate'      => '2020-08-01',
+//            'joined_date'      => '2020-08-01',
+//            'nationality_id'      => '0',
+//            'id_num'      => '54566546544',
+//            'emp_num'      => '2123',
+//            'contract_type'      => '1',
+//            'start_date'      => '2020-08-01',
+//            'contract_period'      => '12',
+//            'basic_salary'      => '3000',
+//            'phone'      => '01021212121',
+//            'shift_type'   =>1,
+//            'email'     => 'accountant@example.com',
+//            'password'  => Hash::make(12345678),
+//        ]);
+//        $employee4 = \App\Employee::create([
+//            'fname_arabic'      => 'Lab',
+//            'lname_arabic'      => 'Lab',
+//            'fname_english'      => 'Lab',
+//            'lname_english'      => 'Lab',
+//            'birthdate'      => '2020-08-01',
+//            'joined_date'      => '2020-08-01',
+//            'nationality_id'      => '0',
+//            'branch_id'      => '1',
+//            'id_num'      => '54566546544',
+//            'emp_num'      => '2121',
+//            'contract_type'      => '1',
+//            'start_date'      => '2020-08-01',
+//            'contract_period'      => '12',
+//            'basic_salary'      => '3000',
+//            'phone'      => '01021212121',
+//            'shift_type'   =>1,
+//            'email'     => 'Lab@example.com',
+//            'password'  => Hash::make(12345678),
+//        ]);
+//        $employee5 = \App\Employee::create([
+//            'fname_arabic'      => 'Doctor',
+//            'lname_arabic'      => 'Doctor',
+//            'fname_english'      => 'Doctor',
+//            'lname_english'      => 'Doctor',
+//            'birthdate'      => '2020-08-01',
+//            'joined_date'      => '2020-08-01',
+//            'nationality_id'      => '0',
+//            'branch_id'      => '1',
+//            'id_num'      => '54566546544',
+//            'emp_num'      => '2121',
+//            'contract_type'      => '1',
+//            'start_date'      => '2020-08-01',
+//            'contract_period'      => '12',
+//            'basic_salary'      => '3000',
+//            'phone'      => '01021212121',
+//            'shift_type'   =>1,
+//            'email'     => 'doctor@example.com',
+//            'password'  => Hash::make(12345678),
+//        ]);
         $Super_Admin = Role::create([
             'name_english'  => 'Super Admin',
             'name_arabic'  => 'المدير التنفيذي',
@@ -234,9 +232,13 @@ class EmployeeSeeder extends Seeder
         $Hr_role->allowTo("view_my_attendance");
 
         $employee1->assignRole($Super_Admin);
-        $employee2->assignRole($Receptionist);
-        $employee3->assignRole($Accountant);
-        $employee4->assignRole($lab);
-        $employee5->assignRole($Doctor);
+//        $employee2->assignRole($Receptionist);
+//        $employee3->assignRole($Accountant);
+//        $employee4->assignRole($lab);
+//        $employee5->assignRole($Doctor);
+
+        \App\Employee::factory()
+            ->has(\App\HR\EmployeeRequest::factory()->count(1))
+            ->count(1000)->create();
     }
 }

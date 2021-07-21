@@ -16,8 +16,8 @@ class DatabaseSeeder extends Seeder
              HomeVisitSeeder::class,
              HospitalSeeder::class,
              MainAnalysisSeeder::class,
-             SubAnalysisSeeder::class,
-             CategorySeeder::class
+//             SubAnalysisSeeder::class,
+//             CategorySeeder::class
          ]);
     }
 }
