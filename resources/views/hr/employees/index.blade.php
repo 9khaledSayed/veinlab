@@ -84,14 +84,10 @@
                                             </a>
                                         </li>
                                         <li class="kt-nav__item">
-                                            <a onclick="document.getElementById('delete-emp-{{$employee->id}}').submit();" href="javascript:" class="kt-nav__link">
+                                            <a href="javascript:" data-href="{{route('dashboard.hr.employees.destroy', $employee->id)}}" class="kt-nav__link delete-item">
                                                 <i class="kt-nav__link-icon flaticon2-trash"></i>
                                                 <span class="kt-nav__link-text">{{__('Delete')}}</span>
                                             </a>
-                                            <form id="delete-emp-{{$employee->id}}" action="{{route('dashboard.hr.employees.destroy', $employee->id)}}" method="POST" style="display: none;">
-                                                @csrf
-                                                @method('delete')
-                                            </form>
                                         </li>
                                     </ul>
                                 </div>
@@ -204,12 +200,84 @@
 
         $(document).ready(function(){
 
+            var messages = {
+                'ar': {
+                    'Are you sure to delete this item?': "هل انت متأكد أنك تريد مسح هذا العنصر؟",
+                    'Item Deleted Successfully': "تم مسح العنصر بنجاح",
+                    'Yes, Delete!': "نعم امسح!",
+                    'No, cancel': "لا الغِ",
+                    'OK': "تم",
+                    'Loading...': "تحميل...",
+                    'Error!': "خطأ!",
+                    'Deleted!': "تم المسح!",
+                    'delete': "مسح",
+                }
+            };
+
+            var locator = new KTLocator(messages);
+
             $("#generalSearch").on("keyup", function() {
                 var value = $(this).val().toLowerCase();
                 $(".col-xl-3").filter(function() {
                     $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
                 });
             });
+
+            $(".delete-item").click(function (e) {
+                e.preventDefault();
+                var  = $(this).attr('data-href');
+                swal.fire({
+                    buttonsStyling: false,
+
+                    html: locator.__("Are you sure to delete this item?"),
+                    type: "info",
+
+                    confirmButtonText: locator.__("Yes, Delete!"),
+                    confirmButtonClass: "btn btn-sm btn-bold btn-brand",
+
+                    showCancelButton: true,
+                    cancelButtonText: locator.__("No, cancel"),
+                    cancelButtonClass: "btn btn-sm btn-bold btn-default"
+                }).then(function (result) {
+                    if (result.value) {
+                        swal.fire({
+                            title: locator.__('Loading...'),
+                            onOpen: function () {
+                                swal.showLoading();
+                            }
+                        });
+                        $.ajax({
+                            method: 'DELETE',
+                            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                            url: href,
+                            error: function (err) {
+                                if (err.hasOwnProperty('responseJSON')) {
+                                    if (err.responseJSON.hasOwnProperty('message')) {
+                                        swal.fire({
+                                            title: locator.__('Error!'),
+                                            text: locator.__(err.responseJSON.message),
+                                            type: 'error'
+                                        });
+                                    }
+                                }
+                                console.log(err);
+                            }
+                        }).done(function (res) {
+                            swal.fire({
+                                title: locator.__('Deleted!'),
+                                text: locator.__(res.message),
+                                type: 'success',
+                                buttonsStyling: false,
+                                confirmButtonText: locator.__("OK"),
+                                confirmButtonClass: "btn btn-sm btn-bold btn-brand",
+                            });
+                        });
+
+                        location.reload();
+                    }
+                });
+            });
+
         });
 
 </script>
