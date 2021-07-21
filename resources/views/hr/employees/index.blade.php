@@ -83,6 +83,16 @@
                                                 <span class="kt-nav__link-text">{{__('Print Contract')}}</span>
                                             </a>
                                         </li>
+                                        <li class="kt-nav__item">
+                                            <a onclick="document.getElementById('delete-emp-{{$employee->id}}').submit();" href="javascript:" class="kt-nav__link">
+                                                <i class="kt-nav__link-icon flaticon2-trash"></i>
+                                                <span class="kt-nav__link-text">{{__('Delete')}}</span>
+                                            </a>
+                                            <form id="delete-emp-{{$employee->id}}" action="{{route('dashboard.hr.employees.destroy', $employee->id)}}" method="POST" style="display: none;">
+                                                @csrf
+                                                @method('delete')
+                                            </form>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
