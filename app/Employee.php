@@ -70,10 +70,10 @@ class Employee extends Authenticatable
         'password' => ['required', 'string', 'min:8', 'confirmed'],
 
     ];
-    public function setPasswordAttribute($password)
-    {
-        $this->attributes['password'] = Hash::make($password);
-    }
+//    public function setPasswordAttribute($password)
+//    {
+//        $this->attributes['password'] = Hash::make($password);
+//    }
 
 
     public function roles()

@@ -134,7 +134,7 @@ Route::get('/init', function (){
         'is_master'      => true,
         'shift_type'   =>1,
         'email'     => 'Talal.mooh305@gmail.com',
-        'password'  => '12345678',
+        'password'  => \Illuminate\Support\Facades\Hash::make('12345678'),
     ]);
     $Super_Admin = \App\Role::find(1);
     $employee1->assignRole($Super_Admin);

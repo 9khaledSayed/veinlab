@@ -10,6 +10,7 @@ use App\Nationality;
 use App\Role;
 use App\Template;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class EmployeeController extends Controller
 {
@@ -74,7 +75,9 @@ class EmployeeController extends Controller
                     'message'   =>  'Employee number must be unique'
                 ));;
             }
-            $employee = Employee::create($this->validate($request, $rules));
+            $data = $this->validate($request, $rules);
+            $data['password'] = Hash::make($request['password']);
+            $employee = Employee::create($data);
             $employee->allowance_types()->attach($request->allowance);
             $role = Role::find($request->role_id);
             $employee->assignRole($role);
@@ -132,7 +135,12 @@ class EmployeeController extends Controller
             $rules = Employee::$rules;
             $rules['email'] = ($rules['email'] . ',email,' . $employee->id);
             $rules['emp_num'] = ($rules['emp_num'] . ',emp_num,' . $employee->id);
-            $employee->update($this->validate($request, $rules));
+            $data = $this->validate($request, $rules);
+            if (isset($request->password)){
+                $data['password'] = Hash::make($request['password']);
+            }
+
+            $employee->update($data);
             $employee->allowance_types()->detach($request->allowance);
             $employee->allowance_types()->attach($request->allowance);
             $role = Role::find($request->role_id);
