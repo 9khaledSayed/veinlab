@@ -237,8 +237,8 @@ class EmployeeSeeder extends Seeder
 //        $employee4->assignRole($lab);
 //        $employee5->assignRole($Doctor);
 
-        \App\Employee::factory()
-            ->has(\App\HR\EmployeeRequest::factory()->count(1))
-            ->count(1000)->create();
+        factory(\App\Employee::class, 1000)->create()->each(function ($user) {
+            $user->employee_requests()->save(factory(\App\HR\EmployeeRequest::class)->make());
+        });
     }
 }
