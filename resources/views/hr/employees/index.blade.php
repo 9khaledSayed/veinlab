@@ -271,9 +271,8 @@
                                 confirmButtonText: locator.__("OK"),
                                 confirmButtonClass: "btn btn-sm btn-bold btn-brand",
                             });
+                            location.reload();
                         });
-
-                        location.reload();
                     }
                 });
             });
