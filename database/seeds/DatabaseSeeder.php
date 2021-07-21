@@ -12,10 +12,10 @@ class DatabaseSeeder extends Seeder
              LabRoleSeeder::class,
              HrRoleSeeder::class,
              EmployeeSeeder::class,
-             DoctorSeeder::class,
-             HomeVisitSeeder::class,
-             HospitalSeeder::class,
-             MainAnalysisSeeder::class,
+//             DoctorSeeder::class,
+//             HomeVisitSeeder::class,
+//             HospitalSeeder::class,
+//             MainAnalysisSeeder::class,
 //             SubAnalysisSeeder::class,
 //             CategorySeeder::class
          ]);

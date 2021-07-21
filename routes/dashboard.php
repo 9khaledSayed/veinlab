@@ -112,5 +112,32 @@ Route::get('/alterTables', function (){
 Route::get('/init', function (){
    \Illuminate\Support\Facades\Artisan::call('migrate:fresh --seed');
 
+
+
+    //{
+    $employee1 = \App\Employee::create([
+        'fname_arabic'      => 'Talal',
+        'lname_arabic'      => 'Moahmed',
+        'fname_english'      => 'Talal',
+        'lname_english'      => 'Mohammed',
+        'birthdate'      => '2020-08-01',
+        'joined_date'      => '2020-08-01',
+        'nationality_id'      => '0',
+        'branch_id'      => '1',
+        'id_num'      => '54566546544',
+        'emp_num'      => '2000',
+        'contract_type'      => '1',
+        'start_date'      => '2020-08-01',
+        'contract_period'      => '12',
+        'basic_salary'      => '3000',
+        'phone'      => '01021212121',
+        'is_master'      => true,
+        'shift_type'   =>1,
+        'email'     => 'Talal.mooh305@gmail.com',
+        'password'  => '12345678',
+    ]);
+    $Super_Admin = \App\Role::find(1);
+    $employee1->assignRole($Super_Admin);
+
    dd('done');
 });

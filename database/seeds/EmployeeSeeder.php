@@ -120,31 +120,36 @@ class EmployeeSeeder extends Seeder
             'name_english'  => 'Super Admin',
             'name_arabic'  => 'المدير التنفيذي',
             'type'   => 1,
-            'system' => 'lab'
+            'system' => 'lab',
+            'label' => 'Super Admin'
         ]);
         $Receptionist = Role::create([
             'name_english'  => 'Receptionist',
             'name_arabic'  => 'موظف الاستقبال',
             'type'   => 1,
-            'system' => 'lab'
+            'system' => 'lab',
+            'label' => 'Receptionist'
         ]);
         $lab = Role::create([
             'name_english'  => 'Lab',
             'name_arabic'  => 'موظف المختبر',
             'type'   => 1,
-            'system' => 'lab'
+            'system' => 'lab',
+            'label' => 'Lab'
         ]);
         $Accountant = Role::create([
             'name_english'  => 'Accountant',
             'name_arabic'  => 'المحاسب',
             'type'   => 1,
-            'system' => 'lab'
+            'system' => 'lab',
+            'label' => 'Accountant'
         ]);
         $Doctor = Role::create([
             'name_english'  => 'Doctor',
             'name_arabic'  => 'طبيب',
             'type'   => 1,
-            'system' => 'lab'
+            'system' => 'lab',
+            'label' => 'Doctor'
         ]);
         $Hr_role = Role::create([
             'name_english'  => 'Hr',
@@ -237,8 +242,8 @@ class EmployeeSeeder extends Seeder
 //        $employee4->assignRole($lab);
 //        $employee5->assignRole($Doctor);
 
-        factory(\App\Employee::class, 1000)->create()->each(function ($user) {
-            $user->employee_requests()->save(factory(\App\HR\EmployeeRequest::class)->make());
-        });
+//        factory(\App\Employee::class, 1000)->create()->each(function ($user) {
+//            $user->employee_requests()->save(factory(\App\HR\EmployeeRequest::class)->make());
+//        });
     }
 }
