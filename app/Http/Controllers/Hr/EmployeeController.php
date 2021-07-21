@@ -175,7 +175,6 @@ class EmployeeController extends Controller
 
     public function destroy(Request $request, Employee $employee)
     {
-        $this->authorize('delete_employees');
         if($request->ajax())
         {
             $employee->delete();
