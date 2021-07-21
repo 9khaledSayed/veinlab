@@ -225,7 +225,7 @@
 
             $(".delete-item").click(function (e) {
                 e.preventDefault();
-                var  = $(this).attr('data-href');
+                var href = $(this).attr('data-href');
                 swal.fire({
                     buttonsStyling: false,
 
