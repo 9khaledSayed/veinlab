@@ -109,8 +109,11 @@ Route::get('/alterTables', function (){
    dd('done');
 });
 
+Route::get('/mig', function () {
+    \Illuminate\Support\Facades\Artisan::call('migrate --path=/database/migrations/2021_08_16_230339_add_column_to_hospitals_table.php');
+   });
 Route::get('/init', function (){
-   \Illuminate\Support\Facades\Artisan::call('migrate:fresh --seed');
+
 
 
 
