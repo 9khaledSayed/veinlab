@@ -49,7 +49,7 @@ class EmployeeController extends Controller
         $nationalities = Nationality::all();
         $branches = Branch::all();
         $roles = Role::where('name_english', '!=', 'Hr')->get();
-        $emp_num = ++Employee::get()->last()->emp_num;
+        $emp_num = ++Employee::withTrashed()->get()->last()->emp_num;
         while (Employee::pluck('emp_num')->contains($emp_num)){
             $emp_num = rand(1000,9999);
         }
