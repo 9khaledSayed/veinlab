@@ -69,7 +69,7 @@ class EmployeeController extends Controller
         $this->authorize('create_employees');
         if($request->ajax()){
             $rules = Employee::$rules;
-            while (Employee::pluck('emp_num')->contains($request->emp_num)){
+            while (Employee::withTrashed()->pluck('emp_num')->contains($request->emp_num)){
                 return response()->json(array(
                     'status' => 3,
                     'message'   =>  'Employee number must be unique'
@@ -134,7 +134,7 @@ class EmployeeController extends Controller
             $request->password = bcrypt($request->password);
             $rules = Employee::$rules;
             $rules['email'] = ($rules['email'] . ',email,' . $employee->id);
-            $rules['emp_num'] = ($rules['emp_num'] . ',emp_num,' . $employee->id);
+            $rules['emp_num'] = ($rules['emp_num'] . ',emp_num,deleted_at,NULL' . $employee->id);
             $data = $this->validate($request, $rules);
             if (isset($request->password)){
                 $data['password'] = Hash::make($request['password']);
