@@ -134,7 +134,7 @@ class EmployeeController extends Controller
             $request->password = bcrypt($request->password);
             $rules = Employee::$rules;
             $rules['email'] = ($rules['email'] . ',email,' . $employee->id);
-            $rules['emp_num'] = ($rules['emp_num'] . ',emp_num,deleted_at,NULL' . $employee->id);
+            $rules['emp_num'] = ($rules['emp_num'] . ',emp_num,deleted_at,NULL,' . $employee->id);
             $data = $this->validate($request, $rules);
             if (isset($request->password)){
                 $data['password'] = Hash::make($request['password']);
