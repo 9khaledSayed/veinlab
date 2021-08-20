@@ -57,4 +57,17 @@ class Patient extends Authenticatable
         return $this->phone;
     }
 
+
+    public function getGenderNameAttribute()
+    {
+        switch ($this->gender){
+            case 0:
+                return 'Male';
+            case 1:
+                return 'Female';
+            case 2:
+                return 'Child';
+        }
+    }
+
 }

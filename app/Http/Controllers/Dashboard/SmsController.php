@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Invoice;
 use App\Patient;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
@@ -48,13 +49,12 @@ class SmsController extends Controller
 
     public function approve(Request $request)
     {
-
-        $patient_id   = $request->patient_id;
         $invoice_id   = $request->invoice_id;
 
         $invoice = Invoice::find($invoice_id);
-        $invoice->doctor = Auth::guard('employee')->user()->name;
+        $invoice->doctor = Auth::guard('employee')->user()->fullname();
         $invoice->approved = 1;
+        $invoice->approved_date = Carbon::now();
         $invoice->save();
     }
     public function sendSms_Noti(Request $request)

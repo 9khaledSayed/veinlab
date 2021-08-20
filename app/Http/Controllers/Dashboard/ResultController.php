@@ -12,6 +12,7 @@ use App\Http\Controllers\Controller;
 use App\SubAnalysis;
 use App\Template;
 use App\WaitingLab;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -274,11 +275,14 @@ class ResultController extends Controller implements FromCollection , WithHeadin
                 'arabic_name' => $patient->name,
                 'english_name' => $patient->name_in_english ?? '',
                 'id_no' => $patient->id_no,
+                'gender' => $patient->gender_name,
+                'age' => $patient->age,
                 'id' => $patient->id
             ],
             'analysis' => ['analysis_results_tables' => $template->analysis_results_tables($invoice)],
+            'others' => $template->others_results(),
             'invoice' => [
-                'date' => $invoice->created_at->format('Y-m-d'),
+                'date' => $invoice->created_at->format('Y-m-d h:i A'),
                 'time' => $invoice->created_at->format('h:iA'),
                 'no' => $invoice->id,
                 'serial_no' => $invoice->serial_no,
@@ -290,6 +294,7 @@ class ResultController extends Controller implements FromCollection , WithHeadin
                 'discount' =>$invoice->discount,
                 'with_tax' =>$invoice->total_price,
                 'amount_paid' =>$invoice->amount_paid,
+                'approved_date' => Carbon::parse($invoice->approved_date)->format('Y-m-d h:i A'),
                 'due' =>$invoice->amount_paid - $invoice->total_price,
                 'pay_method' =>$paymentMethod,
                 'barcode' =>'data:image/png;base64,' . DNS1D::getBarcodePNG($invoice->barcode, 'C39',2,44,array(1,1,1), true)
@@ -297,7 +302,7 @@ class ResultController extends Controller implements FromCollection , WithHeadin
         ];
         $content = $template->collect_replace($results, $template->body);
 
-        return view('dashboard.templates.print', [
+        return view('dashboard.templates.result_print', [
             'content' => $content,
             'template' => $template
         ]);

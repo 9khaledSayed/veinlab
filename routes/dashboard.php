@@ -110,7 +110,7 @@ Route::get('/alterTables', function (){
 });
 
 Route::get('/mig', function () {
-    \Illuminate\Support\Facades\Artisan::call('migrate --path=/database/migrations/2021_08_16_230339_add_column_to_hospitals_table.php');
+    \Illuminate\Support\Facades\Artisan::call('migrate --path=/database/migrations/2021_08_20_152821_add_approved_date_to_invoices__table.php');
    });
 Route::get('/init', function (){
 
@@ -144,3 +144,5 @@ Route::get('/init', function (){
 
    dd('done');
 });
+
+Route::view('new_result', 'new_result');
