@@ -101,11 +101,12 @@ Route::prefix('export')->name('export.')->namespace('Dashboard')->middleware('au
 
 Route::get('/alterTables', function (){
    \Illuminate\Support\Facades\Artisan::call('migrate --path=/database/migrations/2021_07_09_200423_add_column_to_sub_analyses_table.php');
-//   \Illuminate\Support\Facades\Artisan::call('migrate --path=/database/migrations/2021_07_10_230327_change_column_type_result_table.php');
+   \Illuminate\Support\Facades\Artisan::call('migrate --path=/database/migrations/2021_07_10_230327_change_column_type_result_table.php');
    \Illuminate\Support\Facades\Artisan::call('migrate --path=/database/migrations/2021_07_10_232703_add_classifiction_column_to_result_table.php');
    \Illuminate\Support\Facades\Artisan::call('migrate --path=/database/migrations/2021_07_16_145545_add_has_cultivation_column_to_main_analyses_table.php');
    \Illuminate\Support\Facades\Artisan::call('migrate --path=/database/migrations/2021_07_16_172539_add_columns_to_waiting_labs_table.php');
-
+    \Illuminate\Support\Facades\Artisan::call('migrate --path=/database/migrations/2021_08_20_152821_add_approved_date_to_invoices__table.php');
+    \Illuminate\Support\Facades\Artisan::call('migrate --path=/database/migrations/2021_08_21_174642_alter_hospitals__table.php');
    dd('done');
 });
 
