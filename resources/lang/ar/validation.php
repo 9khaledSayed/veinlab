@@ -232,5 +232,8 @@ return [
         'high_sensitive_to.*.name' => 'الاسم',
         'moderate_sensitive_to.*.name' => 'الاسم',
         'resistant_to.*.name' => 'الاسم',
+        'name' => 'الاسم',
+        'amount' => 'السعر',
+        'amount_type' => 'نوع المعاملة',
     ],
 ];

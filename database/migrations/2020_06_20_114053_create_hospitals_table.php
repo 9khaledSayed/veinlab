@@ -21,7 +21,8 @@ class CreateHospitalsTable extends Migration
             $table->string('password');
             $table->integer('dues')->default(0);
             $table->integer('no_patients')->default(0);
-            $table->double('percentage')->default(0);
+            $table->decimal('amount');
+            $table->enum('amount_type', ['addition', 'deduction']);
             $table->rememberToken();
             $table->softDeletes();
             $table->timestamps();

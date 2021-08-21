@@ -205,15 +205,22 @@ class Template extends Model
            $notes = 'There is no notes';
        }
         $content .=
-            '</tbody>
-                        <tfoot>
-                            <tr>
-                                <td class="bg-grey">Comment</td>
-                                <td colspan="3" class="text-center">' . $notes . '</td>
-                            </tr>
-                        </tfoot>
-                    </table>
-                </div>' . $cultivationContent;
+        '        </tbody>
+                    <tfoot>
+                        <tr>
+                            <td class="bg-grey">Comment</td>
+                            <td colspan="3" class="text-center">' . $notes . '</td>
+                        </tr>
+                    </tfoot>
+                </table>
+                ' . $cultivationContent;
+
+       $content .= '<div class="row d-flex flex-column flex-row-reverse">
+                        <div class="" style="width: fit-content;">
+                            <h6 class="text-center">Referred By</h6>
+                            <h6 class="">' . $invoice->doctor . '</h6>
+                        </div>
+                    </div> </div>';
         return $content;
     }
     public function purchase_table(Invoice $invoice)

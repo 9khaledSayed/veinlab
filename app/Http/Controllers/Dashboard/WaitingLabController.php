@@ -145,9 +145,18 @@ class WaitingLabController extends Controller
                 }
                 break;
             case config('enums.transfer.hospital'):
+                $hospital = Hospital::find($request->hospital_id);
                 foreach ($mainAnalysis as $analysis) {
-                    $price += $analysis->price_hospital;
-                    $purchases[$analysis->general_name] = ['price' => $analysis->price_hospital, 'code' => $analysis->code, 'discount' => 0];
+                    /** check hospital amount type **/
+                    if ($hospital->amount_type == 'addition'){
+                        $hospitalPrice = $analysis->price + $hospital->amount;
+                    }else{
+                        $hospitalPrice = $analysis->price - $hospital->amount;
+                        $hospitalPrice = ($hospitalPrice < 0) ? 0 : $hospitalPrice;
+                    }
+
+                    $price += $hospitalPrice;
+                    $purchases[$analysis->general_name] = ['price' => $hospitalPrice, 'code' => $analysis->code, 'discount' => 0];
                 }
                 break;
             case config('enums.transfer.sector'):
@@ -337,13 +346,32 @@ class WaitingLabController extends Controller
         }
     }
 
-    public function transferPrice($transfer)
+    public function transferPrice($transfer, Request $request)
     {
         $main_analysis = MainAnalysis::select('id', 'general_name', 'price', 'code')->get();
         if ($transfer == config('enums.transfer.contract')){
             $main_analysis = MainAnalysis::select('id', 'general_name', 'price_insurance as price', 'code')->get();
         }elseif ($transfer == config('enums.transfer.hospital')){
-            $main_analysis = MainAnalysis::select('id', 'general_name', 'price_hospital as price', 'code')->get();
+            if (isset($request->hospital_id)){
+                $hospital = Hospital::find($request->hospital_id);
+                $main_analysis = MainAnalysis::select('id', 'general_name', 'price', 'code')->get()->map(function ($main) use ($hospital){
+                    /** check hospital amount type **/
+                    if ($hospital->amount_type == 'addition'){
+                        $price = $main->price + $hospital->amount;
+                    }else{
+                        $price = $main->price - $hospital->amount;
+                    }
+                    return [
+                        'id' => $main->id,
+                        'general_name' => $main->general_name,
+                        'price' => ($price < 0) ? 0 : $price,
+                        'code' => $main->code,
+                    ];
+                });
+            }else{
+                $main_analysis = MainAnalysis::select('id', 'general_name', 'price', 'code')->get();
+            }
+
         }
         return response()->json($main_analysis);
     }

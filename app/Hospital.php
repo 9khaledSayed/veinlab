@@ -18,9 +18,7 @@ class Hospital extends Authenticatable
     ];
     protected $guard = 'hospital';
 
-    protected $fillable = [
-        'name', 'email','phone' ,'password','percentage'
-    ];
+    protected $guarded = [];
 
     protected $hidden = [
         'password', 'remember_token',
@@ -28,7 +26,8 @@ class Hospital extends Authenticatable
     public static $rules = [
         'name' => ['required', 'string', 'max:255'],
         'email' => 'required|string|email|max:255|sometimes|unique:employees',
-        'percentage' => ['required', 'integer'],
+        'amount' => ['required', 'numeric', 'min:0'],
+        'amount_type' => ['required', 'in:addition,deduction', 'min:0'],
         'phone' => ['required'],
         'password' => ['required' ,'min:8', 'confirmed'],
     ];

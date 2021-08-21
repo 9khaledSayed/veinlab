@@ -67,7 +67,7 @@
                 </div>
 
                 <div class="form-group row mt-5">
-                    <div class="col-lg-6 col-md-9 col-sm-12">
+                    <div class="col-lg-4">
                         <label>{{__('Email')}}</label>
                         <input
                             class="form-control @error('email') is-invalid @enderror"
@@ -82,21 +82,36 @@
                         </div>
                         @enderror
                     </div>
-                    <div class="col-lg-6 col-md-9 col-sm-12">
-                        <label>{{__('Percentage')}}</label>
+                    <div class="col-lg-4">
+                        <label>{{__('سعر التحاليل')}}</label>
                         <input
-                            class="form-control @error('percentage')is-invalid @enderror"
-                            type="text"
-                            name="percentage"
-                            placeholder="{{__('Enter Percentage')}}"
-                            value="{{old('percentage')}}"
-                            id="example-password-input">
-                        @error('percentage')
+                                class="form-control @error('amount') is-invalid @enderror"
+                                type="number"
+                                name="amount"
+                                placeholder="{{__('Enter amount')}}"
+                                value="{{old('amount')}}"
+                                id="example-amount-input">
+                        @error('amount')
                         <div class="invalid-feedback">
                             {{$message}}
                         </div>
                         @enderror
                     </div>
+                    <div class="col-lg-4">
+                        <label>{{__('نوع المعاملة')}}</label>
+                        <select name="amount_type"
+                                class="form-control @error('amount_type')is-invalid @enderror selectpicker"
+                                title="{{__('Choose')}}">
+                            <option value="addition" @if(old('amount_type') == "addition") selected @endif>{{__('إضافة علي سعر التحليل الاصلي')}}</option>
+                            <option value="deduction" @if(old('amount_type') == "deduction") selected @endif>{{__('خصم من سعر التحليل الاصلي')}}</option>
+                        </select>
+                        @error('amount_type')
+                        <div class="invalid-feedback">
+                            {{$message}}
+                        </div>
+                        @enderror
+                    </div>
+
                 </div>
 
 

@@ -110,8 +110,17 @@ Route::get('/alterTables', function (){
 });
 
 Route::get('/mig', function () {
-    \Illuminate\Support\Facades\Artisan::call('migrate --path=/database/migrations/2021_08_20_152821_add_approved_date_to_invoices__table.php');
-   });
+//    \Illuminate\Support\Facades\Artisan::call('migrate --path=/database/migrations/2021_08_20_152821_add_approved_date_to_invoices__table.php');
+    \Illuminate\Support\Facades\Artisan::call('migrate --path=/database/migrations/2021_08_21_174642_alter_hospitals__table.php');
+});
+
+Route::get('/mig2', function () {
+    \App\Template::where('type', 8)->get()->first()->update([
+        'body' => '<div class=\"container\">\r\n<div class=\"row d-flex justify-content-between p-2 mb-5\" style=\"border-width: 4px 0; border-style: solid;\">\r\n<div class=\"col\" style=\"width: fit-content;\">\r\n<h6 class=\"text-left text-small\">Request Date : <strong>%%invoice.date%%</strong></h6>\r\n<h6 class=\"text-left text-small\">Reporting Date : <strong>%%invoice.approved_date%%</strong></h6>\r\n<div style=\"margin: auto;\"><img src=\"%%invoice.barcode%%\" alt=\"barcode\" /></div>\r\n</div>\r\n<div class=\"col\"><img class=\"d-block m-auto\" src=\"%%others.logo_url%%\" alt=\"شعار الشركة\" width=\"100\" height=\"100\" /></div>\r\n<div class=\"col\" style=\"width: fit-content;\">\r\n<div class=\"row\">\r\n<div class=\"col-6 text-center\">Patient Name</div>\r\n<div class=\"col-6 text-center\">&nbsp;<strong>%%patient.arabic_name%%</strong></div>\r\n</div>\r\n<div class=\"row\">\r\n<div class=\"col-6 text-center\">Gender / Age</div>\r\n<div class=\"col-6 text-center\">&nbsp;<strong>%%patient.gender%%</strong> / <strong>%%patient.age%%</strong> years</div>\r\n</div>\r\n<div class=\"row\">\r\n<div class=\"col-6 text-center\">Referred By</div>\r\n<div class=\"col-6 text-center\">&nbsp;<strong>%%invoice.doctor%%</strong></div>\r\n</div>\r\n</div>\r\n</div>\r\n&nbsp;<strong>%%analysis.analysis_results_tables%%</strong></div>'
+    ]);
+
+    dd('done');
+});
 Route::get('/init', function (){
 
 

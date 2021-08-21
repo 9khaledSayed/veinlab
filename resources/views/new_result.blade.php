@@ -128,6 +128,14 @@
             </tr>
         </tfoot>
     </table>
+
+    <div class="row d-flex flex-column flex-row-reverse">
+        <div class="" style="width: fit-content;">
+            <h6 class="text-center">Referred By</h6>
+            <h6 class="">khaled sayed mohamed</h6>
+        </div>
+    </div>
+
 </div>
 
 
