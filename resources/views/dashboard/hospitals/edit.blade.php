@@ -83,39 +83,6 @@
                 </div>
 
                 <div class="form-group row">
-                    <label for="example-text-input" class="col-form-label col-lg-3 col-sm-12">{{__('سعر التحاليل')}}</label>
-                    <div class="col-lg-6 col-md-9 col-sm-12">
-                        <input
-                                class="form-control @error('amount') is-invalid @enderror"
-                                type="number"
-                                name="amount"
-                                placeholder="{{__('Enter amount')}}"
-                                value="{{old('amount') ?? $hospital->amount}}"
-                                id="example-amount-input">
-                        @error('amount')
-                        <div class="invalid-feedback">
-                            {{$message}}
-                        </div>
-                        @enderror
-                    </div>
-                </div>
-
-                <div class="form-group row">
-                    <label for="example-text-input" class="col-form-label col-lg-3 col-sm-12">{{__('نوع المعاملة')}}</label>
-                    <div class="col-lg-6 col-md-9 col-sm-12">
-                        <select name="amount_type"
-                                class="form-control @error('amount_type')is-invalid @enderror selectpicker"
-                                title="{{__('Choose')}}">
-                            <option value="addition" @if((old('amount_type') ?? $hospital->amount_type) == "addition") selected @endif>{{__('إضافة علي سعر التحليل الاصلي')}}</option>
-                            <option value="deduction" @if((old('amount_type') ?? $hospital->amount_type) == "deduction") selected @endif>{{__('خصم من سعر التحليل الاصلي')}}</option>
-                        </select>
-                        @error('amount_type')
-                        <div class="invalid-feedback">{{$message}}</div>
-                        @enderror
-                    </div>
-                </div>
-
-                <div class="form-group row">
                     <label for="example-text-input" class="col-form-label col-lg-3 col-sm-12">{{__('Password')}}</label>
                     <div class="col-lg-6 col-md-9 col-sm-12">
                         <input
@@ -146,6 +113,116 @@
                         @enderror
                     </div>
                 </div>
+
+                <div class="kt-separator kt-separator--border-dashed kt-separator--space-lg"></div>
+                <div class="kt-heading kt-heading--md">{{__('التحاليل المخصصة')}}</div>
+                <div id="kt_repeater_1">
+                    <div class="form-group form-group-last row" id="kt_repeater_1">
+                        <label class="col-lg-2 col-form-label"></label>
+                        <div data-repeater-list="main_analyses" class="col-lg-10">
+                            @forelse(old('main_analyses') ?? $hospitalMainAnalyses as $mainAnalysisItem)
+
+                                <div data-repeater-item class="form-group row align-items-center">
+                                    <div class="col-md-4">
+                                        <div class="kt-form__group--inline">
+                                            <div class="kt-form__control">
+                                                <select name="id"
+                                                        class="form-control @error('id')is-invalid @enderror selectpicker"
+                                                        data-size="5"
+                                                        data-live-search="true"
+                                                        title="{{__('Choose')}}">
+                                                    @foreach($mainAnalyses as $mainAnalysis)
+                                                        <option value="{{$mainAnalysis->id}}" @if($mainAnalysisItem['id'] == $mainAnalysis->id) selected @endif>{{$mainAnalysis->general_name . " - " . $mainAnalysis->price . " SAR" . $mainAnalysis->code}}</option>
+                                                    @endforeach
+                                                </select>
+                                                @error('main_analyses.' . $loop->index . '.id')
+                                                <div class="text-danger">
+                                                    {{$message}}
+                                                </div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="d-md-none kt-margin-b-10"></div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="kt-form__group--inline">
+                                            <div class="kt-form__control">
+                                                <input type="number" min="0" name="price" class="text-center form-control @error('price') is-invalid @enderror" placeholder="{{__('Price')}}" value="{{$mainAnalysisItem['price']}}">
+                                                @error('main_analyses.' . $loop->index . '.price')
+                                                <div class="text-danger">
+                                                    {{$message}}
+                                                </div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="d-md-none kt-margin-b-10"></div>
+                                    </div>
+
+
+                                    <div class="mx-3">
+                                        <a href="javascript:;" data-repeater-delete="" class="btn-sm btn btn-label-danger btn-bold">
+                                            <i class="la la-trash-o"></i>
+                                            Delete
+                                        </a>
+                                    </div>
+                                </div>
+
+                            @empty
+                                <div data-repeater-item class="form-group row align-items-center">
+                                    <div class="col-md-4">
+                                        <div class="kt-form__group--inline">
+                                            <div class="kt-form__control">
+                                                <select name="id"
+                                                        class="form-control @error('id')is-invalid @enderror selectpicker"
+                                                        data-size="5"
+                                                        data-live-search="true"
+                                                        title="{{__('Choose')}}">
+                                                    @foreach($mainAnalyses as $mainAnalysis)
+                                                        <option value="{{$mainAnalysis->id}}" @if((old('id')) == $mainAnalysis->id) selected @endif>{{$mainAnalysis->general_name . " - " . $mainAnalysis->price . " SAR" . $mainAnalysis->code}}</option>
+                                                    @endforeach
+                                                </select>
+                                                @error('id')
+                                                <div class="text-danger">
+                                                    {{$message}}
+                                                </div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="d-md-none kt-margin-b-10"></div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="kt-form__group--inline">
+                                            <div class="kt-form__control">
+                                                <input type="number" min="0" name="price" class="text-center form-control @error('price') is-invalid @enderror" placeholder="{{__('Price')}}">
+                                                @error('price')
+                                                <div class="text-danger">
+                                                    {{$message}}
+                                                </div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="d-md-none kt-margin-b-10"></div>
+                                    </div>
+                                    <div class="mx-3">
+                                        <a href="javascript:;" data-repeater-delete="" class="btn-sm btn btn-label-danger btn-bold">
+                                            <i class="la la-trash-o"></i>
+                                            Delete
+                                        </a>
+                                    </div>
+                                </div>
+                            @endforelse
+
+                        </div>
+                    </div>
+                    <div class="form-group form-group-last row">
+                        <div class="mx-auto">
+                            <a href="javascript:;" data-repeater-create="" class="btn btn-bold btn-sm btn-label-brand">
+                                <i class="la la-plus"></i> Add
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="kt-portlet__foot" style="text-align: center">
                 <div class="kt-form__actions">
@@ -164,3 +241,26 @@
 
     <!--end::Portlet-->
 @endsection
+@push('scripts')
+
+    <script>
+        $(function () {
+            $('#kt_repeater_1').repeater({
+                initEmpty: false,
+
+                defaultValues: {
+                    'text-input': 'foo'
+                },
+
+                show: function () {
+                    $(this).slideDown();
+                    $(".selectpicker").selectpicker();
+                },
+
+                hide: function (deleteElement) {
+                    $(this).slideUp(deleteElement);
+                }
+            });
+        });
+    </script>
+@endpush

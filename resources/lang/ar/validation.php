@@ -232,6 +232,8 @@ return [
         'high_sensitive_to.*.name' => 'الاسم',
         'moderate_sensitive_to.*.name' => 'الاسم',
         'resistant_to.*.name' => 'الاسم',
+        'main_analyses.*.id' => 'التحليل الرئبسي',
+        'main_analyses.*.price' => 'السعر',
         'name' => 'الاسم',
         'amount' => 'السعر',
         'amount_type' => 'نوع المعاملة',

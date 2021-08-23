@@ -145,18 +145,35 @@ class WaitingLabController extends Controller
                 }
                 break;
             case config('enums.transfer.hospital'):
-                $hospital = Hospital::find($request->hospital_id);
-                foreach ($mainAnalysis as $analysis) {
-                    /** check hospital amount type **/
-                    if ($hospital->amount_type == 'addition'){
-                        $hospitalPrice = $analysis->price + $hospital->amount;
-                    }else{
-                        $hospitalPrice = $analysis->price - $hospital->amount;
-                        $hospitalPrice = ($hospitalPrice < 0) ? 0 : $hospitalPrice;
-                    }
 
-                    $price += $hospitalPrice;
-                    $purchases[$analysis->general_name] = ['price' => $hospitalPrice, 'code' => $analysis->code, 'discount' => 0];
+                $hospital = Hospital::find($request->hospital_id);
+                /** get hospital main analysis **/
+                $hospitalMainAnalysis = $hospital->main_analyses()->whereIn('id', $request->main_analysis_id)->get()->map(function ($main){
+                    return [
+                        'id' => $main->id,
+                        'general_name' => $main->general_name,
+                        'price' => $main->pivot->price,
+                        'code' => $main->code,
+                    ];
+                });
+                /** get all main analysis except hospital analysis **/
+                $main_analysis = MainAnalysis::whereIn('id', $request->main_analysis_id)->get()->map(function ($main){
+                    return [
+                        'id' => $main->id,
+                        'general_name' => $main->general_name,
+                        'price' => $main->price,
+                        'code' => $main->code,
+                    ];
+                })->whereNotIn('id', $hospitalMainAnalysis->pluck('id')->toArray());
+
+
+                $main_analysis = $main_analysis->merge($hospitalMainAnalysis);
+
+                foreach ($main_analysis as $analysis) {
+                    /** check hospital amount type **/
+
+                    $price += $analysis['price'];
+                    $purchases[$analysis['general_name']] = ['price' => $analysis['price'], 'code' => $analysis['code'], 'discount' => 0];
                 }
                 break;
             case config('enums.transfer.sector'):
@@ -354,20 +371,23 @@ class WaitingLabController extends Controller
         }elseif ($transfer == config('enums.transfer.hospital')){
             if (isset($request->hospital_id)){
                 $hospital = Hospital::find($request->hospital_id);
-                $main_analysis = MainAnalysis::select('id', 'general_name', 'price', 'code')->get()->map(function ($main) use ($hospital){
-                    /** check hospital amount type **/
-                    if ($hospital->amount_type == 'addition'){
-                        $price = $main->price + $hospital->amount;
-                    }else{
-                        $price = $main->price - $hospital->amount;
-                    }
+                $hospitalMainAnalysis = $hospital->main_analyses->map(function ($main){
                     return [
                         'id' => $main->id,
                         'general_name' => $main->general_name,
-                        'price' => ($price < 0) ? 0 : $price,
+                        'price' => $main->pivot->price,
                         'code' => $main->code,
                     ];
                 });
+                $main_analysis = MainAnalysis::whereNotIn('id', $hospitalMainAnalysis->pluck('id')->toArray())->get()->map(function ($main){
+                    return [
+                        'id' => $main->id,
+                        'general_name' => $main->general_name,
+                        'price' => $main->price,
+                        'code' => $main->code,
+                    ];
+                });
+                $main_analysis = $main_analysis->merge($hospitalMainAnalysis);
             }else{
                 $main_analysis = MainAnalysis::select('id', 'general_name', 'price', 'code')->get();
             }

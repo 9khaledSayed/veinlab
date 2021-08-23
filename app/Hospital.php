@@ -35,4 +35,9 @@ class Hospital extends Authenticatable
         $this->attributes['password'] = bcrypt($value);
     }
 
+    public function main_analyses()
+    {
+        return $this->belongsToMany(MainAnalysis::class)->withPivot('price');
+    }
+
 }

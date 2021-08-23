@@ -212,7 +212,7 @@
                                 @forelse($hospitals as $hospital)
                                     <option
                                         value="{{$hospital->id}}"
-                                        @if($hospital->id == old('hospital_id')) selected @endif
+{{--                                        @if($hospital->id == old('hospital_id')) selected @endif--}}
                                     >{{$hospital->name}}</option>
                                 @empty
                                     <option disabled>{{__('There is no hospitals')}}</option>
@@ -283,7 +283,7 @@
                                    placeholder="0.00">
                         </div>
                         <div class="col-lg-3">
-                            <label for="discount"><span class="required" >*</span>{{__('Discount')}}:</label>
+                            <label for="discount"><span class="required" ></span>{{__('Discount')}}:</label>
                             <input type="number"
                                    id="discount"
                                    class="form-control @error('discount')is-invalid @enderror"
