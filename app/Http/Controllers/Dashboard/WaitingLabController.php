@@ -188,9 +188,10 @@ class WaitingLabController extends Controller
                     $purchases[$analysis->general_name] = ['price' => $analysis->price, 'code' => $analysis->code, 'discount' => $analysis->discount];
                 }
                 foreach ($packages as $package) {
-                    foreach (MainAnalysis::whereIn('id', unserialize($package->main_analysis) ?? [])->get() as $analysis) {
-                        $price += $analysis->price;
-                    }
+//                    foreach (MainAnalysis::whereIn('id', unserialize($package->main_analysis) ?? [])->get() as $analysis) {
+//                        $price += $analysis->price;
+//                    }
+                    $price += $package->price;
                     $purchases[$package->name] = ['price' => $package->price, 'code' => '-', 'discount' => 0];
                 }
         }

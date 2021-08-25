@@ -32,7 +32,7 @@
                         <div class="kt-invoice__item" style="flex: 0.4;">
                             <span class="kt-invoice__subtitle mb-2">التاريخ :</span>
                             <span class="kt-invoice__subtitle mb-2">اصرفوا الي السيد / السيدة :</span>
-                            <span class="kt-invoice__subtitle mb-2">مبلغ وقدره :</span>
+                            <span class="kt-invoice__subtitle mb-2">مبلغ وقدرة :</span>
                             <span class="kt-invoice__subtitle mb-2">وذلك عن :</span>
                             <span class="kt-invoice__subtitle mb-2">
                                 <div class="kt-checkbox-inline">

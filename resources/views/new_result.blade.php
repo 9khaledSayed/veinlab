@@ -70,6 +70,10 @@
                 <div class="col-6 text-center">Referred By</div>
                 <div class="col-6 text-center">اسم الطبيب</div>
             </div>
+            <div class="row">
+                <div class="col-6 text-center">ID Number</div>
+                <div class="col-6 text-center">4565464646</div>
+            </div>
         </div>
     </div>
 

@@ -36,13 +36,13 @@
                                                 مرحبا !
                                             </div>
                                             <div style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';text-align:right;direction:rtl!important;line-height:1.5;color:#333;font-size:16px">
-                                                 هل نسيت كلمه المرور الخاصه بك ؟ اضغط علي الزر لأعاده تعيينه
+                                                 هل نسيت كلمة المرور الخاصة بك ؟ اضغط علي الزر لأعادة تعيينة
                                             </div>
                                             <div style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';direction:rtl!important;width:100%;text-align:center!important;padding:15px">
                                                 <div style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';direction:rtl!important;margin:30px auto;padding:0;text-align:center;width:100%">
                                                     <div style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';direction:rtl!important;text-align:center!important">
                                                         <a href="{{$token}}" rel="noopener" style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';border-radius:4px;color:#fff;overflow:hidden;text-decoration:none;background-color:#2d3748;border-bottom:8px solid #2d3748;border-left:18px solid #2d3748;border-right:18px solid #2d3748;border-top:8px solid #2d3748;display:inline-block;text-align:center" target="_blank" data-saferedirecturl="https://www.google.com/url?q=https://nafezly.com/portfolio/2135-herpalPharma&amp;source=gmail&amp;ust=1594385525962000&amp;usg=AFQjCNFjYGLPhHqarb1HyGr1JAsznkUV-A">
-                                                            إعاده تعيين
+                                                            إعادة تعيين
                                                         </a>
                                                     </div>
                                                 </div>

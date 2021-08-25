@@ -36,7 +36,7 @@
                                                 مرحبا !
                                             </div>
                                             <div style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';text-align:right;direction:rtl!important;line-height:1.5;color:#333;font-size:16px">
-                                                يوجد تعاميم جديده من الأداره
+                                                يوجد تعاميم جديدة من الأدارة
                                             </div>
                                             <div style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';direction:rtl!important;width:100%;text-align:center!important;padding:15px">
                                                 <div style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';direction:rtl!important;margin:30px auto;padding:0;text-align:center;width:100%">
@@ -48,7 +48,7 @@
                                                 </div>
                                             </div>
                                             <div style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';text-align:center;direction:rtl!important">
-                                                الأداره العامه
+                                                الأدارة العامة
                                             </div>
 
 

@@ -225,7 +225,7 @@ return [
         'contract_period'                  => 'مدة العقد',
         'basic_salary'                  => 'الراتب اساسي',
         'phone'                  => 'رقم الجوار',
-        'password'                  => 'كلمه السر',
+        'password'                  => 'كلمة السر',
         'sub_analyses.*.name' => 'الاسم',
         'sub_analyses.*.unit' => 'الوحدة',
         'sub_analyses.*.classification' => 'التصنيف',
@@ -235,7 +235,9 @@ return [
         'main_analyses.*.id' => 'التحليل الرئبسي',
         'main_analyses.*.price' => 'السعر',
         'name' => 'الاسم',
+        'name_english' => 'الاسم بالانجليزية',
         'amount' => 'السعر',
+        'nationality' => 'الاسم بالعربي',
         'amount_type' => 'نوع المعاملة',
     ],
 ];

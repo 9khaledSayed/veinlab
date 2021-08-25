@@ -64,6 +64,7 @@ Route::prefix('dashboard')->name('dashboard.')->namespace('Dashboard')->middlewa
     Route::post('myProfile/change_password', 'ProfileController@changePassword')->name('myProfile.changePassword');
     Route::get('hospital_revenue/{hospital}/create', 'RevenueController@createHospitalRevenue')->name('revenue.createHospitalRevenue');
     Route::post('hospital_revenue/{hospital}/store', 'RevenueController@storeHospitalRevenue')->name('revenue.storeHospitalRevenue');
+    Route::get('nationalities/{id}/restore', 'NationalityController@restore')->name('nationalities.restore');
     Route::resources([
         'main_analysis'  => 'MainAnalysisController',
         'patients'       => 'PatientController',

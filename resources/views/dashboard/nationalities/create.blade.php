@@ -40,7 +40,7 @@
                     <div class="col-lg-6 col-md-9 col-sm-12">
                         <input class="form-control @error('nationality') is-invalid @enderror" type="text" value="{{ old('nationality') }}" id="example-text-input" name="nationality">
                         @error('nationality')
-                        <div class="invalid-feedback">{{ $message }}</div>
+                        <div class="invalid-feedback">{!! $message !!}</div>
                         @enderror
                     </div>
                 </div>
@@ -49,7 +49,7 @@
                     <div class="col-lg-6 col-md-9 col-sm-12">
                         <input class="form-control @error('name_english') is-invalid @enderror" type="text" value="{{ old('name_english') }}" id="example-text-input" name="name_english">
                         @error('name_english')
-                        <div class="invalid-feedback">{{ $message }}</div>
+                        <div class="invalid-feedback">{!! $message !!}</div>
                         @enderror
                     </div>
                 </div>

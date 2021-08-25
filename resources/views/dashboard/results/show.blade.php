@@ -170,10 +170,10 @@
 
                             @if($waiting_lab->results->count() > 0)
                                 @can('reject_results')
-                                <form  data-id = "{{$waiting_lab->id}}"  data-analysis = "{{$waiting_lab->main_analysis->general_name}}" style="text-align:center"  class="mb-5 mt-5">
-                                    <button type="submit"  class="btn btn-danger font-weight-bold btnprn" >{{__('Disapprove')}}</button>
-                                </form>
-                            @endcan
+                                    <form  data-id = "{{$waiting_lab->id}}"  data-analysis = "{{$waiting_lab->main_analysis->general_name}}" style="text-align:center"  class="mb-5 mt-5">
+                                        <button type="submit"  class="btn btn-danger font-weight-bold btnprn" >{{__('Disapprove')}}</button>
+                                    </form>
+                                @endcan
                             @endif
                         @endforeach
                     </div>
@@ -230,7 +230,7 @@
 
         $("#approve").on('click', function () {
             swal({
-                title: "هل تريد إرسال النتيجه إلي المريض ؟",
+                title: "هل تريد إرسال النتيجة إلي المريض ؟",
                 text: "",
                 icon: "info",
                 closeOnClickOutside: false,
@@ -263,14 +263,15 @@
                                 patient_id: {{$patient->id}},
                                 invoice_id: {{$invoice->id}}
                             },success: function () {
-                                swal("تم إرسال النتائج إلي المريض بنجاح", {
+                                // swal("تم إرسال النتائج إلي المريض بنجاح", {
+                                //     icon: "success",
+                                // });
+                                swal("تم إعتماد النتيجة بنجاح", {
                                     icon: "success",
                                 });
                             }
                         });
-                        swal("تم إعتماد النتيجه بنجاح", {
-                            icon: "success",
-                        });
+
                     }
                 });
         });
@@ -292,7 +293,7 @@
              },
              success: function () {
                  swal("تــم  رفض نتائج تحليل " + analysis
-                     , "سـوف يـتم رصد النتائج مره أخري في أقرب وقـت"
+                     , "سـوف يـتم رصد النتائج مرة أخري في أقرب وقـت"
                      , "success"
                  )
              },
