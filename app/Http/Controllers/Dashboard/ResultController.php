@@ -6,6 +6,7 @@ use App\Employee;
 use App\Invoice;
 use App\MainAnalysis;
 use App\Notes;
+use App\Notifications\ResultToDoctor;
 use App\Patient;
 use App\Result;
 use App\Http\Controllers\Controller;
@@ -96,6 +97,7 @@ class ResultController extends Controller implements FromCollection , WithHeadin
 
 
         $waiting_lab = WaitingLab::with(['main_analysis', 'patient'])->find($request->waiting_lab_id);
+
         $sub_analysis = $waiting_lab->main_analysis->sub_analysis;
         $main_analysis = $waiting_lab->main_analysis;
         $i=0;
@@ -140,8 +142,11 @@ class ResultController extends Controller implements FromCollection , WithHeadin
 
         $waiting_lab->update($cultivationData);
 
-        $employee = Employee::find(1);
-        Notification::send( $employee , new \App\Notifications\ResultToDoctor($waiting_lab->invoice_id , "برجاء الموافقه علي رصد نتائج مريض جديد"));
+        /** notify doctor when all requested analysis finished **/
+        if ($waiting_lab->invoice->waiting_labs()->where('status', '!=', 2)->count() == 0){
+            Employee::first()->notify( new ResultToDoctor($waiting_lab->invoice_id));
+            pushNotification();
+        }
         return redirect(route('dashboard.waiting_labs.index'));
 
     }
@@ -245,7 +250,12 @@ class ResultController extends Controller implements FromCollection , WithHeadin
         $waiting_lab->update($cultivationData);
 
         $employee = Employee::find(1);
-        Notification::send( $employee , new \App\Notifications\ResultToDoctor($waiting_lab->invoice_id , "تم تعديل النتائج المطلوبه"));
+
+        /** notify doctor when all requested analysis finished **/
+        if ($waiting_lab->invoice->waiting_labs()->where('status', '!=', 2)->count() == 0){
+            Employee::first()->notify( new ResultToDoctor($waiting_lab->invoice_id));
+            pushNotification();
+        }
         return redirect()->back()->with('message', 'done!');
 
     }

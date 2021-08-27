@@ -4,17 +4,12 @@
 
     <button style="display:none" id="playBtn" onclick="soundPLay()" type="button"></button>
 
-    @if(Auth::guard('employee')->check() && auth()->user()->roles->first()->name() == 'Lab')
-    <audio id="sound">
+    <audio controls id="sound" style="display: none">
+        <source src="{{asset('assets/tunes/tune.mp3')}}" type="audio/ogg">
         <source src="{{asset('assets/tunes/tune.mp3')}}" type="audio/mpeg">
+        Your browser does not support the audio element.
     </audio>
 
-    @elseif (Auth::guard('employee')->check())
-
-    <audio id="sound">
-        <source src="{{asset('assets/tunes/tune.mp3')}}" type="audio/mpeg">
-    </audio>
-    @endif
 
     <!-- begin:: Aside -->
     <div class="kt-header__brand kt-grid__item" style="background: white" id="kt_header_brand">
@@ -54,10 +49,16 @@
                     </li>
                     <li class="kt-menu__item  kt-menu__item--active " aria-haspopup="true"><a href="{{route('dashboard.hr.index')}}" class="kt-menu__link "><span class="kt-menu__link-text">{{__('HR Management')}}</span></a></li>
                 @else
-                    <li class="kt-menu__item  kt-menu__item--active " aria-haspopup="true"><a class="kt-menu__link " onclick="document.getElementById('logout-form').submit();" href="javascript:" class="kt-menu__link "><span class="kt-menu__link-text">{{__('Log Out')}}</span></a></li>
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                        @csrf
-                    </form>
+                    <li class="kt-menu__item kt-menu__item--open kt-menu__item--here kt-menu__item--submenu kt-menu__item--rel" data-ktmenu-submenu-toggle="click" aria-haspopup="true"><a href="javascript:;" class="kt-menu__link kt-menu__toggle"><span class="kt-menu__link-text">{{__('Hi! ') . explode(' ',auth()->user()->name)[0]}}</span><i class="kt-menu__hor-arrow la la-angle-down"></i><i class="kt-menu__ver-arrow la la-angle-right"></i></a>
+                        <div class="kt-menu__submenu kt-menu__submenu--classic kt-menu__submenu--left">
+                            <ul class="kt-menu__subnav">
+                                <li class="kt-menu__item  kt-menu__item--submenu" data-ktmenu-submenu-toggle="hover" aria-haspopup="true"><a onclick="document.getElementById('logout-form').submit();" href="javascript:" class="kt-menu__link "><i class="kt-menu__link-icon fas fa-sign-out-alt"></i><span class="kt-menu__link-text">{{__('Log Out')}}</span></a></li>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    @csrf
+                                </form>
+                            </ul>
+                        </div>
+                    </li>
                 @endif
             </ul>
         </div>
@@ -69,38 +70,42 @@
     <div class="kt-header__topbar">
 
 
-    @php
-      if (Auth::guard('employee')->check() &&  (auth()->user()->is_master != 1))
-          {
+{{--    @php--}}
+{{--      if (Auth::guard('employee')->check() &&  (auth()->user()->is_master != 1))--}}
+{{--          {--}}
 
-             $type = 0;
+{{--             $type = 0;--}}
 
-             if ( auth()->user()->abilities()->contains("doctor_notifications") ){
-                 $notifictaions =  App\Employee::find(1)->unreadNotifications()->where('type','App\Notifications\ResultToDoctor')->get();
-             }elseif (auth()->user()->abilities()->contains("waiting_lab_notifications")){
-                 $notifictaions =  App\Employee::find(1)->unreadNotifications()->where('type','App\Notifications\WaitingLabNotification')->get();
-             }elseif (auth()->user()->abilities()->contains("create_patients") ){
-                     $notifictaions =  App\Employee::find(1)->unreadNotifications()->where('type','App\Notifications\HomeVisitNotification')->get();
-             }
+{{--             if ( auth()->user()->abilities()->contains("doctor_notifications") ){--}}
+{{--                 $notifictaions =  App\Employee::find(1)->unreadNotifications()->where('type','App\Notifications\ResultToDoctor')->get();--}}
+{{--             }elseif (auth()->user()->abilities()->contains("waiting_lab_notifications")){--}}
+{{--                 $notifictaions =  App\Employee::find(1)->unreadNotifications()->where('type','App\Notifications\WaitingLabNotification')->get();--}}
+{{--             }elseif (auth()->user()->abilities()->contains("create_patients") ){--}}
+{{--                     $notifictaions =  App\Employee::find(1)->unreadNotifications()->where('type','App\Notifications\HomeVisitNotification')->get();--}}
+{{--             }--}}
 
-          }elseif (Auth::guard('patient')->check())
-          {
-             $type = 1;
-             $notifictaions =  auth()->user()->unreadNotifications->where('notifiable_type','App\Patient');
-          }else
-          {
-             $type = 3;
-          }
-    @endphp
+{{--          }elseif (Auth::guard('patient')->check())--}}
+{{--          {--}}
+{{--             $type = 1;--}}
+{{--             $notifictaions =  auth()->user()->unreadNotifications->where('notifiable_type','App\Patient');--}}
+{{--          }else--}}
+{{--          {--}}
+{{--             $type = 3;--}}
+{{--          }--}}
+{{--    @endphp--}}
 
 
     <!--end: Search -->
-        @if ($type != 3)
+        @if (auth()->guard('employee')->check() || auth()->guard('patient')->check())
         <!--begin: Notifications -->
         <div class="kt-header__topbar-item dropdown">
 
             <div class="kt-header__topbar-wrapper" data-toggle="dropdown" data-offset="10px,0px">
-                <span class="kt-header__topbar-icon kt-header__topbar-icon--success"><i class="flaticon2-bell-alarm-symbol"></i> <span style="background:red;color:white;font-weight:bold;padding-right:8px;padding-left:8px;margin-bottom:20px;border-radius:25px" id="notif_count">{{$notifictaions->count()}}</span></span>
+                <span class="kt-header__topbar-icon kt-header__topbar-icon--success" id="notification-bell"><i class="flaticon2-bell-alarm-symbol"></i>
+                   @if(\App\Notification::authNotifications()->count() > 0)
+                        <span style="background:red;color:white;font-weight:bold;padding-right:8px;padding-left:8px;margin-bottom:20px;border-radius:25px" id="notification-counter">{{\App\Notification::authNotifications()->count()}}</span>
+                    @endif
+                </span>
                 <span class="kt-hidden kt-badge kt-badge--danger"></span>
             </div>
 
@@ -115,27 +120,20 @@
                     <div class="tab-content">
                         <div class="tab-pane active show" id="topbar_notifications_notifications" role="tabpanel">
                             <div id="notification_body" class="kt-notification kt-margin-t-10 kt-margin-b-10 kt-scroll" data-scroll="true" data-height="300" data-mobile-height="200">
-                                @foreach($notifictaions as $notifictaion)
-                                <a href="{{$notifictaion->data['url']}}" onclick="markRead('{{$notifictaion->id}}' , '{{$type}}')" class="kt-notification__item">
+                                @foreach(\App\Notification::authNotifications() as $notification)
+                                <a href="{{route('dashboard.notifications.mark_as_read', $notification->id)}}" class="kt-notification__item">
                                     <div class="kt-notification__item-icon">
-                                        <i class="flaticon2-bell-4 kt-font-success"></i>
+                                        <i class="{{$notification->data['icon']}} kt-font-{{$notification->data['class']}}"></i>
                                     </div>
                                     <div class="kt-notification__item-details">
                                         <div class="kt-notification__item-title">
-                                            <h4>  {{$notifictaion->data['message']}} </h4>
+                                            <h6>  {{$notification->data['title']}} </h6>
                                         </div>
                                         <div class="kt-notification__item-time">
-                                            {{$notifictaion->created_at->diffForHumans()}}
+                                            {{$notification->created_at->diffForHumans()}}
                                         </div>
                                     </div>
                                 </a>
-
-{{--                                @empty--}}
-
-{{--                                        <div class="kt-notification__item-details" style="text-align:center;margin-top:35%">--}}
-{{--                                        <h3>no new notifications</h3>--}}
-{{--                                        </div>--}}
-
                                 @endforeach
                             </div>
                         </div>
@@ -152,9 +150,8 @@
                     </div>
             </div>
         </div>
-
         <!--end: Notifications -->
-    @endif
+        @endif
 
     <!--begin: Quick actions -->
         @can('view_sittings')

@@ -1,17 +1,19 @@
 <?php
 
-use App\Models\Admin;
-use App\Models\Setting;
+use App\Admin;
+use App\Employee;
+use App\Notification;
+use App\Setting;
 use App\Notifications\NewNotification;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use App\Models\Category;
-use App\Models\Translation;
+use App\Category;
+use App\Translation;
 use Illuminate\Support\Facades\Session;
-use App\Models\Language;
+use App\Language;
 
 
 /*
@@ -25,14 +27,6 @@ if(!function_exists('getImagesPath')){
         $model = Str::plural($model);
         $model = Str::ucfirst($model);
         return asset('/storage/Images').'/'.$model.'/';
-    }
-}
-
-if(!function_exists('getAdminImagesPath')){
-    function getAdminImagesPath($model){
-        $model = Str::plural($model);
-        $model = Str::ucfirst($model);
-        return env('ZUMAX_ADMIN_LINK') . 'storage/Images/'.$model.'/';
     }
 }
 
@@ -92,181 +86,6 @@ if(!function_exists('deleteImage')){
 }
 
 
-if(!function_exists('getTransactionIds')){
-
-    //$request->file('image')
-
-    function getTransactionIds($obj){
-        $string = '';
-        foreach($obj as $ob){
-            $string = $string.$ob['id'].',';
-        }
-        return rtrim($string, ", ");
-    }
-}
-
-if(!function_exists('affiliteSetting')){
-
-
-
-    function affiliteSetting(){
-        return \App\Models\AffiliateSetting::first();
-    }
-}
-if(!function_exists('isTabOpen')){
-
-    //$request->file('image')
-
-    function isTabOpen($path){
-
-        if ( request()->segment(2)  === $path )
-            return 'menu-item-open';
-
-    }
-}
-
-if(!function_exists('findTemplate')){
-    function findTemplate(){
-        $templates = ["template1","template2"];
-        $url = (string)url()->previous();
-
-        foreach($templates as $temp){
-            if(strpos($url, $temp) !== false){
-                return $temp;
-            }
-        }
-    }
-}
-
-
-if(!function_exists('isTabActive')){
-
-    //$request->file('image')
-
-    function isTabActive($path){
-
-        if ( request()->segment(2) . request()->segment(3) === $path  ||  request()->segment(2) . '/'. request()->segment(3) === $path )
-            return 'menu-item-active';
-    }
-}
-
-if(!function_exists('isSettingTabActive')){
-//    dd(request()->segments());
-    function isSettingTabActive($path){
-
-        if ( request()->segment(3) === $path )
-            return 'active';
-    }
-}
-
-
-
-if(!function_exists('checkAuthentication')){
-
-    function checkAuthentication(){
-
-        auth()->guard('web')->check() ? null : abort(401);
-    }
-
-}
-
-
-
-function findPercentage($price,$discountPrice){
-    // $discountPrice = $discountPrice + $price;
-    return number_format(( ( (float)$discountPrice - (float)$price )  / (float)$price ) * 100,1);
-}
-
-function attribute_categories(){
-    return App\Models\AttributeCategory::get();
-}
-
-
-/**
- * Get nodel translation .
- * @param  \Illuminate\Http\Request
- * @return \Illuminate\Http\Response
- * Author : Wageh
- * created By Wagih @ 8-3-2021
- * Updated By Wagih @ 8-3-2021
- */
-if(!function_exists('getTranslation')){
-    function getTranslation($objectId, $model, $languageCode, $languageId){
-
-        $translations = Translation::where([
-            ['object_id', '=', $objectId],
-            ['model', '=', $model],
-            ['language_code', '=', $languageCode],
-            ['language_id', '=', $languageId],
-        ])->get();
-        return $translations;
-    }
-}
-
-
-if(!function_exists('getLanguages')){
-    function getLanguages(){
-        return \App\Models\Language::where('is_default', 0)->get();
-
-    }
-}
-
-/**
- * Forcedelete model translations .
- * @param  \Illuminate\Http\Request
- * @return \Illuminate\Http\Response
- * Author : Wageh
- * created By Wagih @ 10-3-2021
- * Updated By Wagih @ 10-3-2021
- */
-if(!function_exists('forceDeleteTranslations')){
-    function forceDeleteTranslations($objectId, $model){
-
-        $translations = Translation::where([
-            ['object_id', '=', $objectId],
-            ['model', '=', $model]
-        ])->withTrashed()->get();
-        foreach($translations as $translation){
-            $translation->forceDelete();
-        }
-        return $translations;
-    }
-}
-
-/**
- * Add new translation .
- * @param  \Illuminate\Http\Request
- * @return \Illuminate\Http\Response
- * Author : Wageh
- * created By Wagih @ 2-3-2021
- * Updated By Wagih @ 2-3-2021
- */
-if(!function_exists('addTranslation')){
-    function addTranslation($objectId, $model, $languageCode, $languageId, $string){
-        // Check if translated before
-        $counter = 0;
-        $translation = Translation::where([
-            ['object_id', '=', $objectId],
-            ['model', '=', $model],
-            ['language_code', '=', $languageCode],
-            ['language_id', '=', $languageId],
-        ])->first();
-        // If object is empty then add translation
-        if(empty($translation)){
-            Translation::create([
-                'object_id' => $objectId,
-                'model' => $model,
-                'language_code' => $languageCode,
-                'language_id' => $languageId,
-                'string' => serialize($string),
-            ]);
-        }else{
-            $counter++; // else add counter ++
-        }
-
-        return $counter;
-    }
-}
 
 /**
  * push firebase notification .
@@ -274,27 +93,36 @@ if(!function_exists('addTranslation')){
  * created By Khaled @ 15-06-2021
  */
 if(!function_exists('pushNotification')){
-    function pushNotification($title, $icon, $class, $url){
-        $date = \Carbon\Carbon::now()->diffForHumans();
-        $admin = Admin::first();
-        $notification = new NewNotification($title, $date, $icon, $class, $url);
-        $admin->notify($notification);
+    function pushNotification($patient = null){
+        if (!$patient){
+            /** Get Admin Last Notification **/
+            $notification = Employee::first()->unreadNotifications->first();
 
-        $firebaseToken = Admin::whereNotNull('device_token')->pluck('device_token')->all();
+            /** push notification only to interest employees if guard is employee**/
+            $tokensList = Employee::whereHas('roles', function (Builder $query) use ($notification) {
+                $query->where('label', employeeRole($notification->type));
+            })->whereNotNull('device_token')->pluck('device_token')->all();
+        }else{
+            $tokensList = [$patient->device_token];
+            $notification = $patient->unreadNotifications->first();
+        }
+
+
+
 
         $SERVER_API_KEY = serverKey();
 
         $data = [
-            "registration_ids" => $firebaseToken,
+            "registration_ids" => $tokensList,
             "notification" => [
-                "alert_title" => $title,
-                "title" => $title,
-                "date" => $date,
-                "alert_icon" => $icon ,
-                "icon" => asset('web/img/fav.png'),
-                "class" => $class,
-                "url" => $url,
-                "id" => $admin->notifications->last()->id,
+                "alert_title" => $notification->data['title'],
+                "title" => $notification->data['title'],
+                "date" => $notification->created_at->diffForHumans(),
+                "alert_icon" => $notification->data['icon'] ,
+                "icon" => asset(setting('logo_path')),
+                "class" => $notification->data['class'],
+                "url" => $notification->data['url'],
+                "id" => $notification->id,
             ]
         ];
 
@@ -319,19 +147,27 @@ if(!function_exists('pushNotification')){
     }
 }
 
-///**
-// * Get model translations .
-// * Author : khaled
-// * created By khaled @ 1-6-2021
-// * Updated By khaled @ 1-6-2021
-// */
-//if(!function_exists('allNotifications')){
-//    function allNotifications(){
-//
-//        $notifications = \App\Models\Admin::first()->notifications;
-//        return $notifications;
-//    }
-//}
+
+
+if(!function_exists('serverKey')){
+    function serverKey(){
+        return "AAAA4aN7mQ0:APA91bH2crrFOJLJt28hsyEgVbycqXN6MBqiSbGshszGr2YvL9HrIRenf1-LYYGpk-xmW3TAmmWHrS30ZQasD3ED6vq0tYv558zxtQ3opm82hyh3V2DwNF1vf6Xn394M1Ge2c_Zmo9yw";
+    }
+}
+
+if(!function_exists('employeeRole')){
+    function employeeRole($notificationType){
+        switch ($notificationType){
+            case 'App\Notifications\WaitingLabNotification':
+                return 'Lab';
+            case 'App\Notifications\ResultToDoctor':
+                return 'Doctor';
+            case 'App\Notifications\HomeVisitNotification':
+                return 'Receptionist';
+            default :
+                return 'Super Admin';
+        }    }
+}
 
 /**
  * Get Model Data To data Table .
@@ -423,7 +259,7 @@ if(!function_exists('getModelData')){
 
         }else{
 
-             $model->skip(($page - 1) * $per_page)
+            $model->skip(($page - 1) * $per_page)
                 ->take($per_page)->orderBy($order_field, $order_sort)
                 ->get();
         }
@@ -457,44 +293,5 @@ if(!function_exists('getModelData')){
         ];
 
         return $response;
-    }
-}
-
-
-if(!function_exists('sendFirebaseNotification')){
-    function sendFirebaseNotification( $notificationBody , $token = null , $tokens = [] ){
-
-
-        $SERVER_API_KEY = serverKey();
-
-        $data = [
-            "notification" => [
-                "title" => 'Aglha',
-                "body" => $notificationBody,
-                "sound"=> "default"
-            ],
-        ];
-
-        if ($token == null){
-
-            $data['registration_ids'] = $tokens;
-
-        }else{
-
-            $data['to'] = $token;
-        }
-
-
-        Http::withHeaders([
-            'Authorization' => 'key=' . $SERVER_API_KEY,
-            'Content-Type' => 'application/json'
-        ])->post('https://fcm.googleapis.com/fcm/send', $data);
-
-    }
-}
-
-if(!function_exists('serverKey')){
-    function serverKey(){
-        return "AAAAv1cVwJQ:APA91bGMf0m9tBjRyaWFZlvEiqEkT4WqXcjt-N3oLP04V1wdLYFE7YssiGiPWWdz5fVs5-R_2CaB4cHRYdqyt0daxBDbFTBFm5NnoEO8JL4q7fKG-8sDEGAeZE_UK9XzCCHvUYyQ89H8";
     }
 }

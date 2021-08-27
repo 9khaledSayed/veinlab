@@ -31,6 +31,7 @@ class CreatePatientsTable extends Migration
             $table->string('weight')->nullable();
             $table->string('height')->nullable();
             $table->integer('visit_no')->default(1);
+            $table->string('device_token')->nullable();
             $table->softDeletes();
             $table->rememberToken();
             $table->timestamps();

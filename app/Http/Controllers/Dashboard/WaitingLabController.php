@@ -123,10 +123,8 @@ class WaitingLabController extends Controller
 
 
     public function disApprove($id){
-        $waitingLab = WaitingLab::find($id);
-        $employee = Employee::find(1);
-        $link = "/dashboard/results/".$waitingLab->id."/edit";
-        Notification::send( $employee , new WaitingLabNotification($link,"إعاده رصد نتائج"));
+        Employee::first()->notify(new WaitingLabNotification("تم رفض تحليل ويجب اعادة رصد النتيجة مرة اخرى", 'flaticon-warning-sign',"warning", route('dashboard.results.edit', $id)));
+        pushNotification();
     }
 
 
@@ -336,7 +334,8 @@ class WaitingLabController extends Controller
             ]);
         }
 
-        Notification::send( Employee::find(1) , new WaitingLabNotification("/dashboard/waiting_labs" , "مريض جديد قادم الأن !"));
+        Employee::first()->notify(new WaitingLabNotification());
+        pushNotification();
     }
 
     public function assignTransfer(Request $request, $price)

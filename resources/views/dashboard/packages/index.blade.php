@@ -71,7 +71,7 @@
                                 </div>
                                 <div class="kt-pricing-4__bottom-item">
                                     @foreach(unserialize($package->main_analysis) as $id)
-                                        {{ \App\MainAnalysis::find($id)->general_name}} ,
+                                        {{ \App\MainAnalysis::withTrashed()->find($id)->general_name}} ,
                                     @endforeach
                                 </div>
                                 <div class="kt-pricing-4__bottom-item">

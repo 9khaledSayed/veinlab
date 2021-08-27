@@ -54,6 +54,7 @@ return array(
     'App\\Http\\Controllers\\Dashboard\\MainAnalysisController' => $baseDir . '/app/Http/Controllers/Dashboard/MainAnalysisController.php',
     'App\\Http\\Controllers\\Dashboard\\NationalityController' => $baseDir . '/app/Http/Controllers/Dashboard/NationalityController.php',
     'App\\Http\\Controllers\\Dashboard\\NormalRangeController' => $baseDir . '/app/Http/Controllers/Dashboard/NormalRangeController.php',
+    'App\\Http\\Controllers\\Dashboard\\NotificationController' => $baseDir . '/app/Http/Controllers/Dashboard/NotificationController.php',
     'App\\Http\\Controllers\\Dashboard\\PackageController' => $baseDir . '/app/Http/Controllers/Dashboard/PackageController.php',
     'App\\Http\\Controllers\\Dashboard\\PatientController' => $baseDir . '/app/Http/Controllers/Dashboard/PatientController.php',
     'App\\Http\\Controllers\\Dashboard\\ProfileController' => $baseDir . '/app/Http/Controllers/Dashboard/ProfileController.php',

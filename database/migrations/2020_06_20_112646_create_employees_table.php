@@ -46,6 +46,7 @@ class CreateEmployeesTable extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->boolean('is_master')->default(false);
+            $table->string('device_token')->nullable();
             $table->softDeletes();
             $table->rememberToken();
             $table->timestamps();

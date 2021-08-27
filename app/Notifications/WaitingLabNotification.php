@@ -2,6 +2,8 @@
 
 namespace App\Notifications;
 
+use App\Employee;
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -11,13 +13,18 @@ class WaitingLabNotification extends Notification
 {
     use Queueable;
 
+    public $title;
+    public $date;
+    public $icon;
+    public $class;
     public $url;
-    public $message;
-    public function __construct($link ,$message)
-    {
-       $this->url     = $link;
 
-        $this->message = $message;
+    public function __construct($title = "يوجد لديك تحاليل جديدة في المختبر", $icon = 'fas fa-flask', $class = "success", $url = "/dashboard/waiting_labs")
+    {
+        $this->title = $title;
+        $this->icon = $icon;
+        $this->class = $class;
+        $this->url = $url;
     }
 
 
@@ -49,8 +56,11 @@ class WaitingLabNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-            'url' =>$this->url,
-            'message' =>$this->message,
+            'title' => $this->title,
+            'date' => $this->date,
+            'icon' => $this->icon,
+            'class' => $this->class,
+            'url' => $this->url,
         ];
     }
 }

@@ -65,6 +65,7 @@ Route::prefix('dashboard')->name('dashboard.')->namespace('Dashboard')->middlewa
     Route::get('hospital_revenue/{hospital}/create', 'RevenueController@createHospitalRevenue')->name('revenue.createHospitalRevenue');
     Route::post('hospital_revenue/{hospital}/store', 'RevenueController@storeHospitalRevenue')->name('revenue.storeHospitalRevenue');
     Route::get('nationalities/{id}/restore', 'NationalityController@restore')->name('nationalities.restore');
+
     Route::resources([
         'main_analysis'  => 'MainAnalysisController',
         'patients'       => 'PatientController',
@@ -75,6 +76,9 @@ Route::prefix('dashboard')->name('dashboard.')->namespace('Dashboard')->middlewa
         'roles'          => 'RoleController',
     ]);
 
+    /**For Firebase Notifications**/
+    Route::post('/save-token', 'Dashboard@saveToken')->name('save-token');
+    Route::get('notifications/{id}/mark_as_read', 'NotificationController@markAsRead')->name('notifications.mark_as_read');
 });
 
 Route::get('sub_analysis/getSubAnalysis','Dashboard\SubAnalysisController@getSubAnalysis');
@@ -108,53 +112,15 @@ Route::get('/alterTables', function (){
 //   \Illuminate\Support\Facades\Artisan::call('migrate --path=/database/migrations/2021_07_16_172539_add_columns_to_waiting_labs_table.php');
 //    \Illuminate\Support\Facades\Artisan::call('migrate --path=/database/migrations/2021_08_20_152821_add_approved_date_to_invoices__table.php');
 //    \Illuminate\Support\Facades\Artisan::call('migrate --path=/database/migrations/2021_08_21_174642_alter_hospitals__table.php');
-    \Illuminate\Support\Facades\Artisan::call('migrate --path=/database/migrations/2021_08_23_230843_create_hospital_main_analyses_table.php');
+//    \Illuminate\Support\Facades\Artisan::call('migrate --path=/database/migrations/2021_08_23_230843_create_hospital_main_analyses_table.php');
+    \Illuminate\Support\Facades\Artisan::call('migrate --path=/database/migrations/2021_08_27_163827_add_device_token_to_employees__table.php');
+    \Illuminate\Support\Facades\Artisan::call('migrate --path=/database/migrations/2021_08_28_004635_add_device_token_to_patients__table.php');
    dd('done');
 });
+Route::get('/pushNotification', function () {
 
-Route::get('/mig', function () {
-    \Illuminate\Support\Facades\Artisan::call('migrate --path=/database/migrations/2021_08_20_152821_add_approved_date_to_invoices__table.php');
-    \Illuminate\Support\Facades\Artisan::call('migrate --path=/database/migrations/2021_08_21_174642_alter_hospitals__table.php');
-});
-
-Route::get('/mig2', function () {
-    \App\Template::where('type', 8)->get()->first()->update([
-        'body' => '<div class=\"container\">\r\n<div class=\"row d-flex justify-content-between p-2 mb-5\" style=\"border-width: 4px 0; border-style: solid;\">\r\n<div class=\"col\" style=\"width: fit-content;\">\r\n<h6 class=\"text-left text-small\">Request Date : <strong>%%invoice.date%%</strong></h6>\r\n<h6 class=\"text-left text-small\">Reporting Date : <strong>%%invoice.approved_date%%</strong></h6>\r\n<div style=\"margin: auto;\"><img src=\"%%invoice.barcode%%\" alt=\"barcode\" /></div>\r\n</div>\r\n<div class=\"col\"><img class=\"d-block m-auto\" src=\"%%others.logo_url%%\" alt=\"شعار الشركة\" width=\"100\" height=\"100\" /></div>\r\n<div class=\"col\" style=\"width: fit-content;\">\r\n<div class=\"row\">\r\n<div class=\"col-6 text-center\">Patient Name</div>\r\n<div class=\"col-6 text-center\">&nbsp;<strong>%%patient.arabic_name%%</strong></div>\r\n</div>\r\n<div class=\"row\">\r\n<div class=\"col-6 text-center\">Gender / Age</div>\r\n<div class=\"col-6 text-center\">&nbsp;<strong>%%patient.gender%%</strong> / <strong>%%patient.age%%</strong> years</div>\r\n</div>\r\n<div class=\"row\">\r\n<div class=\"col-6 text-center\">Referred By</div>\r\n<div class=\"col-6 text-center\">&nbsp;<strong>%%invoice.doctor%%</strong></div>\r\n</div>\r\n</div>\r\n</div>\r\n&nbsp;<strong>%%analysis.analysis_results_tables%%</strong></div>'
-    ]);
-
-    dd('done');
-});
-Route::get('/init', function (){
+    pushNotification('هناك مستخدم جديد قام بالتسجيل','flaticon2-user', 'success', '/dashboard/users/11', 'test');
+    dd('notification pushed');
+})->name('index');
 
 
-
-
-    //{
-    $employee1 = \App\Employee::create([
-        'fname_arabic'      => 'Talal',
-        'lname_arabic'      => 'Moahmed',
-        'fname_english'      => 'Talal',
-        'lname_english'      => 'Mohammed',
-        'birthdate'      => '2020-08-01',
-        'joined_date'      => '2020-08-01',
-        'nationality_id'      => '0',
-        'branch_id'      => '1',
-        'id_num'      => '54566546544',
-        'emp_num'      => '2000',
-        'contract_type'      => '1',
-        'start_date'      => '2020-08-01',
-        'contract_period'      => '12',
-        'basic_salary'      => '3000',
-        'phone'      => '01021212121',
-        'is_master'      => true,
-        'shift_type'   =>1,
-        'email'     => 'Talal.mooh305@gmail.com',
-        'password'  => \Illuminate\Support\Facades\Hash::make('12345678'),
-    ]);
-    $Super_Admin = \App\Role::find(1);
-    $employee1->assignRole($Super_Admin);
-
-   dd('done');
-});
-
-Route::view('new_result', 'new_result');

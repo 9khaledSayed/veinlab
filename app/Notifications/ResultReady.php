@@ -16,17 +16,27 @@ class ResultReady extends Notification
     public $analysis_url;
     public $email;
     public $patient_name ;
+    public $title;
+    public $date;
+    public $icon;
+    public $class;
+    public $url;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($analysis_url ,Patient $patient)
+    public function __construct(Patient $patient, $invoiceId)
     {
-        $this->analysis_url = $analysis_url;
+        $this->analysis_url = route('dashboard.results.show', $invoiceId);
         $this->email = $patient->email;
         $this->patient_name  = $patient->name;
+
+        $this->title = "لقد تم الأنتهاء من نتائج التحليل الخاص بك";
+        $this->icon = 'fas fa-file-invoice';
+        $this->class = 'success';
+        $this->url = route('dashboard.results.show', $invoiceId);
     }
 
     /**
@@ -37,7 +47,7 @@ class ResultReady extends Notification
      */
     public function via($notifiable)
     {
-        return ['database','mail'];
+        return ['database'];
     }
 
     /**
@@ -62,8 +72,11 @@ class ResultReady extends Notification
     public function toArray($notifiable)
     {
         return [
-            'url' =>$this->analysis_url,
-            'message' =>'لقد تم الأنتهاء من نتائج التحليل الخاص بك',
+            'title' => $this->title,
+            'date' => $this->date,
+            'icon' => $this->icon,
+            'class' => $this->class,
+            'url' => $this->url,
         ];
     }
 }

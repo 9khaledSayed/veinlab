@@ -39,8 +39,8 @@ Route::prefix('dashboard/hr')->name('dashboard.hr.')->namespace('Hr')->middlewar
     Route::get('trip/create', 'RequestsController@createTripReq')->name('trip.create');
     Route::get('debt/create', 'RequestsController@createDebtReq')->name('debt.create');
     Route::get('complaint/create', 'RequestsController@createComplaintReq')->name('complaint.create');
-    Route::get('requests/mine', 'RequestsController@myRequests');
-    Route::get('requests/pending', 'RequestsController@pendingRequests');
+    Route::get('requests/mine', 'RequestsController@myRequests')->name('requests.mine');
+    Route::get('requests/pending', 'RequestsController@pendingRequests')->name('requests.pending');
     Route::get('requests/finished', 'RequestsController@finishedRequests');
     Route::get('vacations/mine', 'VacactionController@myVacations');
     Route::get('vacations', 'VacactionController@Vacations');

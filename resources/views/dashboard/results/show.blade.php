@@ -169,11 +169,11 @@
 
 
                             @if($waiting_lab->results->count() > 0)
-                                @can('reject_results')
+{{--                                @can('reject_results')--}}
                                     <form  data-id = "{{$waiting_lab->id}}"  data-analysis = "{{$waiting_lab->main_analysis->general_name}}" style="text-align:center"  class="mb-5 mt-5">
                                         <button type="submit"  class="btn btn-danger font-weight-bold btnprn" >{{__('Disapprove')}}</button>
                                     </form>
-                                @endcan
+{{--                                @endcan--}}
                             @endif
                         @endforeach
                     </div>

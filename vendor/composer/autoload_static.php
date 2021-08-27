@@ -782,6 +782,7 @@ class ComposerStaticInitdc60bbecde18435f8840b46044e45f73
         'App\\Http\\Controllers\\Dashboard\\MainAnalysisController' => __DIR__ . '/../..' . '/app/Http/Controllers/Dashboard/MainAnalysisController.php',
         'App\\Http\\Controllers\\Dashboard\\NationalityController' => __DIR__ . '/../..' . '/app/Http/Controllers/Dashboard/NationalityController.php',
         'App\\Http\\Controllers\\Dashboard\\NormalRangeController' => __DIR__ . '/../..' . '/app/Http/Controllers/Dashboard/NormalRangeController.php',
+        'App\\Http\\Controllers\\Dashboard\\NotificationController' => __DIR__ . '/../..' . '/app/Http/Controllers/Dashboard/NotificationController.php',
         'App\\Http\\Controllers\\Dashboard\\PackageController' => __DIR__ . '/../..' . '/app/Http/Controllers/Dashboard/PackageController.php',
         'App\\Http\\Controllers\\Dashboard\\PatientController' => __DIR__ . '/../..' . '/app/Http/Controllers/Dashboard/PatientController.php',
         'App\\Http\\Controllers\\Dashboard\\ProfileController' => __DIR__ . '/../..' . '/app/Http/Controllers/Dashboard/ProfileController.php',
