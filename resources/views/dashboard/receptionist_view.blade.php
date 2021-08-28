@@ -55,7 +55,7 @@
                             <div class="kt-widget24__info">
                                 <a href="{{route('dashboard.patients.create')}}">
                                     <h4 class="kt-widget24__title">
-                                        {{__('New Account With Invoice')}}
+                                        {{__('New Account')}}
                                     </h4>
                                 </a>
                             </div>
