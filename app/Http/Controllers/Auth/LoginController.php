@@ -11,7 +11,11 @@ use Auth;
 class LoginController extends Controller
 {
 
-    use AuthenticatesUsers;
+    use AuthenticatesUsers {
+
+        logout as performLogout;
+
+    }
 
     protected $redirectTo = RouteServiceProvider::HOME;
 
@@ -93,5 +97,17 @@ class LoginController extends Controller
     }
     /*end::Patient Login*/
 
+
+
+    public function logout(Request $request)
+    {
+        if (auth()->guard('employee')->check()){
+            $this->performLogout($request);
+            return redirect('/login/employee');
+        }else{
+            $this->performLogout($request);
+            return redirect('/');
+        }
+    }
 
 }

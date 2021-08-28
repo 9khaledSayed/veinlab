@@ -64,21 +64,11 @@
                                         </div>
                                     </div>
                                 </div>
-{{--                                    <div class="col-md-4 kt-margin-b-20-tablet-and-mobile">--}}
-{{--                                        <div class="kt-form__group kt-form__group--inline">--}}
-{{--                                            <div class="kt-form__label">--}}
-{{--                                                <label>{{__('Date')}}:</label>--}}
-{{--                                            </div>--}}
-{{--                                            <div class="kt-form__control">--}}
-{{--                                                <select class="form-control bootstrap-select" id="kt_form_date">--}}
-{{--                                                    <option value="">{{__('All')}}</option>--}}
-{{--                                                    <option value="1">{{__('Today')}}</option>--}}
-{{--                                                    <option value="2">{{__('Last Week')}}</option>--}}
-{{--                                                    <option value="3">{{__('Last Month')}}</option>--}}
-{{--                                                </select>--}}
-{{--                                            </div>--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
+                                <div class="col-md-4 kt-margin-b-20-tablet-and-mobile">
+                                    <div class="kt-form__group kt-form__group--inline">
+                                        <a href="{{route('dashboard.waiting_labs.hide_all_finished')}}" type="button" class="btn btn-success btn-elevate btn-pill"><i class="fa fa-archive"></i>{{__('Archive all finished analyses')}}</a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

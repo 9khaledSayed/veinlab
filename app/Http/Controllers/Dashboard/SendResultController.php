@@ -5,15 +5,13 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Invoice;
 use App\Patient;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Notification;
 use SnappyPDF;
 use App;
 use Illuminate\Support\Facades\Redirect;
 
-class SmsController extends Controller
+class SendResultController extends Controller
 {
 //    public function store(Request $request)
 //    {
@@ -47,55 +45,29 @@ class SmsController extends Controller
 //    }
 
 
-    public function approve(Request $request)
+
+    public function sendViaWhatsapp(Invoice $invoice)
     {
 
-        $invoice_id   = $request->invoice_id;
-
-        $invoice = Invoice::find($invoice_id);
-        $invoice->doctor = Auth::guard('employee')->user()->fullname();
-        $invoice->approved = 1;
-        $invoice->approved_date = Carbon::now();
-        $invoice->save();
-
-        $patient = $invoice->patient;
-
-        $patient->notify(new App\Notifications\ResultReady($patient, $invoice_id));
-        pushNotification($patient);
-    }
-    public function sendSms_Noti(Request $request)
-    {
-
-
-        $patient_id   = $request->patient_id;
-        $invoice_id   = $request->invoice_id;
-
-
-        $invoice = Invoice::find($invoice_id);
         $invoice->doctor = Auth::guard('employee')->user()->fullname();
         $invoice->approved = 1;
         $invoice->save();
 
-        $patient   = Patient::find($patient_id);
+        $this->SendPdf($invoice);
 
-        $this->SendPdf($request);
-        $patient->notify(new App\Notifications\ResultReady($patient, $invoice_id));
-        pushNotification($patient);
-
-        return Redirect::to('https://hiwhats.com/API/send?mobile=966554121213&password=446c8f5d3&instanceid=19239&message=لقد تم الأنتهاء من رصد النتائج الخاصه بك مختبرات فين تتمني لك الشفاء العاجل باذت الله&numbers=201007949946&json=1&type=1');
+        return Redirect::to('https://hiwhats.com/API/send?mobile=966554121213&password=446c8f5d3&instanceid=19239&message=لقد تم الأنتهاء من رصد النتائج الخاصة بك مختبرات فين تتمني لك الشفاء العاجل باذت الله&numbers=201024098963&json=1&type=1');
 
     }
 
-    public function SendPdf(Request $request)
+    public function SendPdf($invoice)
     {
-        $patient_id   = $request->patient_id;
-        $invoice_id   = $request->invoice_id;
 
-        $data = $this->getResult($invoice_id);
+
+        $data = $this->getResult($invoice->id);
 
         $pdf  = App::make('snappy.pdf.wrapper');
         $pdf->loadView('dashboard.results.pdf', $data);
-        $path = 'public/results/result_'.$patient_id.$invoice_id.'.pdf';
+        $path = 'public/results/result_'. $invoice->patient_id . $invoice->id.'.pdf';
         $filename = base_path($path);
         $pdf->save($filename);
 
@@ -148,6 +120,27 @@ class SmsController extends Controller
 
         return $data;
 
+    }
+
+    public function sendViaEmail(Invoice $invoice)
+    {
+        $patient = $invoice->patient;
+        $patient->notify(new App\Notifications\ResultReady($patient, $invoice->id, ['mail']));
+
+        return response()->json([
+            'success' => true
+        ]);
+    }
+
+    public function sendViaWebNotification(Invoice $invoice)
+    {
+        $patient = $invoice->patient;
+        $patient->notify(new App\Notifications\ResultReady($patient, $invoice->id, ['database']));
+        pushNotification($patient);
+
+        return response()->json([
+            'success' => true
+        ]);
     }
 
 }

@@ -419,4 +419,14 @@ class WaitingLabController extends Controller
         $request->validate($rules);
     }
 
+    public function hideAllFinished()
+    {
+
+        WaitingLab::where('result', 2)->update([
+            'result' => 3
+        ]);
+
+        return redirect()->back();
+    }
+
 }

@@ -21,13 +21,14 @@ class ResultReady extends Notification
     public $icon;
     public $class;
     public $url;
+    public $channels;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(Patient $patient, $invoiceId)
+    public function __construct(Patient $patient, $invoiceId, $channels = ['mail', 'database'])
     {
         $this->analysis_url = route('dashboard.results.show', $invoiceId);
         $this->email = $patient->email;
@@ -37,6 +38,7 @@ class ResultReady extends Notification
         $this->icon = 'fas fa-file-invoice';
         $this->class = 'success';
         $this->url = route('dashboard.results.show', $invoiceId);
+        $this->channels = $channels;
     }
 
     /**
@@ -47,7 +49,7 @@ class ResultReady extends Notification
      */
     public function via($notifiable)
     {
-        return ['database'];
+        return $this->channels;
     }
 
     /**

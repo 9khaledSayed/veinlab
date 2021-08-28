@@ -30,13 +30,18 @@ Route::prefix('dashboard')->name('dashboard.')->namespace('Dashboard')->middlewa
     Route::any('settings/offers', 'SettingsController@offers')->name('settings.offers');
     Route::any('settings/tax', 'SettingsController@tax')->name('settings.tax');
     Route::get('waiting_labs/archives', 'WaitingLabController@archives')->name('waiting_labs.archives');
+    Route::get('waiting_labs/hide_all_finished', 'WaitingLabController@hideAllFinished')->name('waiting_labs.hide_all_finished');
     Route::match(['get', 'post'],"roles/create_assignment","RoleController@create_assignment")->name('roles.create_assignment');
     Route::match(['get', 'post'],"roles/edit_assignment/{id}","RoleController@edit_assignment")->name('roles.edit_assignment');
     Route::get("roles/assigned_employees","RoleController@assigned_employees")->name('roles.assigned_employees');
     Route::get("roles/assigned_employees/{id}","RoleController@assigned_roles");
     Route::get('invoices/print/{id}', 'InvoiceController@print')->name('invoices.print');
-    Route::post("approve_result","SmsController@approve");
-    Route::post("sendWsms","SmsController@sendSms_Noti");
+    Route::post("approve_result","ResultController@approve");
+    /** send result to patient **/
+    Route::post("results/{invoice}/send_via_whatsapp","SendResultController@sendViaWhatsapp");
+    Route::post("results/{invoice}/send_via_email","SendResultController@sendViaEmail");
+    Route::post("results/{invoice}/send_via_web_notification","SendResultController@sendViaWebNotification");
+
     Route::get('results/print/{id}', 'ResultController@print')->name('results.print');
     Route::get('profits', 'ProfitController@index')->name('profits.index');
     Route::get('statistics', 'StatisticsController@index')->name('statistics.index');
@@ -123,4 +128,6 @@ Route::get('/pushNotification', function () {
     dd('notification pushed');
 })->name('index');
 
+
+Route::view('new_result', 'new_result');
 

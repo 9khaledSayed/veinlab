@@ -6,6 +6,7 @@ use App\Employee;
 use App\Invoice;
 use App\MainAnalysis;
 use App\Notes;
+use App\Notifications\ResultReady;
 use App\Notifications\ResultToDoctor;
 use App\Patient;
 use App\Result;
@@ -156,6 +157,9 @@ class ResultController extends Controller implements FromCollection , WithHeadin
     {
 
         $invoice = Invoice::find($id);
+
+        abort_if(!$invoice, 404);
+
         $data = [
             'doctor' => $invoice->doctor,
             'gender' => $invoice->patient->gender,
@@ -229,17 +233,27 @@ class ResultController extends Controller implements FromCollection , WithHeadin
             }
         }
 
-        if (isset($waiting_lab->notes)){
-            $waiting_lab->notes->update([
-                'lab_notes' =>$request->lab_notes
-            ]);
-        }elseif(isset($request->lab_notes)){
-            Notes::create([
-                'main_analysis_id' => $main_analysis->id,
-                'waiting_lab_id'   => $waiting_lab->id,
-                'lab_notes'        => $request->lab_notes
-            ]);
+
+        if ($request->has('lab_notes')){ /** if request includes lab notes **/
+
+            if (isset($waiting_lab->notes)){ /** update if exists **/
+
+                $waiting_lab->notes->update([
+                    'lab_notes' => $request->lab_notes
+                ]);
+
+            }elseif(isset($request->lab_notes)){ /** create if not exists **/
+
+                Notes::create([
+                    'main_analysis_id' => $main_analysis->id,
+                    'waiting_lab_id'   => $waiting_lab->id,
+                    'lab_notes'        => $request->lab_notes
+                ]);
+
+            }
         }
+
+
         if($i<=0 && !isset($waiting_lab->notes)){
             $waiting_lab->update([
                 'status'    => 1,
@@ -271,7 +285,9 @@ class ResultController extends Controller implements FromCollection , WithHeadin
 
     public function print($id)
     {
-        $invoice = Invoice::find($id);
+        $waitingLab = WaitingLab::find($id);
+
+        $invoice = $waitingLab->invoice;
         $patient = $invoice->patient;
         $template = Template::where('type', 8)->first();
         if($invoice->pay_method == config('enums.payMethod.cash'))
@@ -289,7 +305,7 @@ class ResultController extends Controller implements FromCollection , WithHeadin
                 'age' => $patient->age,
                 'id' => $patient->id
             ],
-            'analysis' => ['analysis_results_tables' => $template->analysis_results_tables($invoice)],
+            'analysis' => ['analysis_results_tables' => $template->analysis_results_tables($waitingLab)],
             'others' => $template->others_results(),
             'invoice' => [
                 'date' => $invoice->created_at->format('Y-m-d h:i A'),
@@ -330,6 +346,17 @@ class ResultController extends Controller implements FromCollection , WithHeadin
     public function export()
     {
         return Excel::download(new ResultController() , 'النتائج.xls');
+    }
+
+
+    public function approve(Request $request)
+    {
+        $invoice_id   = $request->invoice_id;
+        $invoice = Invoice::find($invoice_id);
+        $invoice->doctor = Auth::guard('employee')->user()->fullname();
+        $invoice->approved = 1;
+        $invoice->approved_date = Carbon::now();
+        $invoice->save();
     }
 
 }

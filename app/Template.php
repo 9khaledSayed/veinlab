@@ -100,14 +100,15 @@ class Template extends Model
         ];
     }
 
-    public function analysis_results_tables(Invoice $invoice)
+    public function analysis_results_tables(WaitingLab $waitingLab)
     {
         $content = '';
         $cultivationContent = '';
-        $waiting_labs = $invoice->waiting_labs;
-        $gender = $waiting_labs[0]->patient->gender;
+        $gender = $waitingLab->patient->gender;
 
-        $content = '<table class="table text-center">
+        $content = '
+                <h4 class="text-center mb-3" style="text-decoration: underline">' . $waitingLab->main_analysis->general_name . '</h4>
+                <table class="table text-center">
                         <thead class="text-center">
                             <tr>
                                 <th scope="col">Test</th>
@@ -118,9 +119,9 @@ class Template extends Model
                         </thead>
                     <tbody>';
 
-        foreach($waiting_labs as $waiting_lab){
 
-            foreach ($waiting_lab->results->groupBy('classification') as $classification => $results) {
+
+       foreach ($waitingLab->results->groupBy('classification') as $classification => $results) {
 
                 foreach($results as $result){
                     $bgClass = $classification == $result->sub_analysis->name ? 'bg-grey' : '';
@@ -138,69 +139,68 @@ class Template extends Model
             }
 
 
-            /** check cultivation **/
-            if ($waiting_lab->main_analysis->has_cultivation){
-                $cultivationContent .=
-                        "<div class='d-flex flex-column align-items-start' style='direction: ltr'>
-                            <h3 style='text-decoration: underline'>Cultivation</h3>
-                            <p style='font-size: 18px'>On cultivation of the received specimen on the relevant media and after 24 hours of aerobic incubation, and sub-culturing suspicious colonies on selective media, the following was revealed.</p>
-                        </div>
-                        <div class='text-center ' style='padding:10px; border: 1px solid; margin: auto;font-weight: 900; font-size: 18px'>
-                            $waiting_lab->cultivation
-                        </div>";
+        /** check cultivation **/
+        if ($waitingLab->main_analysis->has_cultivation){
+            $cultivationContent .=
+                    "<div class='d-flex flex-column align-items-start' style='direction: ltr'>
+                        <h3 style='text-decoration: underline'>Cultivation</h3>
+                        <p style='font-size: 18px'>On cultivation of the received specimen on the relevant media and after 24 hours of aerobic incubation, and sub-culturing suspicious colonies on selective media, the following was revealed.</p>
+                    </div>
+                    <div class='text-center ' style='padding:10px; border: 1px solid; margin: auto;font-weight: 900; font-size: 18px'>
+                        $waitingLab->cultivation
+                    </div>";
 
-                /** High Sensitive to **/
-                if ($waiting_lab->growth_status == 'growth') {
-                    $cultivationContent .= '<div style="direction: ltr ; text-align: left; margin-top: 20px">
-                                        <h2>The growth is highly Sensitive to: </h2>
-                                        <table class="table-bordered text-left" style="font-size: 25px">
-                                            <tbody>
-                                                <tr>';
+            /** High Sensitive to **/
+            if ($waitingLab->growth_status == 'growth') {
+                $cultivationContent .= '<div style="direction: ltr ; text-align: left; margin-top: 20px">
+                                    <h2>The growth is highly Sensitive to: </h2>
+                                    <table class="table-bordered text-left" style="font-size: 25px">
+                                        <tbody>
+                                            <tr>';
 
-                    foreach ($waiting_lab->high_sensitive_to as $key => $highSensitiveTo) {
-                        $cultivationContent .= '<td class="p-3">' . ($key + 1) . '</td> <td class="p-3">' . $highSensitiveTo['name'] . '</td>';
-                    }
-
-                    $cultivationContent .= "          </tbody>
-                                        </table>
-                                    </div>";
-
-                    /** Moderate Sensitive to **/
-                    $cultivationContent .= '<div style="direction: ltr ; text-align: left; margin-top: 20px">
-                                        <h2>The growth is Moderate Sensitive to: </h2>
-                                        <table class="table-bordered text-left" style="font-size: 25px">
-                                            <tbody>
-                                                <tr>';
-
-                    foreach ($waiting_lab->moderate_sensitive_to as $key => $moderateSensitiveTo) {
-                        $cultivationContent .= '<td class="p-3">' . ($key + 1) . '</td> <td class="p-3">' . $moderateSensitiveTo['name']. '</td>';
-                    }
-
-                    $cultivationContent .= "          </tbody>
-                                        </table>
-                                    </div>";
-
-                    /** Resistant to **/
-                    $cultivationContent .= '<div style="direction: ltr ; text-align: left; margin-top: 20px">
-                                        <h2>The growth is Resistant to: </h2>
-                                        <table class="table-bordered text-left" style="font-size: 25px">
-                                            <tbody>
-                                                <tr>';
-
-                    foreach ($waiting_lab->resistant_to as $key => $resistantTo) {
-                        $cultivationContent .= '<td class="p-3">' . ($key + 1) . '</td> <td class="p-3">' . $resistantTo['name']. '</td>';
-                    }
-
-                    $cultivationContent .= "          </tbody>
-                                        </table>
-                                    </div>";
+                foreach ($waitingLab->high_sensitive_to as $key => $highSensitiveTo) {
+                    $cultivationContent .= '<td class="p-3">' . ($key + 1) . '</td> <td class="p-3">' . $highSensitiveTo['name'] . '</td>';
                 }
 
+                $cultivationContent .= "          </tbody>
+                                    </table>
+                                </div>";
+
+                /** Moderate Sensitive to **/
+                $cultivationContent .= '<div style="direction: ltr ; text-align: left; margin-top: 20px">
+                                    <h2>The growth is Moderate Sensitive to: </h2>
+                                    <table class="table-bordered text-left" style="font-size: 25px">
+                                        <tbody>
+                                            <tr>';
+
+                foreach ($waitingLab->moderate_sensitive_to as $key => $moderateSensitiveTo) {
+                    $cultivationContent .= '<td class="p-3">' . ($key + 1) . '</td> <td class="p-3">' . $moderateSensitiveTo['name']. '</td>';
+                }
+
+                $cultivationContent .= "          </tbody>
+                                    </table>
+                                </div>";
+
+                /** Resistant to **/
+                $cultivationContent .= '<div style="direction: ltr ; text-align: left; margin-top: 20px">
+                                    <h2>The growth is Resistant to: </h2>
+                                    <table class="table-bordered text-left" style="font-size: 25px">
+                                        <tbody>
+                                            <tr>';
+
+                foreach ($waitingLab->resistant_to as $key => $resistantTo) {
+                    $cultivationContent .= '<td class="p-3">' . ($key + 1) . '</td> <td class="p-3">' . $resistantTo['name']. '</td>';
+                }
+
+                $cultivationContent .= "          </tbody>
+                                    </table>
+                                </div>";
             }
+
         }
 
-       if ($waiting_labs->first()->notes){
-           $notes = $waiting_labs->first()->notes->lab_notes;
+       if ($waitingLab->notes){
+           $notes = $waitingLab->notes->lab_notes;
        }else{
            $notes = 'There is no notes';
        }
@@ -218,11 +218,12 @@ class Template extends Model
        $content .= '<div class="row d-flex flex-column flex-row-reverse">
                         <div class="" style="width: fit-content;">
                             <h6 class="text-center">Referred By</h6>
-                            <h6 class="">' . $invoice->doctor . '</h6>
+                            <h6 class="">' . $waitingLab->invoice->doctor . '</h6>
                         </div>
                     </div> </div>';
         return $content;
     }
+
     public function purchase_table(Invoice $invoice)
     {
         $content = '<tr>

@@ -169,11 +169,16 @@
 
 
                             @if($waiting_lab->results->count() > 0)
-{{--                                @can('reject_results')--}}
-                                    <form  data-id = "{{$waiting_lab->id}}"  data-analysis = "{{$waiting_lab->main_analysis->general_name}}" style="text-align:center"  class="mb-5 mt-5">
-                                        <button type="submit"  class="btn btn-danger font-weight-bold btnprn" >{{__('Disapprove')}}</button>
-                                    </form>
-{{--                                @endcan--}}
+                                <div class="row d-flex justify-content-around">
+                                     <a href="{{route('dashboard.results.print', $waiting_lab->id)}}" target="_blank" class="btn btn-brand btn-bold" >{{__('Print')}}</a>
+
+                                    @can('reject_results')
+                                        <form  data-id = "{{$waiting_lab->id}}"  data-analysis = "{{$waiting_lab->main_analysis->general_name}}">
+                                            <button type="submit"  class="btn btn-danger font-weight-bold btnprn" >{{__('Disapprove')}}</button>
+                                        </form>
+                                    @endcan
+                                </div>
+
                             @endif
                         @endforeach
                     </div>
@@ -183,7 +188,7 @@
                             <div class="row mt-5" >
                                 <div class="col-lg-12" >
                                     <h4 style="float:right"> {{__('Doctor')}} : {{$doctor}} </h4>
-                                    <button onclick="window.print()"  class="btn btn-brand btn-bold mx-auto btnprn" style="float:left" >{{__('print')}}</button>
+{{--                                    <button onclick="window.print()"  class="btn btn-brand btn-bold mx-auto btnprn" style="float:left" >{{__('print')}}</button>--}}
                                 </div>
                             </div>
                         </div>
@@ -202,14 +207,12 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                        <div class="col-6">
-                                        <a href="{{route('dashboard.results.print', $invoice->id)}}"  class="btn btn-brand btn-bold mx-auto btnprn "  >{{__('print')}}</a>
-                                        </div>
-
-
-                                        <div class="col-6">
-                                            <button id="approve" class="btn btn-success font-weight-bold btnprn" >{{__('Approve')}}</button>
-                                        </div>
+                                    <div class="col-6">
+                                        <a href="#" id="approve" class="btn btn-success btn-elevate btn-pill"><i class="fa fa-check"></i>{{__('Approve Result')}}</a>
+                                    </div>
+                                    <div class="col-6">
+                                        <a href="#" data-toggle="modal" data-target="#kt_modal_5" class="btn btn-primary btn-elevate btn-pill"><i class="fa fa-paper-plane"></i>{{__('Send result to Patient')}}</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -220,60 +223,170 @@
     </div>
 
     <!--end::Portlet-->
+
+    <!--begin::Modal-->
+    <div class="modal fade" id="kt_modal_5" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">{{__('Send result to Patient')}}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row ">
+                        <div class="col-lg-12 mb-2">
+                            <button id="send-via-whatsapp" type="button" class="btn btn-success btn-elevate btn-pill d-block mx-auto"><i class="la la-whatsapp"></i>
+                                {{__('Send result via Whatsapp')}}
+                            </button>
+                        </div>
+                        <div class="col-lg-12 mb-2">
+                            <button id="send-via-email" type="button" class="btn btn-primary btn-elevate btn-pill d-block mx-auto"><i class="la la-envelope-o"></i>
+                                {{__('Send result via email')}}
+                            </button>
+                        </div>
+                        <div class="col-lg-12">
+                            <button id="send-via-notification" class="btn btn-warning btn-elevate btn-pill d-block mx-auto"><i class="la la-bell"></i>
+                                {{__('Send result via browser notifications')}}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+{{--                <div class="modal-footer">--}}
+{{--                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>--}}
+{{--                </div>--}}
+            </div>
+        </div>
+    </div>
+    <!--end::Modal-->
 @endsection
 
 @push('scripts')
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-
     <script type="text/javascript">
 
 
-        $("#approve").on('click', function () {
-            swal({
-                title: "هل تريد إرسال النتيجة إلي المريض ؟",
-                text: "",
-                icon: "info",
-                closeOnClickOutside: false,
-                dangerMode: true,
-                buttons: ["لا", "نــعــم"],
-            })
-                .then((willDelete) => {
-                    if (willDelete) {
+        $("#approve").on('click', function (e) {
+            e.preventDefault();
+            $.ajax({
+                type:'POST',
+                url: '/dashboard/approve_result',
+                data:{
+                    "_token": "{{ csrf_token() }}",
+                    patient_id: {{$patient->id}},
+                    invoice_id: {{$invoice->id}}
+                },
+                success: function () {
+                    swal.fire({
+                        text: "تم إعتماد النتيجة بنجاح",
+                        icon: "success",
+                        type: 'success',
+                        showConfirmButton: false,
+                        timer: 2000
+                    })
+                }
+            });
+        });
 
-                        $.ajax({
-                            type:'POST',
-                            url: '/dashboard/sendWsms',
-                            data:{
-                                "_token": "{{ csrf_token() }}",
-                                patient_id: {{$patient->id}},
-                                invoice_id: {{$invoice->id}}
-                            },success: function () {
-                                swal("تم إرسال النتائج إلي المريض بنجاح", {
-                                    icon: "success",
-                                });
-                            }
+        $("#send-via-email").on('click', function () {
+            swal.fire({
+                title: locator.__('Loading...'),
+                onOpen: function () {
+                    swal.showLoading();
+                }
+            });
+
+            $.ajax({
+                type:'POST',
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                url: '/dashboard/results/' + {{$invoice->id}} + '/send_via_email' ,
+                success: function () {
+                    swal.fire({
+                        text: "تم ارسال النتيجة الي المريض",
+                        icon: "success",
+                        type: 'success',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                    $("#kt_modal_5").modal('toggle');
+                },
+                error: function (err) {
+                    swal.fire({
+                        text: err.responseJSON.message,
+                        icon: "error",
+                        type: 'error',
+                        showConfirmButton: false,
+                    });
+                }
+            });
+        });
+
+        $("#send-via-notification").on('click', function () {
+            swal.fire({
+                title: locator.__('Loading...'),
+                onOpen: function () {
+                    swal.showLoading();
+                }
+            });
+
+            $.ajax({
+                type:'POST',
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                url: '/dashboard/results/' + {{$invoice->id}} + '/send_via_web_notification' ,
+                success: function () {
+                    swal.fire({
+                        text: "تم ارسال اشعار بالنتيجة الي المريض",
+                        icon: "success",
+                        type: 'success',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                    $("#kt_modal_5").modal('toggle');
+                },
+                error: function (err) {
+                    swal.fire({
+                        text: err.responseJSON.message,
+                        icon: "error",
+                        type: 'error',
+                        showConfirmButton: false,
+                    });
+                }
+            });
+        });
+
+        $("#send-via-whatsapp").on('click', function () {
+            swal.fire({
+                title: locator.__('Loading...'),
+                onOpen: function () {
+                    swal.showLoading();
+                }
+            });
+
+            $.ajax({
+                type:'POST',
+                url: '/dashboard/results/' + {{$invoice->id}} + '/send_via_whatsapp' ,
+                    data: {
+                        "_token": "{{ csrf_token() }}",
+                    },
+                    success: function () {
+                        swal.fire({
+                            text: "تم ارسال النتيجة الي المريض عبر الوتساب",
+                            icon: "success",
+                            type: 'success',
+                            showConfirmButton: false,
+                            timer: 2000
                         });
-
-                    } else {
-                        $.ajax({
-                            type:'POST',
-                            url: '/dashboard/approve_result',
-                            data:{
-                                "_token": "{{ csrf_token() }}",
-                                patient_id: {{$patient->id}},
-                                invoice_id: {{$invoice->id}}
-                            },success: function () {
-                                // swal("تم إرسال النتائج إلي المريض بنجاح", {
-                                //     icon: "success",
-                                // });
-                                swal("تم إعتماد النتيجة بنجاح", {
-                                    icon: "success",
-                                });
-                            }
+                        $("#kt_modal_5").modal('toggle');
+                    },
+                    error: function (err) {
+                        swal.fire({
+                            text: "هذه الخدمة غير متاحة الان",
+                            icon: "error",
+                            type: 'error',
+                            showConfirmButton: false,
                         });
-
                     }
                 });
+
         });
 
 
@@ -292,7 +405,7 @@
                  "_token": "{{ csrf_token() }}",
              },
              success: function () {
-                 swal("تــم  رفض نتائج تحليل " + analysis
+                 swal.fire("تــم  رفض نتائج تحليل " + analysis
                      , "سـوف يـتم رصد النتائج مرة أخري في أقرب وقـت"
                      , "success"
                  )
