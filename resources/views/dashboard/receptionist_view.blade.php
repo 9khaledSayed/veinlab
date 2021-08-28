@@ -53,9 +53,9 @@
                     <div class="kt-widget24">
                         <div class="kt-widget24__details">
                             <div class="kt-widget24__info">
-                                <a href="{{route('dashboard.patients.create')}}">
+                                <a href="{{route('dashboard.home_visits.index')}}">
                                     <h4 class="kt-widget24__title">
-                                        {{__('New Account')}}
+                                        {{__('Home Visits')}}
                                     </h4>
                                 </a>
                             </div>
