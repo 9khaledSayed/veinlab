@@ -37,8 +37,10 @@ class SubAnalysis extends Model
 
     public function normal($gender)
     {
-        if($this->normal_ranges->count() > 0){
-            return $this->normal_ranges->whereIn('gender', [$gender, 3])->first()->value;
+        $normalRanges = $this->normal_ranges;
+        if($normalRanges->count() > 0){
+            $normal = $normalRanges->whereIn('gender', [$gender, 3])->first();
+            return $normal ? $normal->value: '';
         }else{
             return null;
         }
