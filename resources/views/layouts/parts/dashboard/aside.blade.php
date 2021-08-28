@@ -7,7 +7,7 @@
         <div id="kt_aside_menu" class="kt-aside-menu " data-ktmenu-vertical="1" data-ktmenu-scroll="1" data-ktmenu-dropdown-timeout="500">
             <ul class="kt-menu__nav" >
                 <li  class="kt-menu__item  kt-menu__item" aria-haspopup="true"><a href="{{route('dashboard.index')}}" class="kt-menu__link "><i class="kt-menu__link-icon  flaticon-squares"></i><span class="kt-menu__link-text">{{__('Dashboard')}}</span></a></li>
-                @canany(['view_roles', 'show_roles', 'create_roles', 'update_roles', 'delete_roles'])
+                @canany(['view_roles', 'show_roles'])
                     <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true" data-ktmenu-submenu-toggle="hover"><a href="javascript:" class="kt-menu__link kt-menu__toggle"><i class="kt-menu__link-icon  flaticon-eye"></i><span class="kt-menu__link-text">{{__('Roles')}}</span><i class="kt-menu__ver-arrow la la-angle-right" ></i></a>
                         <div class="kt-menu__submenu "><span class="kt-menu__arrow"></span>
                             <ul class="kt-menu__subnav">
@@ -23,7 +23,7 @@
                         </div>
                     </li>
                 @endcan
-                @canany(['view_patients', 'show_patients', 'create_patients', 'update_patients', 'delete_patients'])
+                @canany(['view_patients', 'show_patients'])
                     <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true" data-ktmenu-submenu-toggle="hover"><a href="javascript:" class="kt-menu__link kt-menu__toggle"><i class="kt-menu__link-icon  fa fa-user-injured"></i><span class="kt-menu__link-text">{{__('Patients')}}</span><i class="kt-menu__ver-arrow la la-angle-right" ></i></a>
                         <div class="kt-menu__submenu "><span class="kt-menu__arrow"></span>
                             <ul class="kt-menu__subnav">
@@ -41,7 +41,7 @@
                         </div>
                     </li>
                 @endcan
-                @canany(['view_home_visits', 'show_home_visits', 'create_home_visits', 'update_home_visits', 'delete_home_visits'])
+                @canany(['view_home_visits', 'show_home_visits'])
                     <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true" data-ktmenu-submenu-toggle="hover"><a href="javascript:" class="kt-menu__link kt-menu__toggle"><i class="kt-menu__link-icon  flaticon2-protection"></i><span class="kt-menu__link-text">{{__('Home Visits')}}</span><i class="kt-menu__ver-arrow la la-angle-right" ></i></a>
                         <div class="kt-menu__submenu "><span class="kt-menu__arrow"></span>
                             <ul class="kt-menu__subnav">
@@ -55,11 +55,11 @@
                         </div>
                     </li>
                 @endcan
-                @canany(['view_doctors', 'show_doctors', 'create_doctors', 'update_doctors', 'delete_doctors','view_hospitals', 'show_hospitals', 'create_hospitals', 'update_hospitals', 'delete_hospitals','view_companies', 'show_companies', 'create_companies', 'update_companies', 'delete_companies'])
+                @canany(['view_doctors', 'show_doctors','view_hospitals', 'show_hospitals','view_companies', 'show_companies'])
                 <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true" data-ktmenu-submenu-toggle="hover"><a href="javascript:" class="kt-menu__link kt-menu__toggle"><i class="kt-menu__link-icon  fa fa-user-nurse"></i><span class="kt-menu__link-text">{{__('Transfer Destination')}}</span><i class="kt-menu__ver-arrow la la-angle-right" ></i></a>
                     <div class="kt-menu__submenu "><span class="kt-menu__arrow"></span>
                         <ul class="kt-menu__subnav">
-                            @canany(['view_doctors', 'show_doctors', 'create_doctors', 'update_doctors', 'delete_doctors'])
+                            @canany(['view_doctors', 'show_doctors'])
                                 <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true" data-ktmenu-submenu-toggle="hover"><a href="javascript:" class="kt-menu__link kt-menu__toggle"><i class="kt-menu__link-icon  fa fa-user-nurse"></i><span class="kt-menu__link-text">{{__('Doctors')}}</span><i class="kt-menu__ver-arrow la la-angle-right" ></i></a>
                                     <div class="kt-menu__submenu "><span class="kt-menu__arrow"></span>
                                         <ul class="kt-menu__subnav">
@@ -73,7 +73,7 @@
                                     </div>
                                 </li>
                             @endcan
-                            @canany(['view_hospitals', 'show_hospitals', 'create_hospitals', 'update_hospitals', 'delete_hospitals'])
+                            @canany(['view_hospitals', 'show_hospitals'])
                                 <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true" data-ktmenu-submenu-toggle="hover"><a href="javascript:" class="kt-menu__link kt-menu__toggle"><i class="kt-menu__link-icon  fa fa-hospital"></i><span class="kt-menu__link-text">{{__('Hospitals')}}</span><i class="kt-menu__ver-arrow la la-angle-right" ></i></a>
                                     <div class="kt-menu__submenu "><span class="kt-menu__arrow"></span>
                                         <ul class="kt-menu__subnav">
@@ -87,7 +87,7 @@
                                     </div>
                                 </li>
                             @endcan
-                            @canany(['view_companies', 'show_companies', 'create_companies', 'update_companies', 'delete_companies'])
+                            @canany(['view_companies', 'show_companies'])
                                 <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true" data-ktmenu-submenu-toggle="hover"><a href="javascript:" class="kt-menu__link kt-menu__toggle"><i class="kt-menu__link-icon  fas fa-building"></i><span class="kt-menu__link-text">{{__('Insurance Companies')}}</span><i class="kt-menu__ver-arrow la la-angle-right" ></i></a>
                                     <div class="kt-menu__submenu "><span class="kt-menu__arrow"></span>
                                         <ul class="kt-menu__subnav">
@@ -116,7 +116,7 @@
                         </div>
                     </li>
                 @endcan
-                @canany(['view_main_analysis', 'show_main_analysis', 'create_main_analysis', 'update_main_analysis', 'delete_main_analysis'])
+                @canany(['view_main_analysis', 'show_main_analysis'])
                     <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true" data-ktmenu-submenu-toggle="hover"><a href="javascript:" class="kt-menu__link kt-menu__toggle"><i class="kt-menu__link-icon  flaticon2-layers"></i><span class="kt-menu__link-text">{{__('Main Analysis')}}</span><i class="kt-menu__ver-arrow la la-angle-right" ></i></a>
                         <div class="kt-menu__submenu "><span class="kt-menu__arrow"></span>
                             <ul class="kt-menu__subnav">
@@ -131,7 +131,7 @@
                     </li>
                 @endcan
 
-                @canany(['view_sub_analysis', 'show_sub_analysis', 'create_sub_analysis', 'update_sub_analysis', 'delete_sub_analysis'])
+                @canany(['view_sub_analysis', 'show_sub_analysis'])
                     <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true" data-ktmenu-submenu-toggle="hover"><a href="javascript:" class="kt-menu__link kt-menu__toggle"><i class="kt-menu__link-icon  fa fa-archive"></i><span class="kt-menu__link-text">{{__('Sub Analysis')}}</span><i class="kt-menu__ver-arrow la la-angle-right" ></i></a>
                         <div class="kt-menu__submenu "><span class="kt-menu__arrow"></span>
                             <ul class="kt-menu__subnav">
@@ -147,7 +147,7 @@
                     </li>
                 @endcan
 
-                @canany(['view_packages', 'show_packages', 'create_packages', 'update_packages', 'delete_packages'])
+                @canany(['view_packages', 'show_packages'])
                     <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true" data-ktmenu-submenu-toggle="hover"><a href="javascript:" class="kt-menu__link kt-menu__toggle"><i class="kt-menu__link-icon  fa fa-boxes"></i><span class="kt-menu__link-text">{{__('Packages')}}</span><i class="kt-menu__ver-arrow la la-angle-right" ></i></a>
                         <div class="kt-menu__submenu "><span class="kt-menu__arrow"></span>
                             <ul class="kt-menu__subnav">
