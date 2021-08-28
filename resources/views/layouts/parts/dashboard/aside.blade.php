@@ -55,7 +55,7 @@
                         </div>
                     </li>
                 @endcan
-                @can(['view_doctors', 'show_doctors', 'create_doctors', 'update_doctors', 'delete_doctors','view_hospitals', 'show_hospitals', 'create_hospitals', 'update_hospitals', 'delete_hospitals','view_companies', 'show_companies', 'create_companies', 'update_companies', 'delete_companies'])
+                @canany(['view_doctors', 'show_doctors', 'create_doctors', 'update_doctors', 'delete_doctors','view_hospitals', 'show_hospitals', 'create_hospitals', 'update_hospitals', 'delete_hospitals','view_companies', 'show_companies', 'create_companies', 'update_companies', 'delete_companies'])
                 <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true" data-ktmenu-submenu-toggle="hover"><a href="javascript:" class="kt-menu__link kt-menu__toggle"><i class="kt-menu__link-icon  fa fa-user-nurse"></i><span class="kt-menu__link-text">{{__('Transfer Destination')}}</span><i class="kt-menu__ver-arrow la la-angle-right" ></i></a>
                     <div class="kt-menu__submenu "><span class="kt-menu__arrow"></span>
                         <ul class="kt-menu__subnav">
