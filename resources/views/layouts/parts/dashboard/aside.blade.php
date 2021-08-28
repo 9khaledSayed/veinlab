@@ -147,11 +147,27 @@
                         </div>
                     </li>
                 @endcan
+
+                @canany(['view_packages', 'show_packages', 'create_packages', 'update_packages', 'delete_packages'])
+                    <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true" data-ktmenu-submenu-toggle="hover"><a href="javascript:" class="kt-menu__link kt-menu__toggle"><i class="kt-menu__link-icon  fa fa-boxes"></i><span class="kt-menu__link-text">{{__('Sub Analysis')}}</span><i class="kt-menu__ver-arrow la la-angle-right" ></i></a>
+                        <div class="kt-menu__submenu "><span class="kt-menu__arrow"></span>
+                            <ul class="kt-menu__subnav">
+                                @can('view_packages')
+                                    <li class="kt-menu__item " aria-haspopup="true"><a href="{{route('dashboard.packages.index')}}" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--line"><span></span></i><span class="kt-menu__link-text">{{__('All Packages')}}</span></a></li>
+                                @endcan
+                                @can('create_packages')
+                                    <li class="kt-menu__item " aria-haspopup="true"><a href="{{route('dashboard.packages.create')}}" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--line"><span></span></i><span class="kt-menu__link-text">{{__('New Package')}}</span></a></li>
+                                @endcan
+                            </ul>
+                        </div>
+                    </li>
+                @endcan
+
+
                 @can('view_results')
                 <li class="kt-menu__item  kt-menu__item" aria-haspopup="true" data-ktmenu-submenu-toggle="hover"><a href="{{Route('dashboard.results.index')}}" class="kt-menu__link kt-menu__toggle"><i class="kt-menu__link-icon  fa fa-clipboard-check"></i><span class="kt-menu__link-text">{{__('All Results')}}</span></a></li>
                 @endcan
 
-{{--       --}}
                 @can('view_invoices')
                 <li class="kt-menu__item " aria-haspopup="true"><a href="{{route('dashboard.invoices.index')}}" class="kt-menu__link "><i class="kt-menu__link-icon  fas fa-file-invoice"></i><span class="kt-menu__link-text">{{__('Invoices')}}</span></a></li>
                 @endcan
