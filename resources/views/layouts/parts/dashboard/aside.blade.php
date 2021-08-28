@@ -149,7 +149,7 @@
                 @endcan
 
                 @canany(['view_packages', 'show_packages', 'create_packages', 'update_packages', 'delete_packages'])
-                    <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true" data-ktmenu-submenu-toggle="hover"><a href="javascript:" class="kt-menu__link kt-menu__toggle"><i class="kt-menu__link-icon  fa fa-boxes"></i><span class="kt-menu__link-text">{{__('Sub Analysis')}}</span><i class="kt-menu__ver-arrow la la-angle-right" ></i></a>
+                    <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true" data-ktmenu-submenu-toggle="hover"><a href="javascript:" class="kt-menu__link kt-menu__toggle"><i class="kt-menu__link-icon  fa fa-boxes"></i><span class="kt-menu__link-text">{{__('Packages')}}</span><i class="kt-menu__ver-arrow la la-angle-right" ></i></a>
                         <div class="kt-menu__submenu "><span class="kt-menu__arrow"></span>
                             <ul class="kt-menu__subnav">
                                 @can('view_packages')
