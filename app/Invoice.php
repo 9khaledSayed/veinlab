@@ -23,9 +23,10 @@ class Invoice extends Model
             if($revenue_serial_no != null){
                 $without_year = substr($revenue_serial_no, 4);
             }
+
             $model->serial_no = isset($revenue_serial_no) ? date("Y") . ++$without_year : date("Y") . '11111' . '10000';
             $model->employee_id = auth()->user()->id;
-            $model->barcode = isset($last_barcode) ? ++$last_barcode : '100000';
+            $model->barcode = time() . mt_rand(9999);
             Revenue::create([
                 'type' => config('enums.revenueType.invoice'), // invoice revenue
                 'invoice_id' => $model->id,
