@@ -26,7 +26,7 @@ class Invoice extends Model
 
             $model->serial_no = isset($revenue_serial_no) ? date("Y") . ++$without_year : date("Y") . '11111' . '10000';
             $model->employee_id = auth()->user()->id;
-            $model->barcode = time() . mt_rand(9999);
+            $model->barcode = time() . mt_rand(1000, 9999);
             Revenue::create([
                 'type' => config('enums.revenueType.invoice'), // invoice revenue
                 'invoice_id' => $model->id,
