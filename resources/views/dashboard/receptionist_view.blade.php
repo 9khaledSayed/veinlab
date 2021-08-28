@@ -60,7 +60,7 @@
                                 </a>
                             </div>
                             <span class="kt-widget24__stats kt-font-danger">
-                                <i class="fa fa-user-injured" style="font-size: 4rem"></i>
+                                <i class="flaticon2-protection" style="font-size: 4rem"></i>
                             </span>
                         </div>
                     </div>
