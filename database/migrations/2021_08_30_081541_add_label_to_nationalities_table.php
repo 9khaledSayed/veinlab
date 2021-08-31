@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateNationalitiesTable extends Migration
+class AddLabelToNationalitiesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,8 @@ class CreateNationalitiesTable extends Migration
      */
     public function up()
     {
-        Schema::create('nationalities', function (Blueprint $table) {
-            $table->id();
-            $table->string('nationality')->unique();
-            $table->string('name_english')->unique();
+        Schema::table('nationalities', function (Blueprint $table) {
             $table->string('label')->nullable();
-            $table->softDeletes();
-            $table->timestamps();
         });
     }
 
@@ -30,6 +25,8 @@ class CreateNationalitiesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('nationalities');
+        Schema::table('nationalities', function (Blueprint $table) {
+            //
+        });
     }
 }

@@ -42,8 +42,6 @@ class PatientController extends Controller implements  FromCollection, WithHeadi
         $this->authorize('create_patients');
         $request['password'] = Hash::make($request->phone);
         $rules = Patient::$rules;
-        $rules['phone'] = ($rules['phone'] . setting('max_phone_no'));
-        $rules['id_no'] = ($rules['id_no'] . '|digits:' . setting('max_id_no'));
         Patient::create($this->validate($request, $rules));
         return  redirect(route('dashboard.patients.index'));
     }
@@ -67,8 +65,7 @@ class PatientController extends Controller implements  FromCollection, WithHeadi
         $this->authorize('update_patients');
         $request['password'] = Hash::make($request->phone);
         $rules = Patient::$rules;
-        $rules['phone'] = ($rules['phone'] . setting('max_phone_no'));
-        $rules['id_no'] = ($rules['id_no'] . ',id_no,' . $patient->id . '|digits:' . setting('max_id_no'));
+        $rules['id_no'] = ($rules['id_no'] . ',id_no,' . $patient->id);
         $rules['email'] = ($rules['email'] . ',email,' . $patient->id);
         $patient->update($this->validate($request, $rules));
         return redirect(route('dashboard.patients.index'));

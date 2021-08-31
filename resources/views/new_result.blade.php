@@ -77,69 +77,736 @@
         </div>
     </div>
 
-    <h4 class="text-center" style="text-decoration: underline">dsfdsafsdaf</h4>
+    <div class="row">
+        <h4 class="text-center" style="text-decoration: underline">dsfdsafsdaf</h4>
 
-    <table class="table text-center">
-        <thead class="text-center">
-        <tr>
-            <th scope="col">Test</th>
-            <th scope="col">Result</th>
-            <th scope="col">Unit</th>
-            <th scope="col">Reference Range</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td class="bg-grey">Mark</td>
-            <td class="text-center">Mark</td>
-            <td>Otto</td>
-            <td class="text-center">20 - 30</td>
-        </tr>
-        <tr>
-            <td>Mark</td>
-            <td class="text-center">Mark</td>
-            <td>Otto</td>
-            <td class="text-center">20 - 30</td>
-        </tr>
-        <tr>
-            <td>Mark</td>
-            <td class="text-center">Mark</td>
-            <td>Otto</td>
-            <td class="text-center">20 - 30</td>
-        </tr>
-        <tr>
-            <td class="bg-grey">Mark</td>
-            <td class="text-center">Mark</td>
-            <td>Otto</td>
-            <td class="text-center">20 - 30</td>
-        </tr>
-        <tr>
-            <td>Mark</td>
-            <td class="text-center">Mark</td>
-            <td>Otto</td>
-            <td class="text-center">20 - 30</td>
-        </tr>
-        <tr>
-            <td>Mark</td>
-            <td class="text-center">Mark</td>
-            <td>Otto</td>
-            <td class="text-center">20 - 30</td>
-        </tr>
+        <table class="table text-center">
+            <thead class="text-center">
+            <tr>
+                <th scope="col">Test</th>
+                <th scope="col">Result</th>
+                <th scope="col">Unit</th>
+                <th scope="col">Reference Range</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td class="bg-grey">Mark</td>
+                <td class="text-center">Mark</td>
+                <td>Otto</td>
+                <td class="text-center">20 - 30</td>
+            </tr>
+            <tr>
+                <td>Mark</td>
+                <td class="text-center">Mark</td>
+                <td>Otto</td>
+                <td class="text-center">20 - 30</td>
+            </tr>
+            <tr>
+                <td>Mark</td>
+                <td class="text-center">Mark</td>
+                <td>Otto</td>
+                <td class="text-center">20 - 30</td>
+            </tr>
+            <tr>
+                <td class="bg-grey">Mark</td>
+                <td class="text-center">Mark</td>
+                <td>Otto</td>
+                <td class="text-center">20 - 30</td>
+            </tr>
+            <tr>
+                <td>Mark</td>
+                <td class="text-center">Mark</td>
+                <td>Otto</td>
+                <td class="text-center">20 - 30</td>
+            </tr>
+            <tr>
+                <td>Mark</td>
+                <td class="text-center">Mark</td>
+                <td>Otto</td>
+                <td class="text-center">20 - 30</td>
+            </tr>
 
-        </tbody>
-        <tfoot>
+            </tbody>
+            <tfoot>
             <tr>
                 <td class="bg-grey">Comment</td>
                 <td colspan="3">sdf  adsf sad sdaf sadf sdaf sad f sadf  sadf sdaf sadf s fdMark</td>
             </tr>
-        </tfoot>
-    </table>
+            </tfoot>
+        </table>
+    </div>
 
-    <div class="row d-flex flex-column flex-row-reverse">
-        <div class="" style="width: fit-content;">
-            <h6 class="text-center">Referred By</h6>
-            <h6 class="">khaled sayed mohamed</h6>
-        </div>
+    <hr>
+
+    <div class="row">
+        <h4 class="text-center" style="text-decoration: underline">dsfdsafsdaf</h4>
+
+        <table class="table text-center">
+            <thead class="text-center">
+            <tr>
+                <th scope="col">Test</th>
+                <th scope="col">Result</th>
+                <th scope="col">Unit</th>
+                <th scope="col">Reference Range</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td class="bg-grey">Mark</td>
+                <td class="text-center">Mark</td>
+                <td>Otto</td>
+                <td class="text-center">20 - 30</td>
+            </tr>
+            <tr>
+                <td>Mark</td>
+                <td class="text-center">Mark</td>
+                <td>Otto</td>
+                <td class="text-center">20 - 30</td>
+            </tr>
+            <tr>
+                <td>Mark</td>
+                <td class="text-center">Mark</td>
+                <td>Otto</td>
+                <td class="text-center">20 - 30</td>
+            </tr>
+            <tr>
+                <td class="bg-grey">Mark</td>
+                <td class="text-center">Mark</td>
+                <td>Otto</td>
+                <td class="text-center">20 - 30</td>
+            </tr>
+            <tr>
+                <td>Mark</td>
+                <td class="text-center">Mark</td>
+                <td>Otto</td>
+                <td class="text-center">20 - 30</td>
+            </tr>
+            <tr>
+                <td>Mark</td>
+                <td class="text-center">Mark</td>
+                <td>Otto</td>
+                <td class="text-center">20 - 30</td>
+            </tr>
+
+            </tbody>
+            <tfoot>
+            <tr>
+                <td class="bg-grey">Comment</td>
+                <td colspan="3">sdf  adsf sad sdaf sadf sdaf sad f sadf  sadf sdaf sadf s fdMark</td>
+            </tr>
+            </tfoot>
+        </table>
+    </div>
+    <hr>
+
+    <div class="row">
+        <h4 class="text-center" style="text-decoration: underline">dsfdsafsdaf</h4>
+
+        <table class="table text-center">
+            <thead class="text-center">
+            <tr>
+                <th scope="col">Test</th>
+                <th scope="col">Result</th>
+                <th scope="col">Unit</th>
+                <th scope="col">Reference Range</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td class="bg-grey">Mark</td>
+                <td class="text-center">Mark</td>
+                <td>Otto</td>
+                <td class="text-center">20 - 30</td>
+            </tr>
+            <tr>
+                <td>Mark</td>
+                <td class="text-center">Mark</td>
+                <td>Otto</td>
+                <td class="text-center">20 - 30</td>
+            </tr>
+            <tr>
+                <td>Mark</td>
+                <td class="text-center">Mark</td>
+                <td>Otto</td>
+                <td class="text-center">20 - 30</td>
+            </tr>
+            <tr>
+                <td class="bg-grey">Mark</td>
+                <td class="text-center">Mark</td>
+                <td>Otto</td>
+                <td class="text-center">20 - 30</td>
+            </tr>
+            <tr>
+                <td>Mark</td>
+                <td class="text-center">Mark</td>
+                <td>Otto</td>
+                <td class="text-center">20 - 30</td>
+            </tr>
+            <tr>
+                <td>Mark</td>
+                <td class="text-center">Mark</td>
+                <td>Otto</td>
+                <td class="text-center">20 - 30</td>
+            </tr>
+
+            </tbody>
+            <tfoot>
+            <tr>
+                <td class="bg-grey">Comment</td>
+                <td colspan="3">sdf  adsf sad sdaf sadf sdaf sad f sadf  sadf sdaf sadf s fdMark</td>
+            </tr>
+            </tfoot>
+        </table>
+    </div>
+    <hr>
+
+    <div class="row">
+        <h4 class="text-center" style="text-decoration: underline">dsfdsafsdaf</h4>
+
+        <table class="table text-center">
+            <thead class="text-center">
+            <tr>
+                <th scope="col">Test</th>
+                <th scope="col">Result</th>
+                <th scope="col">Unit</th>
+                <th scope="col">Reference Range</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td class="bg-grey">Mark</td>
+                <td class="text-center">Mark</td>
+                <td>Otto</td>
+                <td class="text-center">20 - 30</td>
+            </tr>
+            <tr>
+                <td>Mark</td>
+                <td class="text-center">Mark</td>
+                <td>Otto</td>
+                <td class="text-center">20 - 30</td>
+            </tr>
+            <tr>
+                <td>Mark</td>
+                <td class="text-center">Mark</td>
+                <td>Otto</td>
+                <td class="text-center">20 - 30</td>
+            </tr>
+            <tr>
+                <td class="bg-grey">Mark</td>
+                <td class="text-center">Mark</td>
+                <td>Otto</td>
+                <td class="text-center">20 - 30</td>
+            </tr>
+            <tr>
+                <td>Mark</td>
+                <td class="text-center">Mark</td>
+                <td>Otto</td>
+                <td class="text-center">20 - 30</td>
+            </tr>
+            <tr>
+                <td>Mark</td>
+                <td class="text-center">Mark</td>
+                <td>Otto</td>
+                <td class="text-center">20 - 30</td>
+            </tr>
+
+            </tbody>
+            <tfoot>
+            <tr>
+                <td class="bg-grey">Comment</td>
+                <td colspan="3">sdf  adsf sad sdaf sadf sdaf sad f sadf  sadf sdaf sadf s fdMark</td>
+            </tr>
+            </tfoot>
+        </table>
+    </div>
+    <hr>
+
+    <div class="row">
+        <h4 class="text-center" style="text-decoration: underline">dsfdsafsdaf</h4>
+
+        <table class="table text-center">
+            <thead class="text-center">
+            <tr>
+                <th scope="col">Test</th>
+                <th scope="col">Result</th>
+                <th scope="col">Unit</th>
+                <th scope="col">Reference Range</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td class="bg-grey">Mark</td>
+                <td class="text-center">Mark</td>
+                <td>Otto</td>
+                <td class="text-center">20 - 30</td>
+            </tr>
+            <tr>
+                <td>Mark</td>
+                <td class="text-center">Mark</td>
+                <td>Otto</td>
+                <td class="text-center">20 - 30</td>
+            </tr>
+            <tr>
+                <td>Mark</td>
+                <td class="text-center">Mark</td>
+                <td>Otto</td>
+                <td class="text-center">20 - 30</td>
+            </tr>
+            <tr>
+                <td class="bg-grey">Mark</td>
+                <td class="text-center">Mark</td>
+                <td>Otto</td>
+                <td class="text-center">20 - 30</td>
+            </tr>
+            <tr>
+                <td>Mark</td>
+                <td class="text-center">Mark</td>
+                <td>Otto</td>
+                <td class="text-center">20 - 30</td>
+            </tr>
+            <tr>
+                <td>Mark</td>
+                <td class="text-center">Mark</td>
+                <td>Otto</td>
+                <td class="text-center">20 - 30</td>
+            </tr>
+
+            </tbody>
+            <tfoot>
+            <tr>
+                <td class="bg-grey">Comment</td>
+                <td colspan="3">sdf  adsf sad sdaf sadf sdaf sad f sadf  sadf sdaf sadf s fdMark</td>
+            </tr>
+            </tfoot>
+        </table>
+    </div>
+    <hr>
+
+    <div class="row">
+        <h4 class="text-center" style="text-decoration: underline">dsfdsafsdaf</h4>
+
+        <table class="table text-center">
+            <thead class="text-center">
+            <tr>
+                <th scope="col">Test</th>
+                <th scope="col">Result</th>
+                <th scope="col">Unit</th>
+                <th scope="col">Reference Range</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td class="bg-grey">Mark</td>
+                <td class="text-center">Mark</td>
+                <td>Otto</td>
+                <td class="text-center">20 - 30</td>
+            </tr>
+            <tr>
+                <td>Mark</td>
+                <td class="text-center">Mark</td>
+                <td>Otto</td>
+                <td class="text-center">20 - 30</td>
+            </tr>
+            <tr>
+                <td>Mark</td>
+                <td class="text-center">Mark</td>
+                <td>Otto</td>
+                <td class="text-center">20 - 30</td>
+            </tr>
+            <tr>
+                <td class="bg-grey">Mark</td>
+                <td class="text-center">Mark</td>
+                <td>Otto</td>
+                <td class="text-center">20 - 30</td>
+            </tr>
+            <tr>
+                <td>Mark</td>
+                <td class="text-center">Mark</td>
+                <td>Otto</td>
+                <td class="text-center">20 - 30</td>
+            </tr>
+            <tr>
+                <td>Mark</td>
+                <td class="text-center">Mark</td>
+                <td>Otto</td>
+                <td class="text-center">20 - 30</td>
+            </tr>
+
+            </tbody>
+            <tfoot>
+            <tr>
+                <td class="bg-grey">Comment</td>
+                <td colspan="3">sdf  adsf sad sdaf sadf sdaf sad f sadf  sadf sdaf sadf s fdMark</td>
+            </tr>
+            </tfoot>
+        </table>
+    </div>
+    <hr>
+
+    <div class="row">
+        <h4 class="text-center" style="text-decoration: underline">dsfdsafsdaf</h4>
+
+        <table class="table text-center">
+            <thead class="text-center">
+            <tr>
+                <th scope="col">Test</th>
+                <th scope="col">Result</th>
+                <th scope="col">Unit</th>
+                <th scope="col">Reference Range</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td class="bg-grey">Mark</td>
+                <td class="text-center">Mark</td>
+                <td>Otto</td>
+                <td class="text-center">20 - 30</td>
+            </tr>
+            <tr>
+                <td>Mark</td>
+                <td class="text-center">Mark</td>
+                <td>Otto</td>
+                <td class="text-center">20 - 30</td>
+            </tr>
+            <tr>
+                <td>Mark</td>
+                <td class="text-center">Mark</td>
+                <td>Otto</td>
+                <td class="text-center">20 - 30</td>
+            </tr>
+            <tr>
+                <td class="bg-grey">Mark</td>
+                <td class="text-center">Mark</td>
+                <td>Otto</td>
+                <td class="text-center">20 - 30</td>
+            </tr>
+            <tr>
+                <td>Mark</td>
+                <td class="text-center">Mark</td>
+                <td>Otto</td>
+                <td class="text-center">20 - 30</td>
+            </tr>
+            <tr>
+                <td>Mark</td>
+                <td class="text-center">Mark</td>
+                <td>Otto</td>
+                <td class="text-center">20 - 30</td>
+            </tr>
+
+            </tbody>
+            <tfoot>
+            <tr>
+                <td class="bg-grey">Comment</td>
+                <td colspan="3">sdf  adsf sad sdaf sadf sdaf sad f sadf  sadf sdaf sadf s fdMark</td>
+            </tr>
+            </tfoot>
+        </table>
+    </div>
+    <hr>
+
+    <div class="row">
+        <h4 class="text-center" style="text-decoration: underline">dsfdsafsdaf</h4>
+
+        <table class="table text-center">
+            <thead class="text-center">
+            <tr>
+                <th scope="col">Test</th>
+                <th scope="col">Result</th>
+                <th scope="col">Unit</th>
+                <th scope="col">Reference Range</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td class="bg-grey">Mark</td>
+                <td class="text-center">Mark</td>
+                <td>Otto</td>
+                <td class="text-center">20 - 30</td>
+            </tr>
+            <tr>
+                <td>Mark</td>
+                <td class="text-center">Mark</td>
+                <td>Otto</td>
+                <td class="text-center">20 - 30</td>
+            </tr>
+            <tr>
+                <td>Mark</td>
+                <td class="text-center">Mark</td>
+                <td>Otto</td>
+                <td class="text-center">20 - 30</td>
+            </tr>
+            <tr>
+                <td class="bg-grey">Mark</td>
+                <td class="text-center">Mark</td>
+                <td>Otto</td>
+                <td class="text-center">20 - 30</td>
+            </tr>
+            <tr>
+                <td>Mark</td>
+                <td class="text-center">Mark</td>
+                <td>Otto</td>
+                <td class="text-center">20 - 30</td>
+            </tr>
+            <tr>
+                <td>Mark</td>
+                <td class="text-center">Mark</td>
+                <td>Otto</td>
+                <td class="text-center">20 - 30</td>
+            </tr>
+
+            </tbody>
+            <tfoot>
+            <tr>
+                <td class="bg-grey">Comment</td>
+                <td colspan="3">sdf  adsf sad sdaf sadf sdaf sad f sadf  sadf sdaf sadf s fdMark</td>
+            </tr>
+            </tfoot>
+        </table>
+    </div>
+    <hr>
+
+    <div class="row">
+        <h4 class="text-center" style="text-decoration: underline">dsfdsafsdaf</h4>
+
+        <table class="table text-center">
+            <thead class="text-center">
+            <tr>
+                <th scope="col">Test</th>
+                <th scope="col">Result</th>
+                <th scope="col">Unit</th>
+                <th scope="col">Reference Range</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td class="bg-grey">Mark</td>
+                <td class="text-center">Mark</td>
+                <td>Otto</td>
+                <td class="text-center">20 - 30</td>
+            </tr>
+            <tr>
+                <td>Mark</td>
+                <td class="text-center">Mark</td>
+                <td>Otto</td>
+                <td class="text-center">20 - 30</td>
+            </tr>
+            <tr>
+                <td>Mark</td>
+                <td class="text-center">Mark</td>
+                <td>Otto</td>
+                <td class="text-center">20 - 30</td>
+            </tr>
+            <tr>
+                <td class="bg-grey">Mark</td>
+                <td class="text-center">Mark</td>
+                <td>Otto</td>
+                <td class="text-center">20 - 30</td>
+            </tr>
+            <tr>
+                <td>Mark</td>
+                <td class="text-center">Mark</td>
+                <td>Otto</td>
+                <td class="text-center">20 - 30</td>
+            </tr>
+            <tr>
+                <td>Mark</td>
+                <td class="text-center">Mark</td>
+                <td>Otto</td>
+                <td class="text-center">20 - 30</td>
+            </tr>
+
+            </tbody>
+            <tfoot>
+            <tr>
+                <td class="bg-grey">Comment</td>
+                <td colspan="3">sdf  adsf sad sdaf sadf sdaf sad f sadf  sadf sdaf sadf s fdMark</td>
+            </tr>
+            </tfoot>
+        </table>
+    </div>
+    <hr>
+
+    <div class="row">
+        <h4 class="text-center" style="text-decoration: underline">dsfdsafsdaf</h4>
+
+        <table class="table text-center">
+            <thead class="text-center">
+            <tr>
+                <th scope="col">Test</th>
+                <th scope="col">Result</th>
+                <th scope="col">Unit</th>
+                <th scope="col">Reference Range</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td class="bg-grey">Mark</td>
+                <td class="text-center">Mark</td>
+                <td>Otto</td>
+                <td class="text-center">20 - 30</td>
+            </tr>
+            <tr>
+                <td>Mark</td>
+                <td class="text-center">Mark</td>
+                <td>Otto</td>
+                <td class="text-center">20 - 30</td>
+            </tr>
+            <tr>
+                <td>Mark</td>
+                <td class="text-center">Mark</td>
+                <td>Otto</td>
+                <td class="text-center">20 - 30</td>
+            </tr>
+            <tr>
+                <td class="bg-grey">Mark</td>
+                <td class="text-center">Mark</td>
+                <td>Otto</td>
+                <td class="text-center">20 - 30</td>
+            </tr>
+            <tr>
+                <td>Mark</td>
+                <td class="text-center">Mark</td>
+                <td>Otto</td>
+                <td class="text-center">20 - 30</td>
+            </tr>
+            <tr>
+                <td>Mark</td>
+                <td class="text-center">Mark</td>
+                <td>Otto</td>
+                <td class="text-center">20 - 30</td>
+            </tr>
+
+            </tbody>
+            <tfoot>
+            <tr>
+                <td class="bg-grey">Comment</td>
+                <td colspan="3">sdf  adsf sad sdaf sadf sdaf sad f sadf  sadf sdaf sadf s fdMark</td>
+            </tr>
+            </tfoot>
+        </table>
+    </div>
+    <hr>
+
+    <div class="row">
+        <h4 class="text-center" style="text-decoration: underline">dsfdsafsdaf</h4>
+
+        <table class="table text-center">
+            <thead class="text-center">
+            <tr>
+                <th scope="col">Test</th>
+                <th scope="col">Result</th>
+                <th scope="col">Unit</th>
+                <th scope="col">Reference Range</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td class="bg-grey">Mark</td>
+                <td class="text-center">Mark</td>
+                <td>Otto</td>
+                <td class="text-center">20 - 30</td>
+            </tr>
+            <tr>
+                <td>Mark</td>
+                <td class="text-center">Mark</td>
+                <td>Otto</td>
+                <td class="text-center">20 - 30</td>
+            </tr>
+            <tr>
+                <td>Mark</td>
+                <td class="text-center">Mark</td>
+                <td>Otto</td>
+                <td class="text-center">20 - 30</td>
+            </tr>
+            <tr>
+                <td class="bg-grey">Mark</td>
+                <td class="text-center">Mark</td>
+                <td>Otto</td>
+                <td class="text-center">20 - 30</td>
+            </tr>
+            <tr>
+                <td>Mark</td>
+                <td class="text-center">Mark</td>
+                <td>Otto</td>
+                <td class="text-center">20 - 30</td>
+            </tr>
+            <tr>
+                <td>Mark</td>
+                <td class="text-center">Mark</td>
+                <td>Otto</td>
+                <td class="text-center">20 - 30</td>
+            </tr>
+
+            </tbody>
+            <tfoot>
+            <tr>
+                <td class="bg-grey">Comment</td>
+                <td colspan="3">sdf  adsf sad sdaf sadf sdaf sad f sadf  sadf sdaf sadf s fdMark</td>
+            </tr>
+            </tfoot>
+        </table>
+    </div>
+    <hr>
+
+    <div class="row">
+        <h4 class="text-center" style="text-decoration: underline">dsfdsafsdaf</h4>
+
+        <table class="table text-center">
+            <thead class="text-center">
+            <tr>
+                <th scope="col">Test</th>
+                <th scope="col">Result</th>
+                <th scope="col">Unit</th>
+                <th scope="col">Reference Range</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td class="bg-grey">Mark</td>
+                <td class="text-center">Mark</td>
+                <td>Otto</td>
+                <td class="text-center">20 - 30</td>
+            </tr>
+            <tr>
+                <td>Mark</td>
+                <td class="text-center">Mark</td>
+                <td>Otto</td>
+                <td class="text-center">20 - 30</td>
+            </tr>
+            <tr>
+                <td>Mark</td>
+                <td class="text-center">Mark</td>
+                <td>Otto</td>
+                <td class="text-center">20 - 30</td>
+            </tr>
+            <tr>
+                <td class="bg-grey">Mark</td>
+                <td class="text-center">Mark</td>
+                <td>Otto</td>
+                <td class="text-center">20 - 30</td>
+            </tr>
+            <tr>
+                <td>Mark</td>
+                <td class="text-center">Mark</td>
+                <td>Otto</td>
+                <td class="text-center">20 - 30</td>
+            </tr>
+            <tr>
+                <td>Mark</td>
+                <td class="text-center">Mark</td>
+                <td>Otto</td>
+                <td class="text-center">20 - 30</td>
+            </tr>
+
+            </tbody>
+            <tfoot>
+            <tr>
+                <td class="bg-grey">Comment</td>
+                <td colspan="3">sdf  adsf sad sdaf sadf sdaf sad f sadf  sadf sdaf sadf s fdMark</td>
+            </tr>
+            </tfoot>
+        </table>
     </div>
 
 </div>

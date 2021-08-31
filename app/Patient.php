@@ -28,7 +28,7 @@ class Patient extends Authenticatable
         "name" => ['required', 'string', 'max:255'],
         "name_in_english" => ['nullable', 'string', 'max:255'],
         "email" => 'nullable|string|email:dns|max:255|unique:patients',
-        "phone" => 'required|digits:',
+        "phone" => 'required',
         "id_no" => 'required|sometimes|unique:patients',
         "gender" => ['required'],
         "age" => ['required'],
@@ -69,5 +69,12 @@ class Patient extends Authenticatable
                 return 'Child';
         }
     }
+
+    public function getNationalityLabelAttribute()
+    {
+        return Nationality::withTrashed()->find($this->nationality_id)->label;
+    }
+
+
 
 }

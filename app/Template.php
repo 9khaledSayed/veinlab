@@ -100,13 +100,32 @@ class Template extends Model
         ];
     }
 
-    public function analysis_results_tables(WaitingLab $waitingLab)
+    public function analysis_results_tables(WaitingLab $waitingLab = null, Invoice $invoice =null)
     {
         $content = '';
+
+
+        if ($invoice){ /** check print type if ( print all analysis ) print only one result lab **/
+
+            foreach ($invoice->waiting_labs as $waitingLab) {
+                $this->generateWaitingLab($content, $waitingLab);
+            }
+
+        }else{ /** check print type if ( single ) print only one result lab **/
+
+            $this->generateWaitingLab($content, $waitingLab);
+
+        }
+
+        return $content;
+    }
+
+    public function generateWaitingLab(&$content, $waitingLab)
+    {
         $cultivationContent = '';
         $gender = $waitingLab->patient->gender;
 
-        $content = '
+        $content .= '<div class="row">
                 <h4 class="text-center mb-3" style="text-decoration: underline">' . $waitingLab->main_analysis->general_name . '</h4>
                 <table class="table text-center">
                         <thead class="text-center">
@@ -119,30 +138,28 @@ class Template extends Model
                         </thead>
                     <tbody>';
 
+        foreach ($waitingLab->results->groupBy('classification') as $classification => $results) {
 
-
-       foreach ($waitingLab->results->groupBy('classification') as $classification => $results) {
-
-                foreach($results as $result){
-                    $bgClass = $classification == $result->sub_analysis->name ? 'bg-grey' : '';
-                    $normal_range =  $result->sub_analysis->normal($gender) ? '<td>' . $result->sub_analysis->normal($gender)  . '</td>' : '<td> - </td>';
-                    if($result->sub_analysis){
-                        $content .=
-                            '<tr>
+            foreach($results as $result){
+                $bgClass = $classification == $result->sub_analysis->name ? 'bg-grey' : '';
+                $normal_range =  $result->sub_analysis->normal($gender) ? '<td>' . $result->sub_analysis->normal($gender)  . '</td>' : '<td> - </td>';
+                if($result->sub_analysis){
+                    $content .=
+                        '<tr>
                                 <td class="' . $bgClass .'">' . $result->sub_analysis->name . '  ' . htmlspecialchars_decode($result->sub_analysis->unit)  . '</td>
                                 <td >' . $result->result . '</td>
                                 <td >' . htmlspecialchars_decode($result->sub_analysis->unit ?? '-') . '</td>
                                 ' . $normal_range . '
                             </tr>';
-                    }
                 }
             }
+        }
 
 
         /** check cultivation **/
         if ($waitingLab->main_analysis->has_cultivation){
             $cultivationContent .=
-                    "<div class='d-flex flex-column align-items-start' style='direction: ltr'>
+                "<div class='d-flex flex-column align-items-start' style='direction: ltr'>
                         <h3 style='text-decoration: underline'>Cultivation</h3>
                         <p style='font-size: 18px'>On cultivation of the received specimen on the relevant media and after 24 hours of aerobic incubation, and sub-culturing suspicious colonies on selective media, the following was revealed.</p>
                     </div>
@@ -199,13 +216,14 @@ class Template extends Model
 
         }
 
-       if ($waitingLab->notes){
-           $notes = $waitingLab->notes->lab_notes;
-       }else{
-           $notes = 'There is no notes';
-       }
+        if ($waitingLab->notes){
+            $notes = $waitingLab->notes->lab_notes;
+        }else{
+            $notes = 'There is no notes';
+        }
+
         $content .=
-        '        </tbody>
+            '        </tbody>
                     <tfoot>
                         <tr>
                             <td class="bg-grey">Comment</td>
@@ -215,13 +233,12 @@ class Template extends Model
                 </table>
                 ' . $cultivationContent;
 
-       $content .= '<div class="row d-flex flex-column flex-row-reverse">
+        $content .= '<div class="row d-flex flex-column flex-row-reverse">
                         <div class="" style="width: fit-content;">
                             <h6 class="text-center">Referred By</h6>
                             <h6 class="">' . $waitingLab->invoice->doctor . '</h6>
                         </div>
-                    </div> </div>';
-        return $content;
+                    </div> </div> </div> <hr>';
     }
 
     public function purchase_table(Invoice $invoice)

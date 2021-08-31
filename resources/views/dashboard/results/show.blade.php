@@ -206,13 +206,18 @@
                                         <h4 @if( App::isLocale('ar') ) style="float:right" @else style="float:left" @endif> {{__('Signature')}} :  </h4>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-6">
-                                        <a href="#" id="approve" class="btn btn-success btn-elevate btn-pill"><i class="fa fa-check"></i>{{__('Approve Result')}}</a>
-                                    </div>
-                                    <div class="col-6">
-                                        <a href="#" data-toggle="modal" data-target="#kt_modal_5" class="btn btn-primary btn-elevate btn-pill"><i class="fa fa-paper-plane"></i>{{__('Send result to Patient')}}</a>
-                                    </div>
+                                <div class="row d-flex justify-content-around">
+                                    <button id="approve" type="button" class="btn btn-success btn-elevate btn-pill d-block mx-auto"><i class="la la-check"></i>
+                                        {{__('Approve Result')}}
+                                    </button>
+
+                                    <a href="{{route('dashboard.results.print_all_results', $invoice->id)}}"  class="btn btn-brand btn-elevate btn-pill d-block mx-auto"><i class="la la-print"></i>
+                                        {{__('Print all analysis')}}
+                                    </a>
+
+                                    <button  data-toggle="modal" data-target="#kt_modal_5" type="button" class="btn btn-primary btn-elevate btn-pill d-block mx-auto"><i class="la la-send"></i>
+                                        {{__('Send result to Patient')}}
+                                    </button>
                                 </div>
                             </div>
                         </div>

@@ -130,6 +130,9 @@ return [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
+        'amount_paid' => [
+            'required_unless' => 'يجب ادخال المبلغ المستحق',
+        ],
         'main_analysis_id' => [
                 'required_without'     => 'حقل :attribute مطلوب إذا لم تتوفر :values.'
         ],
@@ -240,4 +243,10 @@ return [
         'nationality' => 'الاسم بالعربي',
         'amount_type' => 'نوع المعاملة',
     ],
+
+    'values' => [
+        'required_unless' => [
+            config('enums.payMethod.overdue') => 'مؤجل'
+        ],
+    ]
 ];

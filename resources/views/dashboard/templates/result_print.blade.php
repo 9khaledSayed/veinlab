@@ -41,9 +41,17 @@
     .table>:not(caption)>*>* {
         padding: .3rem .5rem;
     }
+
+    .header { display: table-header-group; }
+    .footer { display: table-footer-group;}
 </style>
 <body>
+
+<table style="width: 100%;">
+
     {!! $content !!}
+
+</table>
 </body>
 <script>
     setTimeout(function(){

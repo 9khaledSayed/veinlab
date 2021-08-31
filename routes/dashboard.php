@@ -43,6 +43,7 @@ Route::prefix('dashboard')->name('dashboard.')->namespace('Dashboard')->middlewa
     Route::post("results/{invoice}/send_via_web_notification","SendResultController@sendViaWebNotification");
 
     Route::get('results/print/{id}', 'ResultController@print')->name('results.print');
+    Route::get('results/print_all_results/{invoice}', 'ResultController@printAllResults')->name('results.print_all_results');
     Route::get('profits', 'ProfitController@index')->name('profits.index');
     Route::get('statistics', 'StatisticsController@index')->name('statistics.index');
     Route::get('settings', 'SettingsController@index')->name('settings.index');
@@ -118,8 +119,9 @@ Route::get('/alterTables', function (){
 //    \Illuminate\Support\Facades\Artisan::call('migrate --path=/database/migrations/2021_08_20_152821_add_approved_date_to_invoices__table.php');
 //    \Illuminate\Support\Facades\Artisan::call('migrate --path=/database/migrations/2021_08_21_174642_alter_hospitals__table.php');
 //    \Illuminate\Support\Facades\Artisan::call('migrate --path=/database/migrations/2021_08_23_230843_create_hospital_main_analyses_table.php');
-    \Illuminate\Support\Facades\Artisan::call('migrate --path=/database/migrations/2021_08_27_163827_add_device_token_to_employees__table.php');
-    \Illuminate\Support\Facades\Artisan::call('migrate --path=/database/migrations/2021_08_28_004635_add_device_token_to_patients__table.php');
+//    \Illuminate\Support\Facades\Artisan::call('migrate --path=/database/migrations/2021_08_27_163827_add_device_token_to_employees__table.php');
+//    \Illuminate\Support\Facades\Artisan::call('migrate --path=/database/migrations/2021_08_28_004635_add_device_token_to_patients__table.php');
+    \Illuminate\Support\Facades\Artisan::call('migrate --path=/database/migrations/2021_08_30_081541_add_label_to_nationalities_table.php');
    dd('done');
 });
 Route::get('/pushNotification', function () {

@@ -8,10 +8,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class SubAnalysis extends Model
 {
     use SoftDeletes;
-
-
     protected $dates = ['deleted_at', 'created_at'];
-    protected $fillable = ['name','unit','main_analysis_id'];
+    protected $guarded = [];
+    protected $table = 'sub_analyses';
     protected $casts = [
         'created_at'  => 'date:D M d Y',
     ];
@@ -21,7 +20,7 @@ class SubAnalysis extends Model
     }
     public function normal_ranges()
     {
-        return $this->hasMany(NormalRange::class);
+        return $this->hasMany(NormalRange::class,'sub_analysis_id');
     }
 
     public function spans($gender)

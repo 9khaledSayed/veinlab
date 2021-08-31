@@ -283,13 +283,39 @@ class ResultController extends Controller implements FromCollection , WithHeadin
         return $result;
     }
 
-    public function print($id)
+    public function print($waitingLabID)
     {
-        $waitingLab = WaitingLab::find($id);
+        $waitingLab = WaitingLab::find($waitingLabID);
+        $patient = $waitingLab->patient;
+        $template = Template::where('type', 8)->first();
+        $results = $this->generatePrintVariables($patient, $template, $waitingLab, $waitingLab->invoice);
 
-        $invoice = $waitingLab->invoice;
+        $content = $template->collect_replace($results, $template->body);
+
+        return view('dashboard.templates.result_print', [
+            'content' => $content,
+            'template' => $template
+        ]);
+    }
+
+    public function printAllResults(Invoice $invoice)
+    {
         $patient = $invoice->patient;
         $template = Template::where('type', 8)->first();
+        $results = $this->generatePrintVariables($patient, $template, null, $invoice, true);
+
+        $content = $template->collect_replace($results, $template->body);
+        return view('dashboard.templates.result_print', [
+            'content' => $content,
+            'template' => $template
+        ]);
+    }
+
+    public function generatePrintVariables(Patient $patient, Template $template, WaitingLab $waitingLab = null, Invoice $invoice =null, $printAll = false)
+    {
+
+        $analysisResultsTable = $printAll ? $template->analysis_results_tables(null, $invoice) : $template->analysis_results_tables($waitingLab, null);
+
         if($invoice->pay_method == config('enums.payMethod.cash'))
             $paymentMethod = 'نقدي :: cash';
         elseif($invoice->pay_method == config('enums.payMethod.credit'))
@@ -305,7 +331,7 @@ class ResultController extends Controller implements FromCollection , WithHeadin
                 'age' => $patient->age,
                 'id' => $patient->id
             ],
-            'analysis' => ['analysis_results_tables' => $template->analysis_results_tables($waitingLab)],
+            'analysis' => ['analysis_results_tables' => $analysisResultsTable],
             'others' => $template->others_results(),
             'invoice' => [
                 'date' => $invoice->created_at->format('Y-m-d h:i A'),
@@ -326,12 +352,8 @@ class ResultController extends Controller implements FromCollection , WithHeadin
                 'barcode' =>'data:image/png;base64,' . DNS1D::getBarcodePNG($invoice->barcode, 'C39',2,44,array(1,1,1), true)
             ],
         ];
-        $content = $template->collect_replace($results, $template->body);
 
-        return view('dashboard.templates.result_print', [
-            'content' => $content,
-            'template' => $template
-        ]);
+        return $results;
     }
 
     public function headings(): array
@@ -358,6 +380,8 @@ class ResultController extends Controller implements FromCollection , WithHeadin
         $invoice->approved_date = Carbon::now();
         $invoice->save();
     }
+
+
 
 }
 

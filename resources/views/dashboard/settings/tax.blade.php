@@ -73,9 +73,9 @@
                     <div class="col-lg-6 col-md-9 col-sm-12">
                         <select class="form-control @error('tax_include')is-invalid @enderror kt-selectpicker"
                                 name="tax_include">
-                            <option value="-1" @if($setting['tax_include'] == -1) selected @endif>{{__('All')}}</option>
-                            <option value="0" @if($setting['tax_include'] == 0) selected @endif>{{__('Saudi')}}</option>
-                            <option value="1" @if($setting['tax_include'] == 1) selected @endif>{{__('Non-Saudi')}}</option>
+                            <option value="{{config('enums.taxInclude.all')}}" @if($setting['tax_include'] == config('enums.taxInclude.all')) selected @endif>{{__('All')}}</option>
+                            <option value="{{config('enums.taxInclude.saudi')}}" @if($setting['tax_include'] == config('enums.taxInclude.saudi')) selected @endif>{{__('Saudi')}}</option>
+                            <option value="{{config('enums.taxInclude.not_saudi')}}" @if($setting['tax_include'] == config('enums.taxInclude.not_saudi')) selected @endif>{{__('Non-Saudi')}}</option>
                         </select>
                         @error('tax_include')
                             <span class="invalid-feedback">

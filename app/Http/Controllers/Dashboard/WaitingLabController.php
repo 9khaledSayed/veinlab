@@ -277,14 +277,27 @@ class WaitingLabController extends Controller
     public function getTax(Request $request, $totalPrice)
     {
         $tax = 0;
-//        $nationality = Nationality::find(Patient::find($request->patient_id)->value('nationality_id'));
-        $nationality = Patient::find($request->patient_id)->value('nationality_id');
-        $taxOnSaudi = setting('tax_include') == config('enums.taxInclude.saudi');
-        $taxOnNotSaudi = setting('tax_include') == config('enums.taxInclude.not_saudi');
-        $taxOnAll = setting('tax_include') == config('enums.taxInclude.all');
-        if( $taxOnAll || ($taxOnSaudi && $nationality == 1) || ($taxOnNotSaudi && $nationality != 1) ){
+        $nationalityLabel = Patient::find($request->patient_id)->nationality_label;
+
+
+        if(setting('tax_include') == config('enums.taxInclude.all')){
+
             $tax = $totalPrice * (setting('tax')/100);
+        }elseif (setting('tax_include') == config('enums.taxInclude.saudi')){
+
+            /** check if patient is saudi **/
+            if ($nationalityLabel == 'sa'){
+                $tax = $totalPrice * (setting('tax')/100);
+            }
+
+        }elseif (setting('tax_include') == config('enums.taxInclude.not_saudi')){
+            /** check if patient is not saudi **/
+            if ($nationalityLabel != 'sa'){
+                $tax = $totalPrice * (setting('tax')/100);
+            }
         }
+
+
         return $tax;
     }
 
