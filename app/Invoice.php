@@ -25,17 +25,22 @@ class Invoice extends Model
             }
 
             $model->serial_no = isset($revenue_serial_no) ? date("Y") . ++$without_year : date("Y") . '11111' . '10000';
-            $model->employee_id = auth()->user()->id;
-            $model->barcode = time() . mt_rand(0, 9);
+            $model->employee_id = auth()->id();
+            $model->barcode = substr(time(), -5) . mt_rand(0, 9);
+
+        });
+        static::created(function ($model){
+
             Revenue::create([
                 'type' => config('enums.revenueType.invoice'), // invoice revenue
                 'invoice_id' => $model->id,
                 'amount' => $model->total_price,
-                'employee_id' => auth()->user()->id,
+                'employee_id' => auth()->id(),
                 'serial_no'    => $model->serial_no
             ]);
 
         });
+
     }
     
     public function patient()
@@ -58,7 +63,8 @@ class Invoice extends Model
 
     public function doctor()
     {
-        return $this->belongsTo(Doctor::class);
+//        dd(Doctor::find($this->doctor_id));
+        return $this->belongsTo(Doctor::class, 'doctor_id')->withTrashed();
     }
     public function waiting_labs()
     {

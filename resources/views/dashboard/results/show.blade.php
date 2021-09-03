@@ -188,8 +188,12 @@
                             <div class="row mt-5" >
                                 <div class="col-lg-12" >
                                     <h4 style="float:right"> {{__('Doctor')}} : {{$doctor}} </h4>
-{{--                                    <button onclick="window.print()"  class="btn btn-brand btn-bold mx-auto btnprn" style="float:left" >{{__('print')}}</button>--}}
                                 </div>
+                            </div>
+                            <div class="row d-flex justify-content-around">
+                                <a href="{{route('dashboard.results.print_all_results', $invoice->id)}}"  class="btn btn-brand btn-elevate btn-pill d-block mx-auto"><i class="la la-print"></i>
+                                    {{__('Print all analysis')}}
+                                </a>
                             </div>
                         </div>
                     </div>

@@ -140,7 +140,9 @@ class Template extends Model
 
         foreach ($waitingLab->results->groupBy('classification') as $classification => $results) {
 
+
             foreach($results as $result){
+
                 $bgClass = $classification == $result->sub_analysis->name ? 'bg-grey' : '';
                 $normal_range =  $result->sub_analysis->normal($gender) ? '<td>' . $result->sub_analysis->normal($gender)  . '</td>' : '<td> - </td>';
                 if($result->sub_analysis){

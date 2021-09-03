@@ -80,5 +80,14 @@ class WaitingLab extends Model
         return [];
     }
 
+    public function labNotes()
+    {
+        if ($this->notes){
+            $notes = $this->notes->lab_notes;
+        }else{
+            $notes = 'There is no notes';
+        }
+    }
+
 
 }

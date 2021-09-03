@@ -5,9 +5,15 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Invoice;
 use App\Patient;
+use App\Template;
+use App\WaitingLab;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use SnappyPDF;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Validation\Rules\In;
+use DNS1D;
+use PDFNik;
 use App;
 use Illuminate\Support\Facades\Redirect;
 
@@ -52,27 +58,16 @@ class SendResultController extends Controller
         $invoice->doctor = Auth::guard('employee')->user()->fullname();
         $invoice->approved = 1;
         $invoice->save();
-
         $this->SendPdf($invoice);
-
-        return Redirect::to('https://hiwhats.com/API/send?mobile=966554121213&password=446c8f5d3&instanceid=19239&message=لقد تم الأنتهاء من رصد النتائج الخاصة بك مختبرات فين تتمني لك الشفاء العاجل باذت الله&numbers=201024098963&json=1&type=1');
+//        $message = "لقد تم الأنتهاء من رصد النتائج الخاصة بك مختبرات فين تتمني لك الشفاء العاجل باذت الله";
+//        return $invoice->patient->sendWhatsappMessage($message);
 
     }
 
     public function SendPdf($invoice)
     {
-
-
-        $data = $this->getResult($invoice->id);
-
-        $pdf  = App::make('snappy.pdf.wrapper');
-        $pdf->loadView('dashboard.results.pdf', $data);
-        $path = 'public/results/result_'. $invoice->patient_id . $invoice->id.'.pdf';
-        $filename = base_path($path);
-        $pdf->save($filename);
-
-        return Redirect::to('https://www.hiwhats.com/index.php?url=API/send&mobile=966554121213&password=446c8f5d3&instanceid=19239&message=ahmad gamal&numbers=201007949946&json=1&fileurl=http://www.veinlab.net/'.$path.'&type=2');
-
+        dd("https://www.hiwhats.com/index.php?url=API/send&mobile=966164325552&password=2d4aa51be&instanceid=19553&message=test&numbers=201024098963&json=1&fileurl=" . route('generate_pdf', $invoice) . "&type=2");
+        return Redirect::to("https://www.hiwhats.com/index.php?url=API/send&mobile=966164325552&password=2d4aa51be&instanceid=19553&message=test&numbers=201024098963&json=1&fileurl=" . route('generate_pdf', $invoice) . "&type=2");
     }
 
     public function getResult($invoice_id)
@@ -142,5 +137,22 @@ class SendResultController extends Controller
             'success' => true
         ]);
     }
+
+    public function generatePdf($id)
+    {
+        $invoice = Invoice::withTrashed()->find($id);
+        $patient = $invoice->patient;
+
+        $pdf = PDFNik::loadView('dashboard.templates.pdf.result_pdf', [
+            'invoice' => $invoice,
+            'patient' => $patient,
+        ]);
+
+//        dd($pdf);
+
+        return $pdf->stream('Results.pdf');
+    }
+
+
 
 }

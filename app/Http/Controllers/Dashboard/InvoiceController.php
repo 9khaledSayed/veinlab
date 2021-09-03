@@ -66,7 +66,6 @@ class InvoiceController extends Controller
 
     public function show(Request $request, Invoice $invoice)
     {
-
         $this->authorize('show_invoices');
         $patient = $invoice->patient;
         $promoCode = $invoice->promo_code;
@@ -100,22 +99,26 @@ class InvoiceController extends Controller
 
     public function discard(Request $request, $id)
     {
+
         if($request->ajax()){
             $invoice = Invoice::find($id);
             $waiting_labs = $invoice->waiting_labs();
             foreach ($waiting_labs as $waiting_lab) {
                 $waiting_lab->results()->delete();
             }
+
             $waiting_labs->delete();
             $invoice->update([
                 'status' => 2
             ]);
+
+            Revenue::where('invoice_id', $invoice->id)->orWhere('serial_no', $invoice->serial_no)->delete();
+
             return response()->json([
                 'status' => true,
                 'message' => 'Item Discarded Successfully'
             ]);
 
-            Revenue::where('invoice_id', $invoice->id)->first()->delete();
         }
     }
 

@@ -6,6 +6,7 @@ namespace App;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Http;
 
 class Patient extends Authenticatable
 {
@@ -75,6 +76,30 @@ class Patient extends Authenticatable
         return Nationality::withTrashed()->find($this->nationality_id)->label;
     }
 
+
+    public function sendWhatsappMessage($message)
+    {
+        $phone = 201024098963;
+        $response = Http::get("https://hiwhats.com/API/send" , [
+            'mobile' => env('HIWHATSAPP_SENDER_MOBILE'),
+            'password' => env('HIWHATSAPP_SENDER_PASSWORD'),
+            'instanceid' => env('HIWHATSAPP_INSTANCE_ID'),
+            'message' => $message,
+            'numbers' => $phone,
+            'json' => 1,
+            'type' => 1,
+        ]);
+
+        return $response;
+    }
+
+    public function sendWhatsappFile($fileUrl)
+    {
+        /**check if there is a pdf for this invoice then return file url**/
+
+        /**else then generate a pdf and store it the get the file url**/
+
+    }
 
 
 }
