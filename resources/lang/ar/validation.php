@@ -172,6 +172,9 @@ return [
         'cultivation' => [
             'required_if' => 'حقل ( :attribute ) مطلوب.',
         ],
+        'phone' => [
+            'regex' => 'رقم الجوال يجب ان يبدء ب 05 وان يتكون من 10 ارقام',
+        ],
     ],
 
     /*

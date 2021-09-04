@@ -95,7 +95,7 @@
                             <td class="{{$classification == $result->sub_analysis->name ? 'bg-grey' : ''}}">{{$result->sub_analysis->name . '  ' . htmlspecialchars_decode($result->sub_analysis->unit)}}</td>
                             <td class="text-center">{{$result->result}}</td>
                             <td>{{htmlspecialchars_decode($result->sub_analysis->unit ?? '-')}}</td>
-                            <td class="text-center">{{$result->sub_analysis->normal($patient->gender) ?? '-'}}</td>
+                            <td class="text-center">{!! htmlspecialchars_decode($result->sub_analysis->normal($patient->gender)) ?? '-' !!}</td>
                         </tr>
                     @endforeach
                 @endforeach

@@ -16,6 +16,7 @@ class Patient extends Authenticatable
 
     protected $dates = ['deleted_at'];
     protected $guarded = [];
+    protected $appends = ['full_phone'];
     protected $guard = 'patient';
     protected $casts = [
         'created_at'  => 'date:D M d Y',
@@ -41,6 +42,7 @@ class Patient extends Authenticatable
         "height" => ['nullable', 'string', 'max:255'],
         "nationality_id" => ['required', 'numeric']
     ];
+
 
     public function hospital (){
 
@@ -76,29 +78,51 @@ class Patient extends Authenticatable
         return Nationality::withTrashed()->find($this->nationality_id)->label;
     }
 
+    public function setPhoneAttribute($value) {
+        $this->attributes['phone'] = '966' . intval($value);
+    }
+
+    public function getPhoneAttribute() {
+        return '0' . substr($this->attributes['phone'], 3);
+    }
+
+    public function getFullPhoneAttribute() {
+        return '966' . substr($this->attributes['phone'], 3);
+    }
+
 
     public function sendWhatsappMessage($message)
     {
-        $phone = 201024098963;
+
         $response = Http::get("https://hiwhats.com/API/send" , [
             'mobile' => env('HIWHATSAPP_SENDER_MOBILE'),
             'password' => env('HIWHATSAPP_SENDER_PASSWORD'),
             'instanceid' => env('HIWHATSAPP_INSTANCE_ID'),
             'message' => $message,
-            'numbers' => $phone,
+            'numbers' => $this->full_phone,
             'json' => 1,
             'type' => 1,
         ]);
 
-        return $response;
+        return \GuzzleHttp\json_decode($response->body());
     }
 
     public function sendWhatsappFile($fileUrl)
     {
-        /**check if there is a pdf for this invoice then return file url**/
 
-        /**else then generate a pdf and store it the get the file url**/
+        $phone = 201024098963;
+        $response = Http::get("https://hiwhats.com/API/send" , [
+            'mobile' => env('HIWHATSAPP_SENDER_MOBILE'),
+            'password' => env('HIWHATSAPP_SENDER_PASSWORD'),
+            'instanceid' => env('HIWHATSAPP_INSTANCE_ID'),
+            'message' => 'test',
+            'numbers' => $this->full_phone,
+            'json' => 1,
+            'fileurl' => $fileUrl,
+            'type' => 2,
+        ]);
 
+        return \GuzzleHttp\json_decode($response->body());
     }
 
 

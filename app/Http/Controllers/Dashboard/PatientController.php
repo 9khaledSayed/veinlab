@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Nationality;
 use App\Patient;
+use App\Rules\UniquePhoneNumber;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
@@ -23,8 +24,8 @@ class PatientController extends Controller implements  FromCollection, WithHeadi
     {
         $this->authorize('view_patients');
         if ($request->ajax()) {
-            $patients = Patient::with(['hospital', 'doctor'])->get();
-            return response()->json($patients);
+            $response = getModelData(new Patient(), $request);
+            return response()->json($response);
         }
         return  view('dashboard.patients.index');
     }
@@ -41,8 +42,25 @@ class PatientController extends Controller implements  FromCollection, WithHeadi
     {
         $this->authorize('create_patients');
         $request['password'] = Hash::make($request->phone);
-        $rules = Patient::$rules;
-        Patient::create($this->validate($request, $rules));
+        $data = $request->validate([
+            'password' => ['required', 'string', 'min:8'],
+            "name" => ['required', 'string', 'max:255'],
+            "name_in_english" => ['nullable', 'string', 'max:255'],
+            "email" => 'nullable|string|email:dns|max:255|unique:patients',
+            'phone'  => ['required', 'numeric', 'regex:/(05)[0-9]{8}$/', new UniquePhoneNumber('Patient')],
+            "id_no" => 'required|sometimes|unique:patients',
+            "gender" => ['required'],
+            "age" => ['required'],
+            "city" => ['nullable', 'string', 'max:255'],
+            "address" => ['nullable', 'string', 'max:255'],
+            "diseases" => ['nullable', 'string', 'max:255'],
+            "blood_type" => ['nullable', 'string', 'max:255'],
+            "weight" => ['nullable', 'string', 'max:255'],
+            "height" => ['nullable', 'string', 'max:255'],
+            "nationality_id" => ['required', 'numeric']
+        ]);
+
+        Patient::create($data);
         return  redirect(route('dashboard.patients.index'));
     }
 
@@ -64,10 +82,26 @@ class PatientController extends Controller implements  FromCollection, WithHeadi
     {
         $this->authorize('update_patients');
         $request['password'] = Hash::make($request->phone);
-        $rules = Patient::$rules;
-        $rules['id_no'] = ($rules['id_no'] . ',id_no,' . $patient->id);
-        $rules['email'] = ($rules['email'] . ',email,' . $patient->id);
-        $patient->update($this->validate($request, $rules));
+
+        $data = $request->validate([
+            'password' => ['required', 'string', 'min:8'],
+            "name" => ['required', 'string', 'max:255'],
+            "name_in_english" => ['nullable', 'string', 'max:255'],
+            "email" => 'nullable|string|email:dns|max:255|unique:patients' . ',email,' . $patient->id,
+            'phone'  => ['required', 'numeric', 'regex:/(05)[0-9]{8}$/', new UniquePhoneNumber('Patient', $patient->id)],
+            "id_no" => 'required|sometimes|unique:patients' . ',id_no,' . $patient->id,
+            "gender" => ['required'],
+            "age" => ['required'],
+            "city" => ['nullable', 'string', 'max:255'],
+            "address" => ['nullable', 'string', 'max:255'],
+            "diseases" => ['nullable', 'string', 'max:255'],
+            "blood_type" => ['nullable', 'string', 'max:255'],
+            "weight" => ['nullable', 'string', 'max:255'],
+            "height" => ['nullable', 'string', 'max:255'],
+            "nationality_id" => ['required', 'numeric']
+        ]);
+
+        $patient->update($data);
         return redirect(route('dashboard.patients.index'));
     }
 

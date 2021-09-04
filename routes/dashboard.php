@@ -137,3 +137,5 @@ Route::get('/pushNotification', function () {
 
 Route::view('new_result', 'new_result');
 
+
+
