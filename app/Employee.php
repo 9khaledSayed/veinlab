@@ -246,4 +246,29 @@ class Employee extends Authenticatable
         $this->notify(new MailResetPasswordToken($token));
     }
 
+
+    public function setMobileOwner()
+    {
+        auth()->user()->mobile_owner = true;
+        auth()->user()->save();
+    }
+
+    public function unsetMobileOwner()
+    {
+        auth()->user()->mobile_owner = false;
+        auth()->user()->save();
+    }
+
+    public function setInLab()
+    {
+        auth()->user()->in_lab = true;
+        auth()->user()->save();
+    }
+
+    public function unsetInLab()
+    {
+        auth()->user()->in_lab = false;
+        auth()->user()->save();
+    }
+
 }

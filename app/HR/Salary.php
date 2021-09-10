@@ -12,7 +12,7 @@ class Salary extends Model
 
     public function employee()
     {
-        return $this->belongsTo(Employee::class)->withTrashed();
+        return $this->belongsTo(\App\Employee::class)->withTrashed();
     }
 
     public function salary_report()

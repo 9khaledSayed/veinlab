@@ -303,6 +303,21 @@ SVG Icons - svgicons.sparkk.fr
 
 <!-- end::Quick Panel -->
 
+<!-- begin::Sticky Toolbar -->
+<ul class="kt-sticky-toolbar" style="margin-top: 30px;">
+    <li class="kt-sticky-toolbar__item kt-sticky-toolbar__item--success" id="kt_demo_panel_toggle" data-toggle="kt-tooltip" title="Check in & check out" data-placement="right">
+        <a href="{{route('dashboard.qr_code.generate')}}" id="qr-generate" class=""><i class="fa fa-qrcode"></i></a>
+    </li>
+
+    @can('view_check_in_page')
+    <li class="kt-sticky-toolbar__item kt-sticky-toolbar__item--success" id="kt_demo_panel_toggle" data-toggle="kt-tooltip" title="QRCode scanner" data-placement="right">
+        <a href="{{route('dashboard.qr_code.scanner')}}" class=""><img src="{{asset('assets/media/icons/svg/Shopping/Barcode-scan.svg')}}"/></a>
+    </li>
+    @endcan
+</ul>
+
+<!-- end::Sticky Toolbar -->
+
 <!-- begin::Scrolltop -->
 <div id="kt_scrolltop" class="kt-scrolltop">
     <i class="fa fa-arrow-up"></i>
@@ -318,6 +333,8 @@ SVG Icons - svgicons.sparkk.fr
 
 
 <script>
+    let lat = 0;
+    let lng = 0;
     // Your web app's Firebase configuration
     // For Firebase JS SDK v7.20.0 and later, measurementId is optional
     var firebaseConfig = {
@@ -483,6 +500,28 @@ SVG Icons - svgicons.sparkk.fr
             }
         });
 
+    });
+
+
+    $(function () {
+       $("#qr-generate").click(function (e) {
+           e.preventDefault();
+
+
+           if (navigator.geolocation) {
+               navigator.geolocation.getCurrentPosition(function (position) {
+                   lat = position.coords.latitude;
+                   lng = position.coords.longitude;
+
+                   window.location.href= $("#qr-generate").attr('href') + '?lat=' + lat + '&lng=' + lng;
+
+               });
+
+           } else {
+               console.log("Geolocation is not supported by this browser.");
+           }
+
+       })
     });
 
 </script>

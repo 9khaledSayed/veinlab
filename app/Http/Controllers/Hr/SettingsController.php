@@ -18,8 +18,11 @@ class SettingsController extends Controller
     }
     public function company_info(Request $request)
     {
+
+
         $this->authorize('view_company_info');
         if ($request->isMethod('post')){
+
             $this->validate($request, [
                 'logo_url' => 'nullable|image|mimes:jpeg,png,jpg',
                 'company_stamp' =>  'nullable|image|mimes:jpeg,png,jpg',
@@ -58,9 +61,13 @@ class SettingsController extends Controller
                 $request['footer_path'] = 'storage/company_info/' . $fileName ;
             }
 
+
             //store
             Setting::set($request->all());
             Setting::save();
+
+
+//            dd(setting('lat'), setting('lng'));
             return redirect()->back()->with('message', 'done');
         }
         $setting = Setting::all();

@@ -180,7 +180,8 @@ return [
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Barryvdh\Snappy\ServiceProvider::class,
         anlutro\LaravelSettings\ServiceProvider::class,
-        niklasravnsborg\LaravelPdf\PdfServiceProvider::class
+        niklasravnsborg\LaravelPdf\PdfServiceProvider::class,
+        SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class
 
     ],
 
@@ -239,7 +240,8 @@ return [
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'SnappyPDF' => Barryvdh\Snappy\Facades\SnappyPdf::class,
         'Setting' => anlutro\LaravelSettings\Facade::class,
-        'PDFNik' => niklasravnsborg\LaravelPdf\Facades\Pdf::class
+        'PDFNik' => niklasravnsborg\LaravelPdf\Facades\Pdf::class,
+        'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class
     ],
 
 ];

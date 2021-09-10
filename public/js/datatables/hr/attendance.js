@@ -11,6 +11,8 @@ var KTUserListDatatable = function() {
             'Date': "التاريخ",
             'Total Working Hours': "ساعات العمل",
             'Actions': "الاجراءات",
+            'Early Hours': "ساعات التبكير",
+            'Delay Hours': "ساعات التاخير",
         }
     };
     var locator = new KTLocator(messages);
@@ -102,6 +104,12 @@ var KTUserListDatatable = function() {
             }, {
                 field: 'time_out',
                 title: locator.__('Time Out'),
+            }, {
+                field: 'early_hours',
+                title: locator.__('Early Hours'),
+            }, {
+                field: 'delay_hours',
+                title: locator.__('Delay Hours'),
             }, {
                 field: 'total_working_hours',
                 title: locator.__('Total Working Hours'),

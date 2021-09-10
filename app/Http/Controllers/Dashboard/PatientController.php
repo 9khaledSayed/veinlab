@@ -24,7 +24,7 @@ class PatientController extends Controller implements  FromCollection, WithHeadi
     {
         $this->authorize('view_patients');
         if ($request->ajax()) {
-            $response = getModelData(new Patient(), $request);
+            $response = Patient::get();
             return response()->json($response);
         }
         return  view('dashboard.patients.index');

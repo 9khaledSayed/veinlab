@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => 'd8e63d8510bb3f4509099e502fcd72bad2c1cd08',
+    'reference' => '32e4931cd65f822b04e4f035d44d83ca7826cddb',
     'name' => 'laravel/laravel',
   ),
   'versions' => 
@@ -28,6 +28,15 @@
       array (
       ),
       'reference' => '23f469e81c65e2fb7fc7bce371fbdc363fe32adf',
+    ),
+    'bacon/bacon-qr-code' => 
+    array (
+      'pretty_version' => '2.0.4',
+      'version' => '2.0.4.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'f73543ac4e1def05f1a70bcd1525c8a157a1ad09',
     ),
     'barryvdh/laravel-dompdf' => 
     array (
@@ -143,6 +152,15 @@
       array (
         0 => '*',
       ),
+    ),
+    'dasprid/enum' => 
+    array (
+      'pretty_version' => '1.0.3',
+      'version' => '1.0.3.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '5abf82f213618696dda8e3bf6f64dd042d8542b2',
     ),
     'davedevelopment/hamcrest-php' => 
     array (
@@ -620,7 +638,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => 'd8e63d8510bb3f4509099e502fcd72bad2c1cd08',
+      'reference' => '32e4931cd65f822b04e4f035d44d83ca7826cddb',
     ),
     'laravel/nexmo-notification-channel' => 
     array (
@@ -1362,6 +1380,15 @@
       array (
       ),
       'reference' => '6231e315f73e4f62d72b73f3d6d78ff0eed93c31',
+    ),
+    'simplesoftwareio/simple-qrcode' => 
+    array (
+      'pretty_version' => '4.2.0',
+      'version' => '4.2.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '916db7948ca6772d54bb617259c768c9cdc8d537',
     ),
     'swiftmailer/swiftmailer' => 
     array (

@@ -14,6 +14,6 @@ class Loan extends Model
     ];
     public function employee()
     {
-        return $this->belongsTo(Employee::class)->withTrashed();
+        return $this->belongsTo(\App\Employee::class)->withTrashed();
     }
 }

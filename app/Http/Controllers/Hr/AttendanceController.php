@@ -21,7 +21,8 @@ class AttendanceController extends Controller
     {
         $this->authorize('view_attendance_sheet');
         if ($request->ajax()) {
-            $attendance = Attendance::with('employee')->get();;
+            $attendance = getModelData(new Attendance(), $request, ['employee' => ['fname_arabic', 'lname_arabic', 'mname_arabic']]);
+//            $attendance = Attendance::with('employee')->get();;
             return response()->json($attendance);
         }
         $branches = Branch::all();
@@ -35,29 +36,115 @@ class AttendanceController extends Controller
         return view('hr.attendance.create', compact('employees'));
     }
 
+//    public function store(Request $request)
+//    {
+//        $this->authorize('view_check_in_page');
+//        $admin = Employee::find(1);
+//        $time = date("H:i:s");
+//        $employee   = Employee::find($request->employee_id);
+//
+//        $attendance = $employee->attendance()->whereDate('created_at', Carbon::today())->first();
+//        $checked_in = isset($attendance);
+//        $start_time_shift = 0;
+//        $time_to_late = Setting::get('late_period');
+//
+//        if ($employee->shift_type == 1)
+//        {
+//            $start_time_shift = Setting::get('morning_shift_start');
+//        }else
+//        {
+//            $start_time_shift = Setting::get('evening_shift_start');
+//        }
+//
+//            $start_time_shift = Carbon::createFromTime($start_time_shift);
+//            $time_now         = Carbon::now()->format('h:iA');
+//
+//        if($request->operation == 'Check in' && !$checked_in){
+//            Attendance::create([
+//                'employee_id' => $employee->id,
+//                'time_in' => $time,
+//                'day_off' => false
+//            ]);
+//            $start_time_shift->addMinutes($time_to_late);
+//
+//
+//
+////            dd($time_now);
+//
+//        if( $time_now->greaterThan($start_time_shift))
+//        {
+//                $time_late = $this->hoursandmins(($time_now->diffInMinutes($start_time_shift)), '%2d : %2d');
+//                $message = "الموظف " . $employee->fname_arabic . " تأخر بمقدار " . $time_late . " من الوقت";
+//                Notification::send($admin, new \App\Notifications\isLateNotification($employee,$message));
+//        }
+//
+//        }else if($request->operation == 'Check out' && isset($attendance)){
+//            $date1 = date($attendance->time_in);
+//            $date2 = date($time);
+//            $diff = (new Carbon($attendance->time_in))->diff(new Carbon($time))->format('%h:%I:%s');
+//            $attendance->update([
+//                'time_out' => $time,
+//                'total_working_hours' => $diff
+//            ]);
+//
+//            $working_hours_setting = Setting::get('working_hours');
+//            $working_hours         = Carbon::createFromTime($working_hours_setting);
+//            $time_needed = $working_hours->diffInMinutes($diff) ;
+//
+//            if ($time_needed > 0)
+//            {
+//
+//                $time = $this->hoursandmins($time_needed, '%2d : %2d');
+//
+//                $message = "الموظف " . $employee->fname_arabic . " لم يكمل عدد الساعات المطلوبه بمقدار " . $time . " من الوقت";
+//                Notification::send($admin, new \App\Notifications\isLateNotification($employee,$message));
+//            }
+//
+//        }else{
+//            return response()->json([
+//                'status' => false,
+//            ]);
+//        }
+//
+//    }
+
     public function store(Request $request)
     {
         $this->authorize('view_check_in_page');
-        $admin = Employee::find(1);
-        $time = date("H:i:s");;
-        $employee   = Employee::find($request->employee_id);
-        $attendance = $employee->attendance()->whereDate('created_at', Carbon::today())->first();
-        $checked_in = isset($attendance);
-        $start_time_shift = 0;
-        $time_to_late = Setting::get('late_period');
+        $employee = Employee::find($request->employee_id);
 
-        if ($employee->shift_type == 1)
-        {
-            $start_time_shift = Setting::get('morning_shift_start');
-        }else
-        {
-            $start_time_shift = Setting::get('evening_shift_start');
+        if (!$employee->mobile_owner){
+            return response()->json([
+                'status' => false,
+                'message' => __('يجب ان تقوم بالتسجيل من جهازك او قم باعادة تحميل صفحة ال Qrcode'),
+            ]);
+        }
+//        if (!$employee->in_lab){
+//            return response()->json([
+//                'status' => false,
+//                'message' => __('يجب ان تكون متواجد في المختبر او قم باعادة تحميل صفحة ال Qrcode'),
+//            ]);
+//        }
+
+        $time = Carbon::now()->format('h:i');;
+        $employee = Employee::find($request->employee_id);
+
+
+        $todayAttendance = $employee->attendance()->whereDate('created_at', Carbon::today())->first();
+        $time_to_late = setting('late_period');
+
+
+        if ($employee->shift_type == 1) {
+            $start_time_shift = setting('morning_shift_start');
+        }else{
+            $start_time_shift = setting('evening_shift_start');
         }
 
-            $start_time_shift = Carbon::createFromTime($start_time_shift);
-            $time_now         = Carbon::now()->format('h:iA');
 
-        if($request->operation == 'Check in' && !$checked_in){
+        $start_time_shift = Carbon::createFromFormat('h:i A', $start_time_shift);
+
+
+        if(!isset($todayAttendance)){ /** first check ? **/
             Attendance::create([
                 'employee_id' => $employee->id,
                 'time_in' => $time,
@@ -65,54 +152,84 @@ class AttendanceController extends Controller
             ]);
             $start_time_shift->addMinutes($time_to_late);
 
-
-
-            dd($time_now);
-
-        if( $time_now->greaterThan($start_time_shift))
-        {
-                $time_late = $this->hoursandmins(($time_now->diffInMinutes($start_time_shift)), '%2d : %2d');
-                $message = "الموظف " . $employee->fname_arabic . " تأخر بمقدار " . $time_late . " من الوقت";
-                Notification::send($admin, new \App\Notifications\isLateNotification($employee,$message));
-        }
-
-        }else if($request->operation == 'Check out' && isset($attendance)){
-            $date1 = date($attendance->time_in);
-            $date2 = date($time);
-            $diff = (new Carbon($attendance->time_in))->diff(new Carbon($time))->format('%h:%I:%s');
-            $attendance->update([
-                'time_out' => $time,
-                'total_working_hours' => $diff
+            return response()->json([
+                'status' => true,
+                'message' => __('تم تسجيل الحضور'),
             ]);
 
-            $working_hours_setting = Setting::get('working_hours');
-            $working_hours         = Carbon::createFromTime($working_hours_setting);
-            $time_needed = $working_hours->diffInMinutes($diff) ;
+//        if( $time_now->gt($start_time_shift))
+//        {
+//                $lateMinutes = $time_now->diffInMinutes($start_time_shift);
+//                $message = "الموظف " . $employee->fname_arabic . " تأخر بمقدار " . $lateMinutes . " من الوقت";
+//                Notification::send($admin, new \App\Notifications\isLateNotification($employee,$message));
+//        }
 
-            if ($time_needed > 0)
-            {
+            $employee->unsetMobileOwner();
+            $employee->unsetInLab();
 
-                $time = $this->hoursandmins($time_needed, '%2d : %2d');
+        }else if(isset($todayAttendance->time_out)){
+            $employee->unsetMobileOwner();
+            $employee->unsetInLab();
 
-                $message = "الموظف " . $employee->fname_arabic . " لم يكمل عدد الساعات المطلوبه بمقدار " . $time . " من الوقت";
-                Notification::send($admin, new \App\Notifications\isLateNotification($employee,$message));
-            }
-
-        }else{
             return response()->json([
                 'status' => false,
+                'message' => __('تمت تسجيل انصرافك بالفعل !'),
             ]);
+        }else{
+            $diff = (new Carbon($todayAttendance->time_in))->diff(new Carbon($time));
+
+            if ($diff->format('%I') < 30){
+                $employee->unsetMobileOwner();
+                $employee->unsetInLab();
+
+                return response()->json([
+                    'status' => false,
+                    'message' => __('لا يمكنك تسجيل الانصراف الا بعد 30 دقيقة علي الاقل'),
+                ]);
+            }
+
+            $todayAttendance->update([
+                'time_out' => $time,
+                'total_working_hours' => $diff->format('%h:%I:%s')
+            ]);
+
+//            $officialWorkingHours = setting('working_hours');
+//            $working_hours         = Carbon::createFromTime($officialWorkingHours);
+//            $time_needed = $working_hours->diffInMinutes($diff) ;
+//
+//            if ($time_needed > 0)
+//            {
+//
+//                $time = $this->hoursandmins($time_needed, '%2d : %2d');
+//
+//                $message = "الموظف " . $employee->fname_arabic . " لم يكمل عدد الساعات المطلوبه بمقدار " . $time . " من الوقت";
+//                Notification::send($admin, new \App\Notifications\isLateNotification($employee,$message));
+//            }
+
+            return response()->json([
+                'status' => true,
+                'message' => __('تم تسجيل الانصراف'),
+            ]);
+            $employee->unsetMobileOwner();
+            $employee->unsetInLab();
         }
 
+
+        return response()->json([
+            'status' => true,
+            'message' => __('تمت العملية بنجاح'),
+        ]);
     }
 
     public function attendanceCheck($id)
     {
         $this->authorize('view_check_in_page');
+
         $employee = Employee::find($id);
         $attendance = $employee->attendance()->whereDate('created_at', Carbon::today())->first();
         $checked_in = isset($attendance->time_in);
         $checked_out = isset($attendance->time_out);
+
         if(!$checked_in){
             return response()->json(['value' => 'Check in']);
         } elseif (!$checked_out){
