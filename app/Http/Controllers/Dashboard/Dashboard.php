@@ -35,6 +35,18 @@ class Dashboard extends Controller
             $sumRevenue = Revenue::pluck('amount')->sum();
             $sumExports = Exports::pluck('amount')->sum();
             $profit     =  $sumRevenue - $sumExports;
+
+
+            $spending = $this->countPerMonth('Exports')['data'];
+            $income = $this->countPerMonth('Revenue')['data'];
+            $profits = [
+                'spending' => $spending,
+                'income' => $income,
+                'total_profits' => array_map(function ($x, $y) { return $x - $y; } , $income, $spending),
+            ];
+
+
+
             return view('dashboard.super_admin_view',[
                 'patients_no'    => Patient::get()->count(),
                 'employees_no'    => Employee::get()->count(),
@@ -46,6 +58,7 @@ class Dashboard extends Controller
                 'sumRevenue'   => $sumRevenue,
                 'sumExports'   => $sumExports,
                 'profit'   => $profit,
+                'profits'   => $profits,
             ]);
         }elseif (Auth::guard('employee')->check() && $user->roles->pluck('label')->contains('Receptionist')){
 
@@ -94,5 +107,19 @@ class Dashboard extends Controller
     {
         auth()->user()->update(['device_token'=>$request->token]);
         return response()->json(['token saved successfully.']);
+    }
+
+    function countPerMonth($modelName){
+
+        $model = app('\\App\\' . $modelName);
+        $array = array();
+
+        for($i = 1 ; $i <= 12 ; $i++ )
+        {
+            $MonthCount = $model::whereYear('created_at', now()->year)->whereMonth('created_at', $i)->count();
+            array_push($array,$MonthCount);
+        }
+
+        return ['data' => $array, 'min' => 0, 'max' => max($array), 'total' => $model::count()];
     }
 }

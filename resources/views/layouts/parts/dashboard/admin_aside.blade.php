@@ -190,9 +190,9 @@
                                 <li class="kt-menu__item " aria-haspopup="true"><a href="{{route('dashboard.revenue.index')}}" class="kt-menu__link "><i class="kt-menu__link-icon  fas fa-money-bill-alt"></i><span class="kt-menu__link-text">{{__('Imports')}}</span></a></li>
                             @endcan
 
-                            @can('view_profits')
-                                <li class="kt-menu__item " aria-haspopup="true"><a href="{{route('dashboard.profits.index')}}" class="kt-menu__link "><i class="kt-menu__link-icon  flaticon-coins"></i><span class="kt-menu__link-text">{{__('Profits')}}</span></a></li>
-                            @endcan
+{{--                            @can('view_profits')--}}
+{{--                                <li class="kt-menu__item " aria-haspopup="true"><a href="{{route('dashboard.profits.index')}}" class="kt-menu__link "><i class="kt-menu__link-icon  flaticon-coins"></i><span class="kt-menu__link-text">{{__('Profits')}}</span></a></li>--}}
+{{--                            @endcan--}}
                             @canany(['view_stocks', 'show_stocks', 'create_stocks', 'update_stocks', 'delete_stocks'])
                                 <li class="kt-menu__item " aria-haspopup="true">
                                     <a href="{{route('dashboard.stock.index')}}" class="kt-menu__link ">

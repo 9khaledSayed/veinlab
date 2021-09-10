@@ -147,7 +147,7 @@
             <div class="kt-portlet__head">
                 <div class="kt-portlet__head-label">
                     <h3 class="kt-portlet__head-title">
-                        {{__('Statistics')}}
+                        {{__('الارباح المالية')}}
                     </h3>
                 </div>
             </div>
@@ -171,10 +171,14 @@
                     </div>
                 </div>
             </div>
+            <div class="kt-portlet__body kt-portlet__body--fluid pb-0">
+                <canvas id="chart4" width="330" height="80"></canvas>
+            </div>
         </div>
         <!--end:: Widgets/Order Statistics-->
     </div>
-    <!--End::Row--><!--Begin::Row-->
+    <!--End::Row-->
+    <!--Begin::Row-->
     <!--Begin::Row-->
     <div class="row">
         <div class="col-xl-12 col-lg-12 order-lg-1 order-xl-1">
@@ -245,3 +249,68 @@
     </div>
     <!--End::Row-->
 @endsection
+
+@push('scripts')
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js@3.4.1/dist/chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+
+    <script>
+        var profits         = @json($profits);
+
+        console.log(profits);
+        chart4();
+
+        function chart4() {
+            var ctx = document.getElementById('chart4').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['يناير','فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو','يوليو', 'أغسطس', 'سبتمبر','أكتوبر','نوفمبر',"ديسمبر"],
+                    datasets: [
+                        {
+                            label: 'اجمالي الربح',
+                            data: profits.total_profits,
+                            backgroundColor: [
+                                'rgba(120, 216, 65, 0.2)',
+                            ],
+                            borderColor: [
+                                'rgba(120, 216, 65, 1)',
+                            ],
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'الإيرادات',
+                            data: profits.income,
+                            backgroundColor: [
+                                'rgba(38, 50, 56, 0.2)',
+                            ],
+                            borderColor: [
+                                'rgba(38, 50, 56, 1)',
+                            ],
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'المصاريف',
+                            data: profits.spending,
+                            backgroundColor: [
+                                'rgba(242, 7, 7, 0.2)',
+                            ],
+                            borderColor: [
+                                'rgba(242, 7, 7, 1)',
+                            ],
+                            borderWidth: 1
+                        },
+
+                    ]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+@endpush

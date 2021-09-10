@@ -26,7 +26,7 @@ class AttendanceController extends Controller
             return response()->json($attendance);
         }
         $branches = Branch::all();
-        return view('hr.attendance.index',compact('branches'));
+        return view('hr.attendance.index',comrpact('branches'));
     }
 
     public function create()
