@@ -79,7 +79,7 @@
                                 <tbody>
                                 @foreach($abilities->where('category', $category) as $ability)
                                     <tr style="text-align: center">
-                                        <td>{{__(ucwords(str_replace('_', ' ', $ability->label)))}}</td>
+                                        <td>{{__(explode(" ",$ability->label)[0]) . ' ' . __(preg_replace("/^(\w+\s)/", "", $ability->label))}}</td>
                                         <td>
                                             <span class="kt-switch kt-switch--icon">
                                                 <label>

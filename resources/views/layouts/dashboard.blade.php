@@ -40,13 +40,13 @@ SVG Icons - svgicons.sparkk.fr
     }
     @if(!Auth()->guard('employee')->check())
         @media (min-width: 1025px){
-            .kt-aside--fixed.kt-aside--minimize .kt-wrapper {
-                padding-right: 0;
-            }
-            .kt-aside--fixed .kt-wrapper {
-                padding-right: 0;
-            }
+        .kt-aside--fixed.kt-aside--minimize .kt-wrapper {
+            padding-right: 0;
         }
+        .kt-aside--fixed .kt-wrapper {
+            padding-right: 0;
+        }
+    }
     @endif
 
     .required{
@@ -116,13 +116,13 @@ SVG Icons - svgicons.sparkk.fr
 <div class="kt-grid kt-grid--hor kt-grid--root">
     <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--ver kt-page">
         <!-- begin:: Aside -->
-        @includeWhen( Auth::guard('employee')->check() && !Auth::user()->roles->pluck('name_english')->contains('Super Admin') , 'layouts.parts.dashboard.aside')
-        @includeWhen(Auth::guard('employee')->check() && Auth::user()->roles->pluck('name_english')->contains('Super Admin'), 'layouts.parts.dashboard.admin_aside')
-        <!-- end:: Aside -->
+    @includeWhen( Auth::guard('employee')->check() && !Auth::user()->roles->pluck('name_english')->contains('Super Admin') , 'layouts.parts.dashboard.aside')
+    @includeWhen(Auth::guard('employee')->check() && Auth::user()->roles->pluck('name_english')->contains('Super Admin'), 'layouts.parts.dashboard.admin_aside')
+    <!-- end:: Aside -->
         <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor kt-wrapper" id="kt_wrapper" @if(!Auth::guard('employee')->check()) style="padding-left: 0" @endif>
             <!-- begin:: Header -->
-            @include('layouts.parts.dashboard.header')
-            <!-- end:: Header -->
+        @include('layouts.parts.dashboard.header')
+        <!-- end:: Header -->
 
             <div class="kt-content  kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor" id="kt_content">
                 <!-- begin:: Content -->
@@ -310,9 +310,9 @@ SVG Icons - svgicons.sparkk.fr
     </li>
 
     @can('view_check_in_page')
-    <li class="kt-sticky-toolbar__item kt-sticky-toolbar__item--success" id="kt_demo_panel_toggle" data-toggle="kt-tooltip" title="QRCode scanner" data-placement="right">
-        <a href="{{route('dashboard.qr_code.scanner')}}" class=""><img src="{{asset('assets/media/icons/svg/Shopping/Barcode-scan.svg')}}"/></a>
-    </li>
+        <li class="kt-sticky-toolbar__item kt-sticky-toolbar__item--success" id="kt_demo_panel_toggle" data-toggle="kt-tooltip" title="QRCode scanner" data-placement="right">
+            <a href="{{route('dashboard.qr_code.scanner')}}" class=""><img src="{{asset('assets/media/icons/svg/Shopping/Barcode-scan.svg')}}"/></a>
+        </li>
     @endcan
 </ul>
 
@@ -504,24 +504,24 @@ SVG Icons - svgicons.sparkk.fr
 
 
     $(function () {
-       $("#qr-generate").click(function (e) {
-           e.preventDefault();
+        $("#qr-generate").click(function (e) {
+            e.preventDefault();
 
 
-           if (navigator.geolocation) {
-               navigator.geolocation.getCurrentPosition(function (position) {
-                   lat = position.coords.latitude;
-                   lng = position.coords.longitude;
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    lat = position.coords.latitude;
+                    lng = position.coords.longitude;
 
-                   window.location.href= $("#qr-generate").attr('href') + '?lat=' + lat + '&lng=' + lng;
+                    window.location.href= $("#qr-generate").attr('href') + '?lat=' + lat + '&lng=' + lng;
 
-               });
+                });
 
-           } else {
-               console.log("Geolocation is not supported by this browser.");
-           }
+            } else {
+                console.log("Geolocation is not supported by this browser.");
+            }
 
-       })
+        })
     });
 
 </script>

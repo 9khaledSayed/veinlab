@@ -54,7 +54,7 @@
                             @foreach($categories as $category)
                                 <thead class="thead-dark">
                                     <tr>
-                                        <th colspan="2" style="text-align: center">{{__(ucwords(str_replace('_', ' ', $category)))}}</th>
+                                        <td>{{__(explode(" ",$ability->label)[0]) . ' ' . __(preg_replace("/^(\w+\s)/", "", $ability->label))}}</td>
                                     </tr>
                                     <tr style="text-align: center">
                                         <td>{{__('Permissions')}}</td>

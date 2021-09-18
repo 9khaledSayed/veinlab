@@ -13,14 +13,8 @@ var KTDatatableLocalSortDemo = function() {
             'Total Price': "السعر الكلي",
             'Load sub table': "اعرض الجدول الفرعي",
             'Are you sure to cancel this request?': "هل انت متأكد أنك تريد الغاء هذا الطلب؟",
-            'Item Deleted Successfully': "تم مسح العنصر بنجاح",
             'Yes, Cancel!': "نعم الغ!",
             'No': "لا",
-            'OK': "تم",
-            'Loading...': "تحميل...",
-            'Error!': "خطأ!",
-            'Deleted!': "تم المسح!",
-            'Show': "عرض",
             'edit': "تعديل",
             'delete': "مسح",
             'salary induction request' : "طلب تعريف بالراتب",
@@ -42,6 +36,17 @@ var KTDatatableLocalSortDemo = function() {
             "Title":"العنوان",
             "Text":"النص",
             "Branch":"الفرع",
+            'Are you sure to delete this item?': "هل انت متأكد أنك تريد مسح هذا العنصر؟",
+            'Yes, Delete!': "نعم امسح!",
+            'Item Deleted Successfully': "تم مسح العنصر بنجاح",
+            'No, cancel': "لا الغِ",
+            'OK': "تم",
+            'Loading...': "تحميل...",
+            'Error!': "خطأ!",
+            'Deleted!': "تم المسح!",
+            'Show': "عرض",
+            'Edit': "تعديل",
+            'Delete': "مسح",
             "Readers":"المشاهدون"
         }
     };
@@ -105,7 +110,61 @@ var KTDatatableLocalSortDemo = function() {
                             data.icon
                         )
                     });
+
+                    row.find('.delete-item').on('click', function () {
+                        swal.fire({
+                            buttonsStyling: false,
+
+                            html: locator.__("Are you sure to delete this item?"),
+                            type: "info",
+
+                            confirmButtonText: locator.__("Yes, Delete!"),
+                            confirmButtonClass: "btn btn-sm btn-bold btn-brand",
+
+                            showCancelButton: true,
+                            cancelButtonText: locator.__("No, cancel"),
+                            cancelButtonClass: "btn btn-sm btn-bold btn-default"
+                        }).then(function (result) {
+                            if (result.value) {
+                                swal.fire({
+                                    title: locator.__('Loading...'),
+                                    onOpen: function () {
+                                        swal.showLoading();
+                                    },
+                                });
+                                $.ajax({
+                                    method: 'DELETE',
+                                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                                    url: '/dashboard/hr/memos/' + data.id,
+                                    error: function (err) {
+                                        if (err.hasOwnProperty('responseJSON')) {
+                                            if (err.responseJSON.hasOwnProperty('message')) {
+                                                swal.fire({
+                                                    title: locator.__('Error!'),
+                                                    text: err.responseJSON.message,
+                                                    type: 'error'
+                                                });
+                                            }
+                                        }
+                                        console.log(err);
+                                    }
+                                }).done(function (res) {
+                                    swal.fire({
+                                        title: locator.__('Deleted!'),
+                                        text: locator.__(res.message),
+                                        type: 'success',
+                                        buttonsStyling: false,
+                                        confirmButtonText: locator.__("OK"),
+                                        confirmButtonClass: "btn btn-sm btn-bold btn-brand",
+                                    });
+                                    datatable.reload();
+                                });
+
+                            }
+                        });
+                    });
                 }
+
             },
 
             // columns definition
@@ -136,26 +195,40 @@ var KTDatatableLocalSortDemo = function() {
                     overflow: 'visible',
                     autoHide: false,
                     textAlign: 'center',
-                    template: function(raw) {
+                    template: function(row) {
 
 
-                        if (type != 1)
-                        {
-                            var actionBtn = '<button type="button" class="btn btn-sm btn-default btn-font-sm show">' + '<i class="flaticon2-document">' + '</i>' + locator.__('Show') + '</button>';
-                        }else
-                        {
-                            var actionBtn = '<div class="dropdown">' +
-                                '<a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md" data-toggle="dropdown">' +
-                                '<i class="la la-ellipsis-h">' +  '</i>' +
-                                '</a>'+
-                                '<div class="dropdown-menu dropdown-menu-right">' +
-                                '<a class="dropdown-item show">' + '<i class="flaticon2-document">' + '</i>' + locator.__('Show') + '</a>' +
-                                '<a class="dropdown-item discard-item" href="/dashboard/hr/memos/' + raw.id  + '"  >' + '<i class="fa fa-eye">' + '</i>' + locator.__('Readers') + '</a>' +
-                                '</div>' +
-                                '</div>';
-                        }
+                        // if (type != 1)
+                        // {
+                        //     var actionBtn = '<button type="button" class="btn btn-sm btn-default btn-font-sm show">' + '<i class="flaticon2-document">' + '</i>' + locator.__('Show') + '</button>';
+                        // }else
+                        // {
+                        //     var actionBtn = '<div class="dropdown">' +
+                        //         '<a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md" data-toggle="dropdown">' +
+                        //         '<i class="la la-ellipsis-h">' +  '</i>' +
+                        //         '</a>'+
+                        //         '<div class="dropdown-menu dropdown-menu-right">' +
+                        //         '<a class="dropdown-item show">' + '<i class="flaticon2-document">' + '</i>' + locator.__('Show') + '</a>' +
+                        //         '<a class="dropdown-item discard-item" href="/dashboard/hr/memos/' + raw.id  + '"  >' + '<i class="fa fa-eye">' + '</i>' + locator.__('Readers') + '</a>' +
+                        //         '</div>' +
+                        //         '</div>';
+                        // }
 
-                        return actionBtn;
+                        return `
+                          <div class="dropdown">
+                              <a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md" data-toggle="dropdown">
+                                  <i class="la la-ellipsis-h"></i>
+                              </a>
+                              <div class="dropdown-menu dropdown-menu-right">
+                                  <a class="dropdown-item show" href="/dashboard/hr/roles/${row.id}/edit"><i class="la la-leaf"></i>${locator.__('Show')}</a>
+<!--                                  <a class="dropdown-item discard-item" href="/dashboard/hr/memos/${row.id}"><i class="la la-leaf"></i>${locator.__('Readers')}</a>-->
+                                  <a class="dropdown-item delete-item" href="#"><i class="la la-leaf"></i>${locator.__('Delete')}</a>
+                              </div>
+                          </div>
+                            
+                        `
+
+                        // return actionBtn;
 
                     },
                 }],

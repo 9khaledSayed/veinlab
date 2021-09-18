@@ -68,12 +68,9 @@ class MemoController extends Controller
             ])
         );
 
-        $message = "يوجد تعاميم جديده من الأداره";
-        $memo_no = $memo->id;
-        $title   = $request['title_ar'];
-        $text    = $request['text_ar'];
+        $message = $memo->text_ar;
 
-        Notification::send($employees, new \App\Notifications\MemoNotification($message,$memo_no,$title,$text));
+        Notification::send($employees, new \App\Notifications\MemoNotification($message));
 
     }
 
@@ -110,6 +107,7 @@ class MemoController extends Controller
 
     public function destroy(Memo $memo)
     {
-        //
+        \App\Notification::where('type', 'App\Notifications\MemoNotification')->where('notifiable_id', $memo->id)->delete();
+        $memo->delete();
     }
 }

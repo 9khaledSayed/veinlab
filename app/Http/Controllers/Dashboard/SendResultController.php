@@ -27,8 +27,7 @@ class SendResultController extends Controller
         $invoice->approved = 1;
         $invoice->save();
 
-        $message = "عملينا الكريم لقد تم الإنتهاء من رصد نتائج التحاليل الخاصة بك .مختبرت فين تتمنى لك السلامة .";
-        $messageResponseBody =  $patient->sendWhatsappMessage($message);
+        $messageResponseBody =  $patient->sendWhatsappMessage(setting('whatsapp_result_msg'));
         $fileResponseBody = $patient->sendWhatsappFile(route('generate_pdf', $invoice));
 
         if ($messageResponseBody->success || $fileResponseBody->success){

@@ -32,10 +32,16 @@ class SettingsController extends Controller
             $setting = setting()->all();
             return view('dashboard.settings.critical',compact('setting'));
         }
+        $request->validate([
+            'max_id_no' => 'required|min:0',
+            'max_phone_no' => 'required|min:0',
+            'whatsapp_result_msg' => 'required|string',
+        ]);
         return $this->saveSetting($request);
     }
     public function language(Request $request){
         if($request->isMethod('get')){
+
             $setting = setting()->all();
             return view('dashboard.settings.language',compact('setting'));
         }

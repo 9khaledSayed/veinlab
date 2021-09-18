@@ -9,12 +9,20 @@ class WaitingLab extends Model
 {
     use SoftDeletes;
 
-
-//    protected $dates = ['deleted_at'];
     protected $guarded = [];
     protected $dates = [
         'created_at'  => 'date:Y-m-d h:iA',
     ];
+
+    public static function booted()
+    {
+        static::creating(function ($model){
+            $mainAnalysis = MainAnalysis::find($model->main_analysis_id);
+            $mainAnalysis->demand_no += 1;
+            $mainAnalysis->save();
+        });
+    }
+
     public function patient()
     {
         return $this->belongsTo(Patient::class)->withTrashed();

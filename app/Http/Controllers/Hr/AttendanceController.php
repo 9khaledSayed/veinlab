@@ -26,7 +26,7 @@ class AttendanceController extends Controller
             return response()->json($attendance);
         }
         $branches = Branch::all();
-        return view('hr.attendance.index',comrpact('branches'));
+        return view('hr.attendance.index',compact('branches'));
     }
 
     public function create()
@@ -244,7 +244,7 @@ class AttendanceController extends Controller
         $this->authorize('view_my_attendance');
         return view('hr.attendance.my_attendance', [
             'my_attendance' => Attendance::where('employee_id', auth()->user()->id)->get()
-            ]);
+        ]);
     }
 
     function hoursandmins($time, $format = '%02d:%02d')

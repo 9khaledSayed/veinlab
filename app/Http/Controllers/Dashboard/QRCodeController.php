@@ -84,4 +84,14 @@ class QRCodeController extends Controller
         }
     }
 
+
+    public function test(Request $request)
+    {
+        if ($request->isMethod('post')){
+            dd($request->toArray());
+        }
+
+        return view('dashboard.qr_code.test');
+    }
+
 }

@@ -151,26 +151,26 @@
                     </h3>
                 </div>
             </div>
-            <div class="kt-portlet__body kt-portlet__body--fluid pb-0">
-                <div class="kt-widget12">
-                    <div class="kt-widget12__content text-center pb-0">
-                        <div class="kt-widget12__item">
-                            <div class="kt-widget12__info">
-                                <span class="kt-widget12__desc">{{__('Revenue')}}</span>
-                                <span class="kt-widget12__value kt-font-primary">{{$sumRevenue}}</span>
-                            </div>
-                            <div class="kt-widget12__info">
-                                <span class="kt-widget12__desc">{{__('Exports')}}</span>
-                                <span class="kt-widget12__value kt-font-danger">{{$sumExports}}</span>
-                            </div>
-                            <div class="kt-widget12__info">
-                                <span class="kt-widget12__desc">{{__('Profit')}}</span>
-                                <span class="kt-widget12__value kt-font-success">{{$profit}}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+{{--            <div class="kt-portlet__body kt-portlet__body--fluid pb-0">--}}
+{{--                <div class="kt-widget12">--}}
+{{--                    <div class="kt-widget12__content text-center pb-0">--}}
+{{--                        <div class="kt-widget12__item">--}}
+{{--                            <div class="kt-widget12__info">--}}
+{{--                                <span class="kt-widget12__desc">{{__('Revenue')}}</span>--}}
+{{--                                <span class="kt-widget12__value kt-font-primary">{{$sumRevenue}}</span>--}}
+{{--                            </div>--}}
+{{--                            <div class="kt-widget12__info">--}}
+{{--                                <span class="kt-widget12__desc">{{__('Exports')}}</span>--}}
+{{--                                <span class="kt-widget12__value kt-font-danger">{{$sumExports}}</span>--}}
+{{--                            </div>--}}
+{{--                            <div class="kt-widget12__info">--}}
+{{--                                <span class="kt-widget12__desc">{{__('Profit')}}</span>--}}
+{{--                                <span class="kt-widget12__value kt-font-success">{{$profit}}</span>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
             <div class="kt-portlet__body kt-portlet__body--fluid pb-0">
                 <canvas id="chart4" width="330" height="80"></canvas>
             </div>

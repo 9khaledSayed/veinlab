@@ -28,16 +28,26 @@ class Invoice extends Model
             $model->employee_id = auth()->id();
             $model->barcode = substr(time(), -5) . mt_rand(0, 9);
 
-        });
-        static::created(function ($model){
 
-            Revenue::create([
-                'type' => config('enums.revenueType.invoice'), // invoice revenue
-                'invoice_id' => $model->id,
-                'amount' => $model->total_price,
-                'employee_id' => auth()->id(),
-                'serial_no'    => $model->serial_no
-            ]);
+            $cost = 0;
+            foreach ($model->waiting_labs as $waitingLab){
+                $main = $waitingLab->main_analysis;
+                $cost += $main->cost;
+            }
+            $model->total_cost = $cost;
+
+        });
+        static::created(function ($invoice){
+
+
+
+//            Revenue::create([
+//                'type' => config('enums.revenueType.invoice'), // invoice revenue
+//                'invoice_id' => $model->id,
+//                'amount' => $model->total_price,
+//                'employee_id' => auth()->id(),
+//                'serial_no'    => $model->serial_no
+//            ]);
 
         });
 

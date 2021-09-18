@@ -68,6 +68,17 @@
                             id="example-text-input">
                     </div>
                 </div>
+                <div class="form-group row">
+                    <label for="example-text-input" class="col-form-label col-lg-3 col-sm-12">{{__('نص رسالة النتيجة في الواتساب')}}</label>
+                    <div class="col-lg-6 col-md-9 col-sm-12">
+                        <textarea
+                            class="form-control"
+                            rows="5"
+                            name="whatsapp_result_msg"
+                            placeholder="{{__('Enter Message')}}"
+                            >{{old('whatsapp_result_msg') ?? setting('whatsapp_result_msg')}}</textarea>
+                    </div>
+                </div>
             </div>
             <div class="kt-portlet__foot" style="text-align: center">
                 <div class="kt-form__actions">

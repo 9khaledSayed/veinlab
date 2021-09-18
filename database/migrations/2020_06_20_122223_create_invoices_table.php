@@ -29,6 +29,7 @@ class CreateInvoicesTable extends Migration
             $table->string('packages');
             $table->longText('purchases');
             $table->decimal('total_price');
+            $table->decimal('total_cost');
             $table->decimal('tax')->default(0);
             $table->decimal('discount')->default(0);
             $table->decimal('amount_paid')->nullable();

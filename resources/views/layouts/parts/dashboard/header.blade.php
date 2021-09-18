@@ -70,31 +70,6 @@
     <div class="kt-header__topbar">
 
 
-{{--    @php--}}
-{{--      if (Auth::guard('employee')->check() &&  (auth()->user()->is_master != 1))--}}
-{{--          {--}}
-
-{{--             $type = 0;--}}
-
-{{--             if ( auth()->user()->abilities()->contains("doctor_notifications") ){--}}
-{{--                 $notifictaions =  App\Employee::find(1)->unreadNotifications()->where('type','App\Notifications\ResultToDoctor')->get();--}}
-{{--             }elseif (auth()->user()->abilities()->contains("waiting_lab_notifications")){--}}
-{{--                 $notifictaions =  App\Employee::find(1)->unreadNotifications()->where('type','App\Notifications\WaitingLabNotification')->get();--}}
-{{--             }elseif (auth()->user()->abilities()->contains("create_patients") ){--}}
-{{--                     $notifictaions =  App\Employee::find(1)->unreadNotifications()->where('type','App\Notifications\HomeVisitNotification')->get();--}}
-{{--             }--}}
-
-{{--          }elseif (Auth::guard('patient')->check())--}}
-{{--          {--}}
-{{--             $type = 1;--}}
-{{--             $notifictaions =  auth()->user()->unreadNotifications->where('notifiable_type','App\Patient');--}}
-{{--          }else--}}
-{{--          {--}}
-{{--             $type = 3;--}}
-{{--          }--}}
-{{--    @endphp--}}
-
-
     <!--end: Search -->
         @if (auth()->guard('employee')->check() || auth()->guard('patient')->check())
         <!--begin: Notifications -->
@@ -155,108 +130,9 @@
 
     <!--begin: Quick actions -->
         @can('view_sittings')
-            <div class="kt-header__topbar-item dropdown">
-                <div class="kt-header__topbar-wrapper" data-toggle="dropdown" data-offset="10px,0px" aria-expanded="true">
-                    <span class="kt-header__topbar-icon"><i class="flaticon2-gear"></i></span>
-                </div>
-                <div class="dropdown-menu dropdown-menu-fit dropdown-menu-right dropdown-menu-anim dropdown-menu-top-unround dropdown-menu-xl">
-                    <div class="kt-head kt-head--skin-dark" style="background-image: url({{asset('assets/media/misc/bg-1.jpg')}}">
-                        <h3 class="kt-head__title">
-                            {{__('Settings')}}
-                        </h3>
-                    </div>
-                    <div class="kt-notification kt-margin-20" data-scroll="true" >
-                        <div class="row cog-row">
-                            <div class="col-6">
-                                <div class="kt-section">
-                                    <div class="kt-section__title" style="font-size: 1.1rem;">
-                                        {{__('General Settings')}}
-                                    </div>
-                                    <div class="kt-section__content">
-                                        <ul class="cog-list" style="padding-inline-start: 15px;">
-                                            @canany(['view_promo_codes', 'show_promo_codes', 'create_promo_codes', 'update_promo_codes', 'delete_promo_codes'])
-                                                <li style="margin-bottom:15px;">
-                                                    <a href="{{route('dashboard.promo_codes.index')}}" >
-                                                        <i class="kt-menu__link-icon  fa fa-barcode"></i>
-                                                        {{__('Promo Codes')}}
-                                                    </a>
-                                                </li>
-                                            @endcan
-                                            <li style="margin-bottom:15px;">
-                                                <a href="{{route('dashboard.nationalities.index')}}" >
-                                                    <i class="kt-menu__link-icon  fa fa-flag"></i>
-                                                    {{__('Nationalities')}}
-                                                </a>
-                                            </li>
-                                            <li style="margin-bottom:15px;">
-                                                <a href="{{route('dashboard.templates.index')}}" >
-                                                    <i class="kt-menu__link-icon  fa fa-flag"></i>
-                                                    {{__('Templates')}}
-                                                </a>
-                                            </li>
-                                            <li style="margin-bottom:15px;">
-                                                <a href="{{route('dashboard.settings.offers')}}" >
-                                                    <i class="fa fa-cogs"></i>
-                                                    {{__('Offers')}}
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="kt-section">
-                                    <div class="kt-section__title" style="font-size: 1.1rem;">
-                                        {{__('System Settings')}}
-                                    </div>
-                                    <div class="kt-section__content">
-                                        <ul class="cog-list" style="padding-inline-start: 15px;">
-{{--                                            @can('view_sittings')--}}
-{{--                                                <li style="margin-bottom:15px;">--}}
-{{--                                                    <a href="{{route('dashboard.settings.index')}}" >--}}
-{{--                                                        <i class="kt-menu__link-icon  flaticon2-settings"></i>--}}
-{{--                                                        {{__('General Settings')}}--}}
-{{--                                                    </a>--}}
-{{--                                                </li>--}}
-{{--                                            @endcan--}}
-                                            <li style="margin-bottom:15px;">
-                                                <a href="{{route('dashboard.settings.language')}}">
-                                                    <i class="fa fa-cogs"></i>
-                                                    {{__('Language')}}
-                                                </a>
-                                            </li>
-                                            <li style="margin-bottom:15px;">
-                                                <a href="{{route('dashboard.settings.tax')}}" >
-                                                    <i class="fa fa-cogs"></i>
-                                                    {{__('Tax')}}
-                                                </a>
-                                            </li>
-                                            <li style="margin-bottom:15px;">
-                                                <a href="{{route('dashboard.settings.index')}}" >
-                                                    <i class="fa fa-cogs"></i>
-                                                    {{__('Home Visit Fees')}}
-                                                </a>
-                                            </li>
-
-                                            <li style="margin-bottom:15px;">
-                                                <a href="{{route('dashboard.settings.critical')}}" >
-                                                    <i class="fa fa-cogs"></i>
-                                                    {{__('Critical fields')}}
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                        <div class="ps__rail-x" style="left: 0px; bottom: 0px;"><div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps__rail-y" style="top: 0px; left: -4px;"><div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 0px;"></div></div></div>
-                </div>
-            </div>
-
-
-    @endcan
-        <!--end: Quick actions -->
+            @include('layouts.parts.settings')
+        @endcan
+    <!--end: Quick actions -->
 
 
         <!--begin: Language bar -->
