@@ -145,9 +145,9 @@
                                         id="kt_select2_7"
                                         name="include">
                                     <option selected></option>
-                                    <option value="1">{{__('All')}}</option>
-                                    <option value="2" selected>{{__('Individual Accounts')}}</option>
-                                    <option value="3">{{__('Contract Accounts')}}</option>
+                                    <option value="{{config('enums.transfer.all')}}">{{__('All')}}</option>
+                                    <option value="{{config('enums.transfer.individual')}}" selected>{{__('Individual Accounts')}}</option>
+                                    <option value="{{config('enums.transfer.contract')}}">{{__('Contract Accounts')}}</option>
                                 </select>
                                 @error('include')
                                 <span class="invalid-feedback">

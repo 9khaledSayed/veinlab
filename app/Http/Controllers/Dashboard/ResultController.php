@@ -373,9 +373,14 @@ class ResultController extends Controller implements FromCollection , WithHeadin
 
     public function approve(Request $request)
     {
+        $doctor = Employee::get()->filter(function ($employee){
+           return $employee->roles->pluck('label')->contains('Doctor');
+        })->first();
+
+
         $invoice_id   = $request->invoice_id;
         $invoice = Invoice::find($invoice_id);
-        $invoice->doctor = Auth::guard('employee')->user()->fullname();
+        $invoice->doctor = $doctor->fullname() ?? \auth()->user()->fullname();
         $invoice->approved = 1;
         $invoice->approved_date = Carbon::now();
         $invoice->save();

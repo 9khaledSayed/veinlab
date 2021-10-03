@@ -24,7 +24,8 @@ class PatientController extends Controller implements  FromCollection, WithHeadi
     {
         $this->authorize('view_patients');
         if ($request->ajax()) {
-            $response = Patient::get();
+            $response = getModelData(new Patient(), $request);
+//            $response = Patient::get();
             return response()->json($response);
         }
         return  view('dashboard.patients.index');
@@ -47,7 +48,7 @@ class PatientController extends Controller implements  FromCollection, WithHeadi
             "name" => ['required', 'string', 'max:255'],
             "name_in_english" => ['nullable', 'string', 'max:255'],
             "email" => 'nullable|string|email:dns|max:255|unique:patients',
-            'phone'  => ['required', 'numeric', 'regex:/(05)[0-9]{8}$/', new UniquePhoneNumber('Patient')],
+            'phone'  => ['required', 'numeric', 'regex:/^(05)[0-9]{8}$/', new UniquePhoneNumber('Patient')],
             "id_no" => 'required|sometimes|unique:patients',
             "gender" => ['required'],
             "age" => ['required'],
@@ -88,7 +89,7 @@ class PatientController extends Controller implements  FromCollection, WithHeadi
             "name" => ['required', 'string', 'max:255'],
             "name_in_english" => ['nullable', 'string', 'max:255'],
             "email" => 'nullable|string|email:dns|max:255|unique:patients' . ',email,' . $patient->id,
-            'phone'  => ['required', 'numeric', 'regex:/(05)[0-9]{8}$/', new UniquePhoneNumber('Patient', $patient->id)],
+            'phone'  => ['required', 'numeric', 'regex:/^(05)[0-9]{8}$/', new UniquePhoneNumber('Patient', $patient->id)],
             "id_no" => 'required|sometimes|unique:patients' . ',id_no,' . $patient->id,
             "gender" => ['required'],
             "age" => ['required'],
@@ -141,7 +142,15 @@ class PatientController extends Controller implements  FromCollection, WithHeadi
 
     public function collection()
     {
-        $patients = Patient::select('name','email','phone','age','visit_no')->get();
+        $patients = Patient::get()->map(function ($patient){
+            return [
+                'name' => $patient->name,
+                'email' => $patient->email,
+                'phone' => $patient->full_phone,
+                'age' => $patient->age,
+                'visit_no' => $patient->visit_no,
+            ];
+        });
         return $patients;
     }
 

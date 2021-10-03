@@ -49,29 +49,29 @@
         font-size: 30px;
     }
 </style>
-<body>
+<body style="padding-top: 0">
+
+<img height="90" width="100%" src="https://veinlab.net/storage/company_info/Nabd_1626706472header.jpeg">
 <div class="container">
 
-{{--    <div class="grid-container">--}}
-{{--        <div>--}}
-{{--            <h6 class="text-left text-small">Request Date : {{$invoice->created_at->format('Y-m-d h:i A')}}</h6>--}}
-{{--            <h6 class="text-left text-small">Reporting Date : {{\Carbon\Carbon::parse($invoice->approved_date)->format('Y-m-d h:i A')}}</h6>--}}
-{{--        </div>--}}
-{{--        <div>--}}
-{{--            <div>--}}
-{{--                <h6 class="text-left text-small">Patient Name : {{$patient->name}}</h6>--}}
-{{--            </div>--}}
-{{--            <div>--}}
-{{--                <h6 class="text-left text-small">Gender / Age : {{$patient->gender_name}} / {{$patient->age}} years</h6>--}}
-{{--            </div>--}}
-{{--            <div>--}}
-{{--                <h6 class="text-left text-small">Referred By : {{$invoice->doctor}}</h6>--}}
-{{--            </div>--}}
-{{--            <div>--}}
-{{--                <h6 class="text-left text-small">ID Number : {{$patient->id_no}}</h6>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-{{--    </div>--}}
+    <table style="text-align: center; width: 100%; direction: rtl; font-size: 12px; border: 1px solid">
+        <tbody>
+            <tr>
+                <td>{{$patient->name}} : Patient Name</td>
+                <td>Request Date : {{$invoice->created_at->format('Y-m-d h:i A')}}</td>
+
+            </tr>
+            <tr>
+                <td>Gender / Age : {{$patient->gender_name . " / " . $patient->age}} years</td>
+                <td>Reporting Date : {{\Carbon\Carbon::parse($invoice->approved_date)->format('Y-m-d h:i A')}}</td>
+
+            </tr>
+            <tr>
+                <td >ID Number : {{$patient->id_no}}</td>
+                <td>{{$invoice->doctor}} : By Referred</td>
+            </tr>
+        </tbody>
+    </table>
 
 
 
@@ -92,9 +92,9 @@
                 @foreach($waitingLab->results->groupBy('classification') as $classification => $results)
                     @foreach($results as $result)
                         <tr>
-                            <td class="{{$classification == $result->sub_analysis->name ? 'bg-grey' : ''}}">{{$result->sub_analysis->name . '  ' . htmlspecialchars_decode($result->sub_analysis->unit)}}</td>
+                            <td class="{{$classification == $result->sub_analysis->name ? 'bg-grey' : ''}}">{!! $result->sub_analysis->name . '  ' . htmlspecialchars_decode($result->sub_analysis->unit) !!}</td>
                             <td class="text-center">{{$result->result}}</td>
-                            <td>{{htmlspecialchars_decode($result->sub_analysis->unit ?? '-')}}</td>
+                            <td>{!! htmlspecialchars_decode($result->sub_analysis->unit ?? '-') !!}</td>
                             <td class="text-center">{!! htmlspecialchars_decode($result->sub_analysis->normal($patient->gender)) ?? '-' !!}</td>
                         </tr>
                     @endforeach

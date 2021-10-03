@@ -181,7 +181,7 @@
     <!--Begin::Row-->
     <!--Begin::Row-->
     <div class="row">
-        <div class="col-xl-12 col-lg-12 order-lg-1 order-xl-1">
+        <div class="col-lg-6">
             <!--begin:: Widgets/New Users-->
             <div class="kt-portlet kt-portlet--tabs kt-portlet--height-fluid">
                 <div class="kt-portlet__head">
@@ -235,6 +235,57 @@
                                                 </span>
                                                 @endif
                                             </td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--end:: Widgets/New Users-->
+        </div>
+        <div class="col-lg-6">
+            <!--begin:: Widgets/New Users-->
+            <div class="kt-portlet kt-portlet--tabs kt-portlet--height-fluid">
+                <div class="kt-portlet__head">
+                    <div class="kt-portlet__head-label">
+                        <h3 class="kt-portlet__head-title">
+                            {{__('Top Selling Main Analyses')}}
+                        </h3>
+                    </div>
+                </div>
+                <div class="kt-portlet__body">
+                    <div class="tab-content">
+                        <div class="kt-widget11">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <td style="width:10%">#</td>
+                                        <td style="width:20%">{{__('General Name')}}</td>
+                                        <td style="width:20%">{{__('Code')}}</td>
+                                        <td style="width:15%">{{__('Price')}}</td>
+                                        <td style="width:15%">{{__('Demand No')}}</td>
+                                        <td style="width:15%">{{__('Created')}}</td>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($topSellingMainAnalyses as $analysis)
+                                        <tr>
+                                            <td>
+                                                <span class="kt-widget11__sub">{{$analysis->id}}</span>
+                                            </td>
+                                            <td>
+                                                <a href="{{route('dashboard.main_analysis.show', $analysis)}}"><span class="kt-widget11__sub">{{$analysis->general_name}}</span></a>
+                                            </td>
+                                            <td>
+                                                <span class="kt-widget11__sub">{{$analysis->code}}</span>
+                                            </td>
+                                            <td>{{$analysis->price . __(' SAR')}}</td>
+                                            <td>{{$analysis->demand_no . __(' Order')}}</td>
+                                            <td>{{$analysis->created_at->format('Y-m-d')}}</td>
                                         </tr>
                                     @endforeach
                                     </tbody>

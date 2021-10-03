@@ -61,10 +61,10 @@ class MemoController extends Controller
             $this->validate($request, [
                 'branch_id'=> 'required | integer',
                 'icon'     => 'required | string',
-                'title_ar' => 'required | string',
-                'title_en' => 'nullable | string',
-                'text_ar'  => 'required | string',
-                'text_en'  => 'nullable | string'
+                'title_ar' => 'required | string|string|max:191',
+                'title_en' => 'nullable | string|string|max:191',
+                'text_ar'  => 'required | string|string|max:191',
+                'text_en'  => 'nullable | string|string|max:191'
             ])
         );
 

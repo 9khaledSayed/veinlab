@@ -32,8 +32,9 @@ class AttendanceController extends Controller
     public function create()
     {
         $this->authorize('view_check_in_page');
-        $employees = Employee::where('id','!=', 1)->get();
-        return view('hr.attendance.create', compact('employees'));
+        return redirect(route('dashboard.qr_code.scanner'));
+//        $employees = Employee::where('id','!=', 1)->get();
+//        return view('hr.attendance.create', compact('employees'));
     }
 
 //    public function store(Request $request)

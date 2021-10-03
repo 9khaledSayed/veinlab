@@ -123,56 +123,39 @@ var KTDatatableLocalSortDemo = function() {
                             }
                         }
 
-
                         swal.fire({
-                            buttonsStyling: false,
-
-                            html: locator.__("Are you sure ?"),
-                            type: "info",
-
-                            confirmButtonText: locator.__("Yes !"),
-                            confirmButtonClass: "btn btn-sm btn-bold btn-brand",
-
-                            showCancelButton: true,
-                            cancelButtonText: locator.__("No, cancel"),
-                            cancelButtonClass: "btn btn-sm btn-bold btn-default"
-                        }).then(function (result) {
-                            if (result.value) {
-                                swal.fire({
-                                    title: locator.__('Loading...'),
-                                    onOpen: function () {
-                                        swal.showLoading();
-                                    }
-                                });
-                                $.ajax({
-                                    method: 'PUT',
-                                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                                    url: '/dashboard/hr/request/' + data.id,
-                                    data:{comment:commentInp,response:responseInp,paid:paidOrNotInp},
-                                    error: function (err) {
-                                        if (err.hasOwnProperty('responseJSON')) {
-                                            if (err.responseJSON.hasOwnProperty('message')) {
-                                                swal.fire({
-                                                    title: locator.__('Error!'),
-                                                    text: locator.__(err.responseJSON.message),
-                                                    type: 'error'
-                                                });
-                                            }
-                                        }
-                                        console.log(err);
-                                    }
-                                }).done(function (res) {
-                                    swal.fire({
-                                        title: locator.__('Sent !'),
-                                        text: locator.__(res.message),
-                                        type: 'success',
-                                        buttonsStyling: false,
-                                        confirmButtonText: locator.__("OK"),
-                                        confirmButtonClass: "btn btn-sm btn-bold btn-brand",
-                                    });
-                                    datatable.reload();
-                                });
+                            title: locator.__('Loading...'),
+                            onOpen: function () {
+                                swal.showLoading();
                             }
+                        });
+                        $.ajax({
+                            method: 'PUT',
+                            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                            url: '/dashboard/hr/request/' + data.id,
+                            data:{comment:commentInp,response:responseInp,paid:paidOrNotInp},
+                            error: function (err) {
+                                // if (err.hasOwnProperty('responseJSON')) {
+                                //     if (err.responseJSON.hasOwnProperty('message')) {
+                                //         swal.fire({
+                                //             title: locator.__('Error!'),
+                                //             text: locator.__(err.responseJSON.message),
+                                //             type: 'error'
+                                //         });
+                                //     }
+                                // }
+                                console.log(err);
+                            }
+                        }).done(function (res) {
+                            swal.fire({
+                                title: locator.__('Sent !'),
+                                text: locator.__(res.message),
+                                type: 'success',
+                                buttonsStyling: false,
+                                confirmButtonText: locator.__("OK"),
+                                confirmButtonClass: "btn btn-sm btn-bold btn-brand",
+                            });
+                            datatable.reload();
                         });
                     });
                 }

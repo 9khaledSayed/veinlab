@@ -150,19 +150,14 @@ Route::get('qr-code', function () {
 
 
 });
-Route::get('test', function () {
-    $invoices = \App\Invoice::get();
-
-
-    foreach ($invoices as $invoice) {
-        $cost = 0;
-        foreach ($invoice->waiting_labs as $waitingLab){
-            $main = $waitingLab->main_analysis;
-            $cost += $main->cost;
+Route::get('test-roles', function () {
+    $employees = \App\Employee::get()->filter(function ($employee){
+        if (!$employee->roles()->pluck('label')->contains('Super Admin')){
+            $employee->roles()->sync([6],false);
         }
-        $invoice->total_cost = $cost;
-        $invoice->save();
-    }
+    });
+
+    dd($employees);
 
     dd('done');
 

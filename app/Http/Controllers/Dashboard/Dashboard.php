@@ -31,12 +31,8 @@ class Dashboard extends Controller
         $user = auth()->user();
         if(Auth::guard('employee')->check() && $user->roles->pluck('label')->contains('Super Admin')){
 
-            $patients = Patient::latest()->take(5)->get();
-//            $sumRevenue = Revenue::pluck('amount')->sum();
-//            $sumExports = Exports::pluck('amount')->sum();
-//            $profit     =  $sumRevenue - $sumExports;
-
-
+            $patients = Patient::latest()->take(10)->get();
+            $topSellingMainAnalyses = MainAnalysis::orderBy('demand_no', 'desc')->take(10)->get();
             $spending = $this->spendingPerMonth()['data'];
             $income = $this->incomePerMonth()['data'];
             $profits = [
@@ -55,9 +51,7 @@ class Dashboard extends Controller
                 'companies_no'    => Hospital::get()->count(),
                 'home_visits_no'    => HomeVisit::get()->count(),
                 'latest_patients'   => $patients,
-//                'sumRevenue'   => $sumRevenue,
-//                'sumExports'   => $sumExports,
-//                'profit'   => $profit,
+                'topSellingMainAnalyses'   => $topSellingMainAnalyses,
                 'profits'   => $profits,
             ]);
         }elseif (Auth::guard('employee')->check() && $user->roles->pluck('label')->contains('Receptionist')){
@@ -88,7 +82,7 @@ class Dashboard extends Controller
                 'latest_invoices'   => $invoices
             ]);
         }elseif (Auth::guard('employee')->check() && $user->roles->pluck('label')->contains('Attendance Account')){
-            return redirect(route('dashboard.hr.attendance.create'));
+            return redirect(route('dashboard.qr_code.scanner'));
         }elseif (Auth::guard('patient')->check() || Auth::guard('hospital')->check()){
             return view('dashboard.results.index');
         }else{

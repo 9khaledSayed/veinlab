@@ -52,7 +52,7 @@
                                                                              {{__('Choose')}}
                                                                          </option>
                                                                          @foreach( $branches as $branch )
-                                                                             <option value="{{$branch->id}}">{{$branch->name}}</option>
+                                                                             <option selected value="{{$branch->id}}">{{$branch->name}}</option>
                                                                          @endforeach
 
                                                                      </select>
@@ -74,7 +74,7 @@
                                                                                     class="kt-option kt-option--plain">
                                                                                     <span class="kt-option__control">
                                                                                         <span class="kt-radio kt-radio--check-bold kt-radio--brand">
-                                                                                            <input type="radio" value="success"  name="icon">
+                                                                                            <input checked type="radio" value="success"  name="icon">
                                                                                             <span></span>
                                                                                         </span>
                                                                                     </span>

@@ -19,14 +19,15 @@ class Invoice extends Model
     public static function booted()
     {
         static::creating(function ($model){
-            $revenue_serial_no = Revenue::get()->last()->serial_no ?? null;
-            if($revenue_serial_no != null){
-                $without_year = substr($revenue_serial_no, 4);
-            }
-
-            $model->serial_no = isset($revenue_serial_no) ? date("Y") . ++$without_year : date("Y") . '11111' . '10000';
+//            $revenue_serial_no = Revenue::get()->last()->serial_no ?? null;
+//            if($revenue_serial_no != null){
+//                $without_year = substr($revenue_serial_no, 4);
+//            }
+//
+//            $model->serial_no = isset($revenue_serial_no) ? date("Y") . ++$without_year : date("Y") . '11111' . '10000';
             $model->employee_id = auth()->id();
             $model->barcode = substr(time(), -5) . mt_rand(0, 9);
+            $model->serial_no = substr(time(), -10) . mt_rand(11, 99);
 
 
             $cost = 0;

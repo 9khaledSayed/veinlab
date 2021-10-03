@@ -178,15 +178,8 @@ if(!function_exists('getModelData')){
     function getModelData(Model $model, Request $request, $relations = [])
     {
 
-//        $model = app('\\App\\Models\\' . $modelName);
-
         $columns = $model->getConnection()->getSchemaBuilder()->getColumnListing($model->getTable());
-
         $model   = $model->query()->with(array_keys($relations));
-
-
-
-
         // Define the page and number of items per page
         $page = 1;
         $per_page = 2;
@@ -209,9 +202,14 @@ if(!function_exists('getModelData')){
         }
 
 
-
 //         Set the search filter
         if(isset($params['query']['generalSearch'])) {
+
+            if (substr($params['query']['generalSearch'], 0, 1) === '0') {
+                $params['query']['generalSearch'] = substr($params['query']['generalSearch'], 1);
+            }
+
+
             foreach ($columns as $column){
                 $model->orWhere($column, 'LIKE', "%" . $params['query']['generalSearch'] . "%");
             }
@@ -230,16 +228,23 @@ if(!function_exists('getModelData')){
         }
 
 
-
         // Set the sort order and field
         if(isset($params['sort']['field'])) {
             $order_field = $params['sort']['field'];
             $order_sort = $params['sort']['sort'];
         }
 
-        // Get how many items there should be
-        $total = $model->count();
-        $total = $model->limit($per_page)->count();
+
+
+        /** if request has filters like status **/
+        if(isset($params['query'])) {
+            foreach ($columns as $column){
+                if (isset($params['query'][$column])){
+                    $model->where($column ,$params['query'][$column]);
+                }
+            }
+        }
+
 
         // Get the items defined by the parameters
 
@@ -252,32 +257,18 @@ if(!function_exists('getModelData')){
             $orderRelation = explode(".", $order_field)[0];
             $orderField = explode(".", $order_field)[1];
 
-            $model->skip(($page - 1) * $per_page)
-                ->take($per_page)->whereHas($orderRelation, function (Builder $query) use ($orderField ,$order_sort){
-                    $query->orderBy($orderField, $order_sort);
-                })->get();
+            $model->whereHas($orderRelation, function (Builder $query) use ($orderField ,$order_sort){
+                $query->orderBy($orderField, $order_sort);
+            });
 
         }else{
 
-            $model->skip(($page - 1) * $per_page)
-                ->take($per_page)->orderBy($order_field, $order_sort)
-                ->get();
+            $model->orderBy($order_field, $order_sort);
         }
 
-
-
-
-
-        $data = $model->get();
-
-        /** if request has filters like status **/
-        if(isset($params['query'])) {
-            foreach ($columns as $column){
-                if (isset($params['query'][$column])){
-                    $data = $model->get()->where($column ,$params['query'][$column]);
-                }
-            }
-        }
+        // Get how many items there should be
+        $total = $model->count();
+        $total = $model->limit($per_page)->count();
 
 
         $response = [
@@ -289,7 +280,7 @@ if(!function_exists('getModelData')){
                 "sort" => $order_sort,
                 "field" => $order_field
             ],
-            'data' => $data
+            'data' => $model->skip(($page - 1) * $per_page)->take($per_page)->get()
         ];
 
         return $response;
