@@ -366,20 +366,6 @@
             new KTAvatar('kt_user_avatar_5');
         }
 
-        // if (navigator.geolocation) {
-        //     navigator.geolocation.getCurrentPosition(function (position) {
-        //         let lat = position.coords.latitude;
-        //         let lng = position.coords.longitude;
-        //
-        //         $("#lat").val(lat);
-        //         $("#lng").val(lng);
-        //
-        //         console.log(lat, lng);
-        //     });
-        //
-        // } else {
-        //     console.log("Geolocation is not supported by this browser.");
-        // }
     </script>
 
 {{--    <script>--}}

@@ -103,6 +103,7 @@ class Dashboard extends Controller
         return response()->json(['token saved successfully.']);
     }
 
+
     function countPerMonth($modelName){
 
         $model = app('\\App\\' . $modelName);

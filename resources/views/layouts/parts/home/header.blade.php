@@ -4,7 +4,7 @@
         <div class="container">
             <!-- Classy Menu -->
             <nav class="classy-navbar light justify-content-between" id="dreamNav">
-                <h1 class="nav-brand light phone" href="#" style="max-height: 50px; overflow: hidden;">{{ Setting::get('Telephone') ??'920015100'}} <i class="fa fa-phone"></i></h1>
+                <h1 class="nav-brand light phone" href="#" style="max-height: 50px; overflow: hidden;">{{ Setting::get('Telephone') ??'0146461010'}} <i class="fa fa-phone"></i></h1>
                 <!-- Navbar Toggler -->
                 <div class="classy-navbar-toggler demo">
                     <span class="navbarToggler"><span></span><span></span><span></span></span>

@@ -88,6 +88,7 @@ class WaitingLab extends Model
         return [];
     }
 
+
     public function labNotes()
     {
         if ($this->notes){

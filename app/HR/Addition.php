@@ -17,6 +17,7 @@ class Addition extends Model
     ];
     public function employee()
     {
+
         return $this->belongsTo(\App\Employee::class)->withTrashed();
     }
 }
