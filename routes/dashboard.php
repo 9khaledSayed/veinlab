@@ -77,6 +77,8 @@ Route::prefix('dashboard')->name('dashboard.')->namespace('Dashboard')->middlewa
     Route::get('nationalities/{id}/restore', 'NationalityController@restore')->name('nationalities.restore');
     Route::get('nationalities/{id}/restore', 'NationalityController@restore')->name('nationalities.restore');
     Route::get('qr_code/generate', 'QRCodeController@generate')->name('qr_code.generate');
+    Route::get('qr_code/scanner', 'QRCodeController@scanner')->name('qr_code.scanner');
+    Route::any('qr_code/test', 'QRCodeController@test')->name('qr_code.test');
 
     Route::resources([
         'main_analysis'  => 'MainAnalysisController',
@@ -122,13 +124,14 @@ Route::get('/alterTables', function (){
 //   \Illuminate\Support\Facades\Artisan::call('migrate --path=/database/migrations/2021_07_10_232703_add_classifiction_column_to_result_table.php');
 //   \Illuminate\Support\Facades\Artisan::call('migrate --path=/database/migrations/2021_07_16_145545_add_has_cultivation_column_to_main_analyses_table.php');
 //   \Illuminate\Support\Facades\Artisan::call('migrate --path=/database/migrations/2021_07_16_172539_add_columns_to_waiting_labs_table.php');
-    \Illuminate\Support\Facades\Artisan::call('migrate --path=/database/migrations/2021_08_20_152821_add_approved_date_to_invoices__table.php');
+//    \Illuminate\Support\Facades\Artisan::call('migrate --path=/database/migrations/2021_08_20_152821_add_approved_date_to_invoices__table.php');
 //    \Illuminate\Support\Facades\Artisan::call('migrate --path=/database/migrations/2021_08_21_174642_alter_hospitals__table.php');
 //    \Illuminate\Support\Facades\Artisan::call('migrate --path=/database/migrations/2021_08_23_230843_create_hospital_main_analyses_table.php');
 //    \Illuminate\Support\Facades\Artisan::call('migrate --path=/database/migrations/2021_08_27_163827_add_device_token_to_employees__table.php');
 //    \Illuminate\Support\Facades\Artisan::call('migrate --path=/database/migrations/2021_08_28_004635_add_device_token_to_patients__table.php');
-//    \Illuminate\Support\Facades\Artisan::call('migrate --path=/database/migrations/2021_08_30_081541_add_label_to_nationalities_table.php');
-   dd('done');
+//    \Illuminate\Support\Facades\Artisan::call('migrate --path=/database/migrations/2021_09_06_224344_add_check_columns_to_employee.php');
+    \Illuminate\Support\Facades\Artisan::call('migrate --path=/database/migrations/2021_09_18_124253_alter_invoices_table.php');
+    dd('done');
 });
 Route::get('/pushNotification', function () {
 
@@ -147,17 +150,17 @@ Route::get('qr-code', function () {
 
 
 });
-Route::get('test', function () {
-    $patients = \App\Patient::get();
+Route::get('test-roles', function () {
+    $employees = \App\Employee::get()->filter(function ($employee){
+        if (!$employee->roles()->pluck('label')->contains('Super Admin')){
+            $employee->roles()->sync([6],false);
+        }
+    });
 
+    dd($employees);
 
+    dd('done');
 
-    foreach ($patients as $patient){
-        $patient->phone = '966' . intval($patient->phone);
-        $patient->save();
-    }
-
-    dd($patients->pluck('phone'));
 });
 
 

@@ -1,3 +1,4 @@
+
 <?php
 
 use Illuminate\Database\Migrations\Migration;
@@ -28,6 +29,7 @@ class CreateInvoicesTable extends Migration
             $table->string('packages');
             $table->longText('purchases');
             $table->decimal('total_price');
+            $table->decimal('total_cost');
             $table->decimal('tax')->default(0);
             $table->decimal('discount')->default(0);
             $table->decimal('amount_paid')->nullable();
@@ -37,6 +39,7 @@ class CreateInvoicesTable extends Migration
             $table->string('barcode');
             $table->string('doctor')->nullable();
             $table->integer('approved')->default(0);
+            $table->dateTime('approved_date')->nullable();
             $table->integer('result_created')->default(0);
             $table->integer('status');
             $table->softDeletes();

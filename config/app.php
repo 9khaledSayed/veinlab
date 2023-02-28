@@ -179,7 +179,10 @@ return [
         Barryvdh\DomPDF\ServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Barryvdh\Snappy\ServiceProvider::class,
-        anlutro\LaravelSettings\ServiceProvider::class
+        anlutro\LaravelSettings\ServiceProvider::class,
+        niklasravnsborg\LaravelPdf\PdfServiceProvider::class,
+        SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class
+
     ],
 
     /*
@@ -233,10 +236,12 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'DNS1D' => Milon\Barcode\Facades\DNS1DFacade::class,
         'DNS2D' => Milon\Barcode\Facades\DNS2DFacade::class,
-        'PDF' => Barryvdh\DomPDF\Facade::class,
+//        'PDF' => Barryvdh\DomPDF\Facade::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'SnappyPDF' => Barryvdh\Snappy\Facades\SnappyPdf::class,
-        'Setting' => anlutro\LaravelSettings\Facade::class
+        'Setting' => anlutro\LaravelSettings\Facade::class,
+        'PDFNik' => niklasravnsborg\LaravelPdf\Facades\Pdf::class,
+        'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class
     ],
 
 ];

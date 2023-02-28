@@ -42,25 +42,31 @@ class Notification extends Model
         if (auth()->guard('employee')->check()){
             $admin = Employee::first();
             $currentUserRoles = auth()->user()->roles()->pluck('label');
+            $currentUserNotifications = collect([]);
+
+            if (auth()->id() == $admin->id){
+                return collect([]);
+            }
+
             /** check if lab employee **/
             if ($currentUserRoles->contains('Lab')){
 
-                return $admin->unreadNotifications->where('type','App\Notifications\WaitingLabNotification');
+                $currentUserNotifications = $admin->unreadNotifications->where('type','App\Notifications\WaitingLabNotification');
 
             }elseif($currentUserRoles->contains('Doctor')){ /** check if doctor **/
 
-                return $admin->unreadNotifications->where('type','App\Notifications\ResultToDoctor');
+                $currentUserNotifications = $admin->unreadNotifications->where('type','App\Notifications\ResultToDoctor');
 
             }elseif ($currentUserRoles->contains('Receptionist')){ /** check if doctor **/
 
-                return $admin->unreadNotifications->where('type','App\Notifications\HomeVisitNotification');
+                $currentUserNotifications = $admin->unreadNotifications->where('type','App\Notifications\HomeVisitNotification');
 
 
             }elseif ($currentUserRoles->contains('Super Admin')){
-                return $admin->unreadNotifications->where('type','App\Notifications\RequestNotification');
+                $currentUserNotifications = $admin->unreadNotifications->where('type','App\Notifications\RequestNotification');
             }
 
-            return collect([]);
+            return $currentUserNotifications->merge(auth()->user()->unreadNotifications);
         }elseif (auth()->guard('patient')->check()){
 
             return auth()->user()->unreadNotifications;

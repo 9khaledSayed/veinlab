@@ -196,6 +196,26 @@
                     </div>
                 </div>
 
+                <input type="hidden" name="lat" value="25.9155444">
+                <input type="hidden" name="lng" value="45.3884898">
+
+{{--                <div class="kt-section">--}}
+{{--                    <div class="kt-section__title">--}}
+{{--                        {{__('Location')}}--}}
+{{--                    </div>--}}
+{{--                    <div class="kt-section__body">--}}
+{{--                        <div class="row">--}}
+{{--                            <div class="col-lg-12">--}}
+{{--                                <input type="hidden" name="lat" id="lat">--}}
+{{--                                <input type="hidden" name="lng" id="lng">--}}
+{{--                                <div class="form-group row">--}}
+{{--                                    <div id="map" style="height: 500px; width: 100%"></div>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+
                 <div class="kt-section">
                     <div class="kt-section__title">
                         Logo
@@ -345,5 +365,115 @@
             new KTAvatar('kt_user_avatar_4');
             new KTAvatar('kt_user_avatar_5');
         }
+
     </script>
+
+{{--    <script>--}}
+{{--        let branchMap, infoWindow;--}}
+{{--        var pos = { lat: {{setting('lat') ?? 0}}, lng: {{setting('lng') ?? 0}} }--}}
+
+{{--        function initMap() {--}}
+{{--            var location = getCurrentLocation();--}}
+{{--            branchMap = new google.maps.Map(document.getElementById("map"), {--}}
+{{--                center: location,--}}
+{{--                zoom: 15,--}}
+{{--            });--}}
+
+{{--            // The marker, positioned at Uluru--}}
+{{--            const marker = new google.maps.Marker({--}}
+{{--                position: location,--}}
+{{--                map: branchMap,--}}
+{{--                title: "Click to zoom",--}}
+{{--            });--}}
+
+{{--            infoWindow = new google.maps.InfoWindow();--}}
+
+{{--            // <button type="button" class="btn btn-secondary btn-icon"><i class="fa fa-undo"></i></button>--}}
+{{--            const locationButton = document.createElement("button");--}}
+{{--            locationButton.textContent = "Get my current location";--}}
+{{--            locationButton.style.padding = '10px';--}}
+{{--            locationButton.style.fontSize = '14px';--}}
+{{--            // locationButton.innerHTML = '<i class="fa fa-undo"></i>';--}}
+{{--            locationButton.classList.add("custom-branchMap-control-button");--}}
+
+{{--            branchMap.controls[google.maps.ControlPosition.TOP_CENTER].push(locationButton);--}}
+
+{{--            locationButton.addEventListener("click", (e) => {--}}
+{{--                e.preventDefault();--}}
+{{--                // Try HTML5 geolocation.--}}
+{{--                if (navigator.geolocation) {--}}
+{{--                    navigator.geolocation.getCurrentPosition(--}}
+{{--                        (position) => {--}}
+{{--                            const pos = {--}}
+{{--                                lat: position.coords.latitude,--}}
+{{--                                lng: position.coords.longitude,--}}
+{{--                            };--}}
+{{--                            branchMap.setCenter(pos);--}}
+{{--                            marker.setPosition(pos);--}}
+{{--                            setLatLngInputs(pos);--}}
+{{--                        },--}}
+{{--                        () => {--}}
+{{--                            handleLocationError(true, infoWindow, branchMap.getCenter());--}}
+{{--                        }--}}
+{{--                    );--}}
+{{--                } else {--}}
+{{--                    // Browser doesn't support Geolocation--}}
+{{--                    handleLocationError(false, infoWindow, map.getCenter());--}}
+{{--                }--}}
+{{--            });--}}
+
+
+{{--            branchMap.addListener("click", (mapsMouseEvent) => {--}}
+{{--                var pos = mapsMouseEvent.latLng.toJSON();--}}
+{{--                marker.setPosition(pos);--}}
+{{--                setLatLngInputs(pos);--}}
+{{--            });--}}
+
+{{--            function getCurrentLocation() {--}}
+
+
+{{--                if (navigator.geolocation) {--}}
+{{--                    navigator.geolocation.getCurrentPosition(--}}
+{{--                        (position) => {--}}
+{{--                            pos = {--}}
+{{--                                lat: position.coords.latitude,--}}
+{{--                                lng: position.coords.longitude,--}}
+{{--                            };--}}
+{{--                            branchMap.setCenter(pos);--}}
+{{--                            marker.setPosition(pos);--}}
+{{--                        },--}}
+{{--                        () => {--}}
+{{--                            handleLocationError(true, infoWindow, branchMap.getCenter());--}}
+{{--                        }--}}
+{{--                    );--}}
+{{--                } else {--}}
+{{--                    // Browser doesn't support Geolocation--}}
+{{--                    handleLocationError(false, infoWindow, map.getCenter());--}}
+{{--                }--}}
+
+{{--                setLatLngInputs(pos);--}}
+
+{{--                return pos;--}}
+{{--            }--}}
+
+{{--            function handleLocationError(browserHasGeolocation, infoWindow, pos) {--}}
+{{--                infoWindow.setPosition(pos);--}}
+{{--                infoWindow.setContent(--}}
+{{--                    browserHasGeolocation--}}
+{{--                        ? "Error: The Geolocation service failed."--}}
+{{--                        : "Error: Your browser doesn't support geolocation."--}}
+{{--                );--}}
+{{--                infoWindow.open(branchMap);--}}
+{{--            }--}}
+
+{{--            function setLatLngInputs(pos){--}}
+{{--                $("#lat").val(pos.lat);--}}
+{{--                $("#lng").val(pos.lng);--}}
+{{--            }--}}
+{{--        }--}}
+{{--    </script>--}}
+{{--    <!-- Async script executes immediately and must be after any DOM elements used in callback. -->--}}
+{{--    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC4Km6L1iAALvbX18stqmhywN80NN_gGNQ&callback=initMap&libraries=&v=weekly" async></script>--}}
+
+
 @endpush

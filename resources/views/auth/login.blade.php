@@ -68,7 +68,7 @@
                             </div>
                             <div class="col kt-align-right">
                                 @if (Route::has('password.request'))
-                                    <a href="{{ route('password.request') }}" id="kt_login_forgot" class="kt-login__link">
+                                    <a href="{{ route('password.request') }}" class="kt-login__link">
                                         {{__('Forget Password ?')}}</a>
                                 @endif
                             </div>

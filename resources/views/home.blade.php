@@ -126,42 +126,42 @@
     <!-- ##### About Us Area End ##### -->
     @if($sectors->count() > 0)
     <!-- ##### Testimonial Area Start ##### -->
-    <section class="clients_testimonials_area bg-img section-padding-0-0" id="test" dir="ltr">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="section-heading text-center  mt-5">
-                        <h1 class="d-blue bold fadeInUp" data-wow-delay="0.3s">{{__('Our Clients')}}</h1>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="cotainer-fluid">
-            <div class="row justify-content-center wow fadeInUp" data-wow-delay="0.4s">
-                <div class="col-12 col-md-10 col-xs-10 offset-xs-1">
-                    <div class="client_slides owl-carousel">
-                        <!-- Single Testimonial -->
-                        @foreach($sectors as $sector)
-                            <div class="single-testimonial text-center">
-                                <!-- Testimonial Image -->
-                                <div class="">
-                                    @if($sector->logo)<img src="{{asset('storage/sector_logo/' . $sector->logo)}}" alt="">@else <div style="height: 150px;width: 300px;color: #fff;">{{$sector->name}}</div> @endif
-                                </div>
-                                <!-- Testimonial Feedback Text -->
-                                <div class="testimonial-description">
-                                    <!-- Admin Text -->
-                                    <div class="admin_text">
-                                        <h5>{{$sector->name}}</h5>
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
+{{--    <section class="clients_testimonials_area bg-img section-padding-0-0" id="test" dir="ltr">--}}
+{{--        <div class="container">--}}
+{{--            <div class="row">--}}
+{{--                <div class="col-12">--}}
+{{--                    <div class="section-heading text-center  mt-5">--}}
+{{--                        <h1 class="d-blue bold fadeInUp" data-wow-delay="0.3s">{{__('Our Clients')}}</h1>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--        <div class="cotainer-fluid">--}}
+{{--            <div class="row justify-content-center wow fadeInUp" data-wow-delay="0.4s">--}}
+{{--                <div class="col-12 col-md-10 col-xs-10 offset-xs-1">--}}
+{{--                    <div class="client_slides owl-carousel">--}}
+{{--                        <!-- Single Testimonial -->--}}
+{{--                        @foreach($sectors as $sector)--}}
+{{--                            <div class="single-testimonial text-center">--}}
+{{--                                <!-- Testimonial Image -->--}}
+{{--                                <div class="">--}}
+{{--                                    @if($sector->logo)<img src="{{asset('storage/sector_logo/' . $sector->logo)}}" alt="">@else <div style="height: 150px;width: 300px;color: #fff;">{{$sector->name}}</div> @endif--}}
+{{--                                </div>--}}
+{{--                                <!-- Testimonial Feedback Text -->--}}
+{{--                                <div class="testimonial-description">--}}
+{{--                                    <!-- Admin Text -->--}}
+{{--                                    <div class="admin_text">--}}
+{{--                                        <h5>{{$sector->name}}</h5>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        @endforeach--}}
+{{--                    </div>--}}
 
-                </div>
-            </div>
-        </div>
-    </section>
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--    </section>--}}
     <!-- ##### Testimonial Area End ##### -->
     @endif
 @endsection

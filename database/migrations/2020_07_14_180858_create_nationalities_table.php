@@ -17,6 +17,7 @@ class CreateNationalitiesTable extends Migration
             $table->id();
             $table->string('nationality')->unique();
             $table->string('name_english')->unique();
+            $table->string('label')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

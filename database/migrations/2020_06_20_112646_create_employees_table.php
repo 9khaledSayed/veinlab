@@ -23,6 +23,8 @@ class CreateEmployeesTable extends Migration
             $table->string('mname_english')->nullable();
             $table->string('lname_english');
             $table->date('birthdate');
+            $table->boolean('mobile_owner')->default(false);
+            $table->boolean('in_lab')->default(false);
             $table->unsignedBigInteger('nationality_id');
             $table->integer('marital_status')->nullable();
             $table->integer('gender')->nullable();

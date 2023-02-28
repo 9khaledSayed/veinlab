@@ -61,19 +61,16 @@ class MemoController extends Controller
             $this->validate($request, [
                 'branch_id'=> 'required | integer',
                 'icon'     => 'required | string',
-                'title_ar' => 'required | string',
-                'title_en' => 'nullable | string',
-                'text_ar'  => 'required | string',
-                'text_en'  => 'nullable | string'
+                'title_ar' => 'required | string|string|max:191',
+                'title_en' => 'nullable | string|string|max:191',
+                'text_ar'  => 'required | string|string|max:191',
+                'text_en'  => 'nullable | string|string|max:191'
             ])
         );
 
-        $message = "يوجد تعاميم جديده من الأداره";
-        $memo_no = $memo->id;
-        $title   = $request['title_ar'];
-        $text    = $request['text_ar'];
+        $message = $memo->text_ar;
 
-        Notification::send($employees, new \App\Notifications\MemoNotification($message,$memo_no,$title,$text));
+        Notification::send($employees, new \App\Notifications\MemoNotification($message));
 
     }
 
@@ -110,6 +107,7 @@ class MemoController extends Controller
 
     public function destroy(Memo $memo)
     {
-        //
+        \App\Notification::where('type', 'App\Notifications\MemoNotification')->where('notifiable_id', $memo->id)->delete();
+        $memo->delete();
     }
 }

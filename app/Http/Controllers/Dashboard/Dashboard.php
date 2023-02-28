@@ -31,10 +31,18 @@ class Dashboard extends Controller
         $user = auth()->user();
         if(Auth::guard('employee')->check() && $user->roles->pluck('label')->contains('Super Admin')){
 
-            $patients = Patient::latest()->take(5)->get();
-            $sumRevenue = Revenue::pluck('amount')->sum();
-            $sumExports = Exports::pluck('amount')->sum();
-            $profit     =  $sumRevenue - $sumExports;
+            $patients = Patient::latest()->take(10)->get();
+            $topSellingMainAnalyses = MainAnalysis::orderBy('demand_no', 'desc')->take(10)->get();
+            $spending = $this->spendingPerMonth()['data'];
+            $income = $this->incomePerMonth()['data'];
+            $profits = [
+                'spending' => $spending,
+                'income' => $income,
+                'total_profits' => array_map(function ($x, $y) { return $x - $y; } , $income, $spending),
+            ];
+
+
+
             return view('dashboard.super_admin_view',[
                 'patients_no'    => Patient::get()->count(),
                 'employees_no'    => Employee::get()->count(),
@@ -43,9 +51,8 @@ class Dashboard extends Controller
                 'companies_no'    => Hospital::get()->count(),
                 'home_visits_no'    => HomeVisit::get()->count(),
                 'latest_patients'   => $patients,
-                'sumRevenue'   => $sumRevenue,
-                'sumExports'   => $sumExports,
-                'profit'   => $profit,
+                'topSellingMainAnalyses'   => $topSellingMainAnalyses,
+                'profits'   => $profits,
             ]);
         }elseif (Auth::guard('employee')->check() && $user->roles->pluck('label')->contains('Receptionist')){
 
@@ -75,7 +82,7 @@ class Dashboard extends Controller
                 'latest_invoices'   => $invoices
             ]);
         }elseif (Auth::guard('employee')->check() && $user->roles->pluck('label')->contains('Attendance Account')){
-            return redirect(route('dashboard.hr.attendance.create'));
+            return redirect(route('dashboard.qr_code.scanner'));
         }elseif (Auth::guard('patient')->check() || Auth::guard('hospital')->check()){
             return view('dashboard.results.index');
         }else{
@@ -94,5 +101,49 @@ class Dashboard extends Controller
     {
         auth()->user()->update(['device_token'=>$request->token]);
         return response()->json(['token saved successfully.']);
+    }
+
+
+    function countPerMonth($modelName){
+
+        $model = app('\\App\\' . $modelName);
+        $array = array();
+
+        for($i = 1 ; $i <= 12 ; $i++ )
+        {
+            $MonthCount = $model::whereYear('created_at', now()->year)->whereMonth('created_at', $i)->count();
+            array_push($array,$MonthCount);
+        }
+
+        return ['data' => $array, 'min' => 0, 'max' => max($array), 'total' => $model::count()];
+    }
+
+
+    function spendingPerMonth(){
+
+        $array = array();
+
+        for($i = 1 ; $i <= 12 ; $i++ )
+        {
+            $MonthCount = Invoice::where('pay_method', '!=', config('enums.payMethod.overdue'))->whereYear('created_at', now()->year)->whereMonth('created_at', $i)->pluck('total_cost')->sum();
+            $MonthCount += Exports::whereYear('created_at', now()->year)->whereMonth('created_at', $i)->pluck('amount')->sum();
+            array_push($array,$MonthCount);
+        }
+
+        return ['data' => $array, 'min' => 0, 'max' => max($array), 'total' => Invoice::max('total_price')];
+    }
+
+    function incomePerMonth(){
+
+        $array = array();
+
+        for($i = 1 ; $i <= 12 ; $i++ )
+        {
+            $MonthCount = Invoice::where('pay_method', '!=', config('enums.payMethod.overdue'))->whereYear('created_at', now()->year)->whereMonth('created_at', $i)->pluck('total_price')->sum();
+            $MonthCount += Revenue::whereYear('created_at', now()->year)->whereMonth('created_at', $i)->pluck('amount')->sum();
+            array_push($array,$MonthCount);
+        }
+
+        return ['data' => $array, 'min' => 0, 'max' => max($array), 'total' => Invoice::max('total_price')];
     }
 }

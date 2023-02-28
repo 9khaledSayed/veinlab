@@ -146,9 +146,9 @@
                                         id="kt_select2_7"
                                         name="include">
                                     <option selected></option>
-                                    <option value="1" @if((old('include')??$promoCode->include) == "1") selected @endif>{{__('All')}}</option>
-                                    <option value="2" @if((old('include')??$promoCode->include) == "2") selected @endif>{{__('Individual Accounts')}}</option>
-                                    <option value="3" @if((old('include')??$promoCode->include) == "3") selected @endif>{{__('Contract Accounts')}}</option>
+                                    <option value="{{config('enums.transfer.all')}}" @if((old('include')??$promoCode->include) == config('enums.transfer.all')) selected @endif>{{__('All')}}</option>
+                                    <option value="{{config('enums.transfer.individual')}}" @if((old('include')??$promoCode->include) == config('enums.transfer.individual')) selected @endif>{{__('Individual Accounts')}}</option>
+                                    <option value="{{config('enums.transfer.contract')}}" @if((old('include')??$promoCode->include) == config('enums.transfer.contract')) selected @endif>{{__('Contract Accounts')}}</option>
                                 </select>
                                 @error('include')
                                 <span class="invalid-feedback">

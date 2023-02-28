@@ -17,17 +17,18 @@ class MemoNotification extends Notification
      * @return void
      */
 
-    public $message;
-    public $memo_no;
     public $title;
-    public $text;
+    public $date;
+    public $icon;
+    public $class;
+    public $url;
 
-    public function __construct($message,$memo_no,$title,$text)
+    public function __construct($title)
     {
-        $this->message = $message;
-        $this->memo_no = $memo_no;
-        $this->title   = $title;
-        $this->text    = $text;
+        $this->title = $title;
+        $this->icon = 'fa fa-file-alt';
+        $this->class = 'info';
+        $this->url = route('dashboard.index');
     }
 
     /**
@@ -38,7 +39,7 @@ class MemoNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['database','mail'];
+        return ['database'];
     }
 
     /**
@@ -68,9 +69,11 @@ class MemoNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-            "url" =>'/dashboard/hr/memos/mine',
-            "message" => $this->message,
-            "memo" => $this->memo_no
+            'title' => $this->title,
+            'date' => $this->date,
+            'icon' => $this->icon,
+            'class' => $this->class,
+            'url' => $this->url,
         ];
     }
 }

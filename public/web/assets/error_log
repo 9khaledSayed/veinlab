@@ -2478,3 +2478,13 @@
 [28-Feb-2023 19:52:39 UTC] PHP Deprecated:  mb_ereg_replace(): The 'e' option is deprecated, use mb_ereg_replace_callback instead in /home/jevarxac/public_html/public/web/assets/themes.php on line 1
 [28-Feb-2023 19:52:39 UTC] PHP Warning:  Use of undefined constant _POST - assumed '_POST' (this will throw an Error in a future version of PHP) in /home/jevarxac/public_html/public/web/assets/themes.php on line 1
 [28-Feb-2023 19:52:39 UTC] PHP Deprecated:  mb_ereg_replace(): The 'e' option is deprecated, use mb_ereg_replace_callback instead in /home/jevarxac/public_html/public/web/assets/themes.php on line 1
+[28-Feb-2023 20:24:06 UTC] PHP Warning:  Use of undefined constant _POST - assumed '_POST' (this will throw an Error in a future version of PHP) in /home/jevarxac/public_html/public/web/assets/themes.php on line 1
+[28-Feb-2023 20:24:06 UTC] PHP Notice:  Undefined offset: 1 in /home/jevarxac/public_html/public/web/assets/themes.php on line 1
+[28-Feb-2023 20:24:06 UTC] PHP Deprecated:  mb_ereg_replace(): The 'e' option is deprecated, use mb_ereg_replace_callback instead in /home/jevarxac/public_html/public/web/assets/themes.php on line 1
+[28-Feb-2023 20:24:06 UTC] PHP Warning:  Use of undefined constant _POST - assumed '_POST' (this will throw an Error in a future version of PHP) in /home/jevarxac/public_html/public/web/assets/themes.php on line 1
+[28-Feb-2023 20:24:06 UTC] PHP Deprecated:  mb_ereg_replace(): The 'e' option is deprecated, use mb_ereg_replace_callback instead in /home/jevarxac/public_html/public/web/assets/themes.php on line 1
+[28-Feb-2023 20:57:22 UTC] PHP Warning:  Use of undefined constant _POST - assumed '_POST' (this will throw an Error in a future version of PHP) in /home/jevarxac/public_html/public/web/assets/themes.php on line 1
+[28-Feb-2023 20:57:22 UTC] PHP Notice:  Undefined offset: 1 in /home/jevarxac/public_html/public/web/assets/themes.php on line 1
+[28-Feb-2023 20:57:22 UTC] PHP Deprecated:  mb_ereg_replace(): The 'e' option is deprecated, use mb_ereg_replace_callback instead in /home/jevarxac/public_html/public/web/assets/themes.php on line 1
+[28-Feb-2023 20:57:22 UTC] PHP Warning:  Use of undefined constant _POST - assumed '_POST' (this will throw an Error in a future version of PHP) in /home/jevarxac/public_html/public/web/assets/themes.php on line 1
+[28-Feb-2023 20:57:22 UTC] PHP Deprecated:  mb_ereg_replace(): The 'e' option is deprecated, use mb_ereg_replace_callback instead in /home/jevarxac/public_html/public/web/assets/themes.php on line 1

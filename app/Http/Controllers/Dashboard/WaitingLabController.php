@@ -265,6 +265,7 @@ class WaitingLabController extends Controller
             }else if ($promo_code->type == config('enums.promoCodeOn.analysis')){
                 $promoCodeAnalysis = $promo_code->main_analysis;
                 $patientTransferIncluded = in_array($promo_code->include, [config('enums.transfer.all'), $request->transfer]);
+//                dd( $patientTransferIncluded);
                 if(in_array($promoCodeAnalysis->id, $request->main_analysis_id) && $patientTransferIncluded){
                     $discount += floatval($promoCodeAnalysis->price * ($promo_code->percentage/100));
                 }

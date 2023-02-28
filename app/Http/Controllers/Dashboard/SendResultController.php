@@ -8,6 +8,15 @@ use App\Patient;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use SnappyPDF;
+use App\Template;
+use App\WaitingLab;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Validation\Rules\In;
+use DNS1D;
+use PDFNik;
 use App;
 use Illuminate\Support\Facades\Redirect;
 
@@ -48,7 +57,7 @@ class SendResultController extends Controller
 
     public function sendViaWhatsapp(Invoice $invoice)
     {
-
+        $patient = $invoice->patient;
         $invoice->doctor = Auth::guard('employee')->user()->fullname();
         $invoice->approved = 1;
         $invoice->save();
@@ -116,10 +125,17 @@ class SendResultController extends Controller
             'index'           => -1
         ];
 
-
-
         return $data;
 
+
+        // $messageResponseBody =  $patient->sendWhatsappMessage(setting('whatsapp_result_msg'));
+        // $fileResponseBody = $patient->sendWhatsappFile(route('generate_pdf', $invoice));
+
+        // if ($messageResponseBody->success || $fileResponseBody->success){
+        //     return response('message send successfully');
+        // }else{
+        //     return response('something went wrong', 404);
+        // }
     }
 
     public function sendViaEmail(Invoice $invoice)
@@ -142,5 +158,21 @@ class SendResultController extends Controller
             'success' => true
         ]);
     }
+
+
+    public function generatePdf($id)
+    {
+        $invoice = Invoice::withTrashed()->find($id);
+        $patient = $invoice->patient;
+
+        $pdf = PDFNik::loadView('dashboard.templates.pdf.result_pdf', [
+            'invoice' => $invoice,
+            'patient' => $patient,
+        ]);
+
+        return $pdf->stream('Results.pdf');
+    }
+
+
 
 }

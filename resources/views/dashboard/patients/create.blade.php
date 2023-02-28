@@ -79,13 +79,20 @@
                             </div>
                             <div class="col-lg-3">
                                 <label><span class="required" >*</span>{{__('Phone Number')}}:</label>
-                                <input type="text"
-                                       maxlength="{{Setting::get('max_phone_no')}}"
-                                       class="form-control @error('phone')is-invalid @enderror"
-                                       name="phone"
-                                       required
-                                       value="{{old('phone')}}"
-                                       placeholder="{{__('Enter phone number')}}">
+
+                                <div class="input-group">
+                                    <input type="tel"
+                                           maxlength="{{Setting::get('max_phone_no')}}"
+                                           class="form-control @error('phone')is-invalid @enderror"
+                                           name="phone"
+                                           required
+                                           value="{{old('phone')}}"
+                                           placeholder="مثال: 05xxxxxxxx">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">966+</span>
+                                    </div>
+                                </div>
+
                                 @error('phone')
                                 <span class="invalid-feedback">
                                         {{$message}}

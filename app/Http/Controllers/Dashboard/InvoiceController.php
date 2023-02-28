@@ -66,7 +66,6 @@ class InvoiceController extends Controller
 
     public function show(Request $request, Invoice $invoice)
     {
-
         $this->authorize('show_invoices');
         $patient = $invoice->patient;
         $promoCode = $invoice->promo_code;

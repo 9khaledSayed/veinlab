@@ -147,37 +147,41 @@
             <div class="kt-portlet__head">
                 <div class="kt-portlet__head-label">
                     <h3 class="kt-portlet__head-title">
-                        {{__('Statistics')}}
+                        {{__('الارباح المالية')}}
                     </h3>
                 </div>
             </div>
+{{--            <div class="kt-portlet__body kt-portlet__body--fluid pb-0">--}}
+{{--                <div class="kt-widget12">--}}
+{{--                    <div class="kt-widget12__content text-center pb-0">--}}
+{{--                        <div class="kt-widget12__item">--}}
+{{--                            <div class="kt-widget12__info">--}}
+{{--                                <span class="kt-widget12__desc">{{__('Revenue')}}</span>--}}
+{{--                                <span class="kt-widget12__value kt-font-primary">{{$sumRevenue}}</span>--}}
+{{--                            </div>--}}
+{{--                            <div class="kt-widget12__info">--}}
+{{--                                <span class="kt-widget12__desc">{{__('Exports')}}</span>--}}
+{{--                                <span class="kt-widget12__value kt-font-danger">{{$sumExports}}</span>--}}
+{{--                            </div>--}}
+{{--                            <div class="kt-widget12__info">--}}
+{{--                                <span class="kt-widget12__desc">{{__('Profit')}}</span>--}}
+{{--                                <span class="kt-widget12__value kt-font-success">{{$profit}}</span>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
             <div class="kt-portlet__body kt-portlet__body--fluid pb-0">
-                <div class="kt-widget12">
-                    <div class="kt-widget12__content text-center pb-0">
-                        <div class="kt-widget12__item">
-                            <div class="kt-widget12__info">
-                                <span class="kt-widget12__desc">{{__('Revenue')}}</span>
-                                <span class="kt-widget12__value kt-font-primary">{{$sumRevenue}}</span>
-                            </div>
-                            <div class="kt-widget12__info">
-                                <span class="kt-widget12__desc">{{__('Exports')}}</span>
-                                <span class="kt-widget12__value kt-font-danger">{{$sumExports}}</span>
-                            </div>
-                            <div class="kt-widget12__info">
-                                <span class="kt-widget12__desc">{{__('Profit')}}</span>
-                                <span class="kt-widget12__value kt-font-success">{{$profit}}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <canvas id="chart4" width="330" height="80"></canvas>
             </div>
         </div>
         <!--end:: Widgets/Order Statistics-->
     </div>
-    <!--End::Row--><!--Begin::Row-->
+    <!--End::Row-->
+    <!--Begin::Row-->
     <!--Begin::Row-->
     <div class="row">
-        <div class="col-xl-12 col-lg-12 order-lg-1 order-xl-1">
+        <div class="col-lg-6">
             <!--begin:: Widgets/New Users-->
             <div class="kt-portlet kt-portlet--tabs kt-portlet--height-fluid">
                 <div class="kt-portlet__head">
@@ -242,6 +246,122 @@
             </div>
             <!--end:: Widgets/New Users-->
         </div>
+        <div class="col-lg-6">
+            <!--begin:: Widgets/New Users-->
+            <div class="kt-portlet kt-portlet--tabs kt-portlet--height-fluid">
+                <div class="kt-portlet__head">
+                    <div class="kt-portlet__head-label">
+                        <h3 class="kt-portlet__head-title">
+                            {{__('Top Selling Main Analyses')}}
+                        </h3>
+                    </div>
+                </div>
+                <div class="kt-portlet__body">
+                    <div class="tab-content">
+                        <div class="kt-widget11">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <td style="width:10%">#</td>
+                                        <td style="width:20%">{{__('General Name')}}</td>
+                                        <td style="width:20%">{{__('Code')}}</td>
+                                        <td style="width:15%">{{__('Price')}}</td>
+                                        <td style="width:15%">{{__('Demand No')}}</td>
+                                        <td style="width:15%">{{__('Created')}}</td>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($topSellingMainAnalyses as $analysis)
+                                        <tr>
+                                            <td>
+                                                <span class="kt-widget11__sub">{{$analysis->id}}</span>
+                                            </td>
+                                            <td>
+                                                <a href="{{route('dashboard.main_analysis.show', $analysis)}}"><span class="kt-widget11__sub">{{$analysis->general_name}}</span></a>
+                                            </td>
+                                            <td>
+                                                <span class="kt-widget11__sub">{{$analysis->code}}</span>
+                                            </td>
+                                            <td>{{$analysis->price . __(' SAR')}}</td>
+                                            <td>{{$analysis->demand_no . __(' Order')}}</td>
+                                            <td>{{$analysis->created_at->format('Y-m-d')}}</td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--end:: Widgets/New Users-->
+        </div>
     </div>
     <!--End::Row-->
 @endsection
+
+@push('scripts')
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js@3.4.1/dist/chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+
+    <script>
+        var profits         = @json($profits);
+
+        console.log(profits);
+        chart4();
+
+        function chart4() {
+            var ctx = document.getElementById('chart4').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['يناير','فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو','يوليو', 'أغسطس', 'سبتمبر','أكتوبر','نوفمبر',"ديسمبر"],
+                    datasets: [
+                        {
+                            label: 'اجمالي الربح',
+                            data: profits.total_profits,
+                            backgroundColor: [
+                                'rgba(120, 216, 65, 0.2)',
+                            ],
+                            borderColor: [
+                                'rgba(120, 216, 65, 1)',
+                            ],
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'الإيرادات',
+                            data: profits.income,
+                            backgroundColor: [
+                                'rgba(38, 50, 56, 0.2)',
+                            ],
+                            borderColor: [
+                                'rgba(38, 50, 56, 1)',
+                            ],
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'المصاريف',
+                            data: profits.spending,
+                            backgroundColor: [
+                                'rgba(242, 7, 7, 0.2)',
+                            ],
+                            borderColor: [
+                                'rgba(242, 7, 7, 1)',
+                            ],
+                            borderWidth: 1
+                        },
+
+                    ]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+@endpush

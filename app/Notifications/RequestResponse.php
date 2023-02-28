@@ -17,11 +17,18 @@ class RequestResponse extends Notification
      * @return void
      */
 
-    public $message;
+    public $title;
+    public $date;
+    public $icon;
+    public $class;
+    public $url;
 
-    public function __construct($message)
+    public function __construct($title)
     {
-        $this->message = $message;
+        $this->title = $title;
+        $this->icon = 'flaticon2-website';
+        $this->class = 'warning';
+        $this->url = "/dashboard/hr/requests/mine";
     }
 
     /**
@@ -32,7 +39,7 @@ class RequestResponse extends Notification
      */
     public function via($notifiable)
     {
-        return ['database','mail'];
+        return ['database'];
     }
 
     /**
@@ -44,10 +51,10 @@ class RequestResponse extends Notification
     public function toMail($notifiable)
     {
         $viewData=  [
-            'response' => $this->message
+            'response' => $this->title
         ];
         return (new MailMessage)
-            ->view('emails.request',$viewData);
+            ->view($viewData, 'emails.request');
     }
 
     /**
@@ -59,8 +66,11 @@ class RequestResponse extends Notification
     public function toArray($notifiable)
     {
         return [
-            'url' =>'/dashboard/hr/requests/pending',
-            'message' => $this->message
+            'title' => $this->title,
+            'date' => $this->date,
+            'icon' => $this->icon,
+            'class' => $this->class,
+            'url' => $this->url,
         ];
     }
 }

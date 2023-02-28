@@ -34,7 +34,7 @@ class EmployeeSeeder extends Seeder
             'is_master'      => true,
             'shift_type'   =>1,
             'email'     => 'admin@admin.com',
-            'password'  => 'password',
+            'password'  =>  \Illuminate\Support\Facades\Hash::make('password'),
         ]);
 //        $employee2 = \App\Employee::create([
 //            'fname_arabic'      => 'Receptionist',

@@ -96,7 +96,7 @@ class PromoCodeController extends Controller
     {
         if($request->code == $promoCode->code){
             $this->validate($request, [
-                'main_analysis_id'   => ['nullable', 'max:255', 'numeric', 'unique:promo_codes'],
+                'main_analysis_id'   => ['nullable', 'max:255', 'numeric'],
                 'percentage'        => ['required', 'max:100', 'numeric'],
                 'ranges'            => ['required', 'max:255', 'string'],
                 'type'              => ['required'],
@@ -156,7 +156,7 @@ class PromoCodeController extends Controller
     public function validator(Request $request)
     {
         return $this->validate($request, [
-           'main_analysis_id'   => ['nullable', 'max:255', 'numeric', 'unique:promo_codes'],
+           'main_analysis_id'   => ['nullable', 'max:255', 'numeric', 'unique'],
             'percentage'        => ['required', 'max:100', 'numeric'],
             'ranges'            => ['required', 'max:255', 'string'],
             'type'              => ['required'],

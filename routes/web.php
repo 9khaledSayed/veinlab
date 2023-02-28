@@ -1,5 +1,6 @@
 <?php
 
+use App\Role;
 use Illuminate\Support\Facades\Route;
 use Jenssegers\Date\Date;
 
@@ -89,8 +90,3 @@ Route::get('/fix', function()
     );
 });
 
-Route::get('/fresh', function()
-{
-    Artisan::call('migrate:fresh --seed');
-    dd('done');
-});

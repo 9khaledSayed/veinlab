@@ -320,6 +320,7 @@ class RequestsController extends Controller
            $start_shift = null;
            $end_shift   = null;
 
+
            if ($employee->shift_type == 1)
            {
                $start_shift = Setting::get('morning_shift_start');
@@ -332,8 +333,8 @@ class RequestsController extends Controller
 
            }
 
-           $start_shift = Carbon::createFromTime($start_shift);
-           $end_shift   = Carbon::createFromTime($end_shift);
+           $start_shift = Carbon::parse($start_shift);
+           $end_shift   = Carbon::parse($end_shift);
            $total_working_hours = Setting::get('working_hours');
            $total_working_hours   = Carbon::createFromTime($total_working_hours);
 

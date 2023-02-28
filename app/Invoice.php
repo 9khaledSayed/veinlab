@@ -19,25 +19,36 @@ class Invoice extends Model
     public static function booted()
     {
         static::creating(function ($model){
-            $revenue_serial_no = Revenue::get()->last()->serial_no ?? null;
-            if($revenue_serial_no != null){
-                $without_year = substr($revenue_serial_no, 4);
-            }
-
-            $model->serial_no = isset($revenue_serial_no) ? date("Y") . ++$without_year : date("Y") . '11111' . '10000';
+//            $revenue_serial_no = Revenue::get()->last()->serial_no ?? null;
+//            if($revenue_serial_no != null){
+//                $without_year = substr($revenue_serial_no, 4);
+//            }
+//
+//            $model->serial_no = isset($revenue_serial_no) ? date("Y") . ++$without_year : date("Y") . '11111' . '10000';
             $model->employee_id = auth()->id();
             $model->barcode = substr(time(), -5) . mt_rand(0, 9);
+            $model->serial_no = substr(time(), -10) . mt_rand(11, 99);
+
+
+            $cost = 0;
+            foreach ($model->waiting_labs as $waitingLab){
+                $main = $waitingLab->main_analysis;
+                $cost += $main->cost;
+            }
+            $model->total_cost = $cost;
 
         });
-        static::created(function ($model){
+        static::created(function ($invoice){
 
-            Revenue::create([
-                'type' => config('enums.revenueType.invoice'), // invoice revenue
-                'invoice_id' => $model->id,
-                'amount' => $model->total_price,
-                'employee_id' => auth()->id(),
-                'serial_no'    => $model->serial_no
-            ]);
+
+
+//            Revenue::create([
+//                'type' => config('enums.revenueType.invoice'), // invoice revenue
+//                'invoice_id' => $model->id,
+//                'amount' => $model->total_price,
+//                'employee_id' => auth()->id(),
+//                'serial_no'    => $model->serial_no
+//            ]);
 
         });
 

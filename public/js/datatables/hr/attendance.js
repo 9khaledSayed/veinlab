@@ -11,6 +11,8 @@ var KTUserListDatatable = function() {
             'Date': "التاريخ",
             'Total Working Hours': "ساعات العمل",
             'Actions': "الاجراءات",
+            'Early Hours': "ساعات التبكير",
+            'Delay Hours': "ساعات التاخير",
         }
     };
     var locator = new KTLocator(messages);
@@ -103,6 +105,12 @@ var KTUserListDatatable = function() {
                 field: 'time_out',
                 title: locator.__('Time Out'),
             }, {
+                field: 'early_hours',
+                title: locator.__('Early Hours'),
+            }, {
+                field: 'delay_hours',
+                title: locator.__('Delay Hours'),
+            }, {
                 field: 'total_working_hours',
                 title: locator.__('Total Working Hours'),
             }, {
@@ -160,23 +168,25 @@ var KTUserListDatatable = function() {
         switch (value) {
             case '1': // today
                 var currentDate = yyyy + '-' + mm + '-' + dd ;
-                datatable.search(currentDate, 'effective_date');
+
+                console.log(currentDate)
+                datatable.search(currentDate, 'created_at');
 
                 break;
             case '2':
                 current_datetime.setDate(current_datetime.getDate() - 7);
-                datatable.search(current_datetime.toDateString(), 'effective_date');
+                datatable.search(current_datetime.toDateString(), 'created_at');
                 break;
             case '3':
                 current_datetime.setMonth(current_datetime.getMonth() - 1);
-                datatable.search(current_datetime.toLocaleString('default', { month: 'short' }), 'effective_date');
+                datatable.search(current_datetime.toLocaleString('default', { month: 'short' }), 'created_at');
                 break;
             case '4':
                 current_datetime.setFullYear(current_datetime.getFullYear() - 1);
-                datatable.search(current_datetime.toLocaleString('default', { month: 'short' }), 'effective_date');
+                datatable.search(current_datetime.toLocaleString('default', { month: 'short' }), 'created_at');
                 break;
             default:
-                datatable.search($(this).val().toLowerCase(), 'effective_date');
+                datatable.search($(this).val().toLowerCase(), 'created_at');
         }
     });
 

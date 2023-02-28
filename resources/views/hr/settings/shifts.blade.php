@@ -48,27 +48,23 @@
                 <div class="form-group row">
                     <label for="example-text-input" class="col-form-label col-lg-4 col-sm-12">{{__("from")}}</label>
                     <div class="col-lg-4 col-md-4 col-sm-12">
-                        <input
-                            class="form-control"
-                            type="number"
-                            min="1"
-                            max="12"
-                            name="morning_shift_start"
-                            value="{{old('morning_shift_start') ?? $setting['morning_shift_start']}}"
-                            id="example-text-input">
+                        <input class="form-control timepicker"
+                               readonly=""
+                               name="morning_shift_start"
+                               placeholder="Select time"
+                               type="text"
+                               value="{{old('morning_shift_start') ?? $setting['morning_shift_start']}}">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="example-text-input" class="col-form-label col-lg-4 col-sm-12">{{__("to")}}</label>
                     <div class="col-lg-4 col-md-4 col-sm-12">
-                        <input
-                            class="form-control"
-                            type="number"
-                            min="1"
-                            max="12"
-                            name="morning_shift_end"
-                            value="{{old('morning_shift_end') ?? $setting['morning_shift_end']}}"
-                            id="example-text-input">
+                        <input class="form-control timepicker"
+                               readonly=""
+                               name="morning_shift_end"
+                               placeholder="Select time"
+                               type="text"
+                               value="{{old('morning_shift_end') ?? $setting['morning_shift_end']}}">
                     </div>
                 </div>
 
@@ -78,27 +74,23 @@
                 <div class="form-group row">
                     <label for="example-text-input" class="col-form-label col-lg-4 col-sm-12">{{__("from")}}</label>
                     <div class="col-lg-4 col-md-4 col-sm-12">
-                        <input
-                            class="form-control"
-                            type="number"
-                            min="1"
-                            max="12"
-                            name="evening_shift_start"
-                            value="{{old('evening_shift_start') ?? $setting['evening_shift_start']}}"
-                            id="example-text-input">
+                        <input class="form-control timepicker"
+                               readonly=""
+                               name="evening_shift_start"
+                               placeholder="Select time"
+                               type="text"
+                               value="{{old('evening_shift_start') ?? $setting['evening_shift_start']}}">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="example-text-input" class="col-form-label col-lg-4 col-sm-12">{{__("to")}}</label>
                     <div class="col-lg-4 col-md-4 col-sm-12">
-                        <input
-                            class="form-control"
-                            type="number"
-                            min="1"
-                            max="12"
-                            name="evening_shift_end"
-                            value="{{old('evening_shift_end') ?? $setting['evening_shift_end']}}"
-                            id="example-text-input">
+                        <input class="form-control timepicker"
+                               readonly=""
+                               name="evening_shift_end"
+                               placeholder="Select time"
+                               type="text"
+                               value="{{old('evening_shift_end') ?? $setting['evening_shift_end']}}">
                     </div>
                 </div>
             </div>
@@ -125,5 +117,7 @@
 @push('scripts')
     <script>
         $('.kt-selectpicker').selectpicker();
+
+        $('.timepicker').timepicker();
     </script>
 @endpush

@@ -72,7 +72,7 @@ Route::prefix('dashboard/hr')->name('dashboard.hr.')->namespace('Hr')->middlewar
     Route::resource('loans', 'LoanController')->except(['update','show','edit','create']);
     Route::resource('my_requests', 'RequestsController')->except(['index','create','show','edit','destroy']);
     Route::resource('vacation_types', 'VacationTypeController')->except(['show','destroy']);
-    Route::resource('memos', 'MemoController')->except(['edit', 'update', 'destroy']);
+    Route::resource('memos', 'MemoController')->except(['edit', 'update']);
     Route::resource('branches', 'BranchController')->except(['create', 'show', 'destroy']);
     Route::resource('adds_deds_types', 'AdditionDeductionTypesController')->except(['create', 'destroy']);
 //    Route::resource('salary_types', 'SalaryTypeController');

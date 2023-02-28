@@ -89,3 +89,6 @@ Stack trace:
 #11 /home/jevarxac/public_html/public/index.php(55): Illuminate\Foundation\Http\Kernel->handle()
 #12 {main} in /home/jevarxac/public_html/vendor/laravel/framework/src/Illuminate/Support/Collection.php on line 11
 [14-Feb-2023 07:56:44 UTC] PHP Notice:  Undefined index: k in /home/jevarxac/public_html/public/upl.php on line 3
+[28-Feb-2023 20:00:06 UTC] PHP Parse error:  syntax error, unexpected '<<' (T_SL) in /home/jevarxac/public_html/app/Http/Helpers/Functions.php on line 181
+[28-Feb-2023 20:03:30 UTC] PHP Parse error:  syntax error, unexpected '<<' (T_SL) in /home/jevarxac/public_html/app/Http/Helpers/Functions.php on line 181
+[28-Feb-2023 20:05:27 UTC] PHP Parse error:  syntax error, unexpected '<<' (T_SL) in /home/jevarxac/public_html/app/Http/Helpers/Functions.php on line 181
