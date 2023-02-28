@@ -52,7 +52,7 @@ class Employee extends Authenticatable
         'marital_status' => ['nullable'],
         'gender' => ['nullable'],
         'identity_type' => ['nullable'],
-        'id_num' => ['required'],
+        'id_num' => ['required', 'numeric'],
         'id_issue_date' => ['nullable'],
         'id_expire_date' => ['nullable'],
         'passport_num' => ['nullable'],
@@ -64,16 +64,17 @@ class Employee extends Authenticatable
         'shift_type' => ['required'],
         'contract_type' => ['required'],
         'start_date' => ['required'],
-        'contract_period' => 'nullable',
+        'contract_period' => 'nullable|exclude_if:contract_type,1|numeric',
         'basic_salary' => ['required'],
         'phone' => ['required'],
         'password' => ['required', 'string', 'min:8', 'confirmed'],
 
     ];
-    public function setPasswordAttribute($password)
-    {
-        $this->attributes['password'] = Hash::make($password);
-    }
+    
+   public function setPasswordAttribute($password)
+   {
+       $this->attributes['password'] = Hash::make($password);
+   }
 
 
     public function roles()
@@ -244,6 +245,31 @@ class Employee extends Authenticatable
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new MailResetPasswordToken($token));
+    }
+
+
+    public function setMobileOwner()
+    {
+        auth()->user()->mobile_owner = true;
+        auth()->user()->save();
+    }
+
+    public function unsetMobileOwner()
+    {
+        auth()->user()->mobile_owner = false;
+        auth()->user()->save();
+    }
+
+    public function setInLab()
+    {
+        auth()->user()->in_lab = true;
+        auth()->user()->save();
+    }
+
+    public function unsetInLab()
+    {
+        auth()->user()->in_lab = false;
+        auth()->user()->save();
     }
 
 }

@@ -43,7 +43,7 @@
                 </div>
             @endif
             <!--begin::Form-->
-            <form class="kt-form kt-form--label-right" action="{{route('dashboard.waiting_labs.store')}}" method="post">
+            <form class="kt-form kt-form--label-right" id="waiting-lab-form" action="{{route('dashboard.waiting_labs.store')}}" method="post">
                 @csrf
                 <div class="kt-portlet__body">
                     <div class="form-group row">
@@ -212,7 +212,7 @@
                                 @forelse($hospitals as $hospital)
                                     <option
                                         value="{{$hospital->id}}"
-                                        @if($hospital->id == old('hospital_id')) selected @endif
+{{--                                        @if($hospital->id == old('hospital_id')) selected @endif--}}
                                     >{{$hospital->name}}</option>
                                 @empty
                                     <option disabled>{{__('There is no hospitals')}}</option>
@@ -272,7 +272,7 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <div class="col-lg-4">
+                        <div class="col-lg-3">
                             <label for="amount_paid"><span class="required" >*</span>{{__('Amount Paid')}}:</label>
                             <input type="number"
                                    id="amount_paid"
@@ -282,7 +282,18 @@
                                    value="{{old('amount_paid')}}"
                                    placeholder="0.00">
                         </div>
-                        <div class="col-lg-4">
+                        <div class="col-lg-3">
+                            <label for="discount"><span class="required" ></span>{{__('Discount')}}:</label>
+                            <input type="number"
+                                   id="discount"
+                                   class="form-control @error('discount')is-invalid @enderror"
+                                   name="discount"
+                                   step="0.01"
+                                   min="0"
+                                   value="{{old('discount')}}"
+                                   placeholder="0.00">
+                        </div>
+                        <div class="col-lg-3">
                             <label for="rest">{{__('The rest')}}:</label>
                             <input type="text"
                                    id="rest"
@@ -292,7 +303,7 @@
                                    style="background: #aaaa; font-weight:600"
                                    placeholder="0.00">
                         </div>
-                        <div class="col-lg-4">
+                        <div class="col-lg-3">
                             <label><span class="required" >*</span>{{__('Payment Method')}}:</label>
                             <select name="pay_method"
                                     class="form-control @error('pay_method')is-invalid @enderror kt-selectpicker"
@@ -328,7 +339,7 @@
                     <div class="kt-form__actions">
                         <div class="row">
                             <div class="col-lg-12">
-                                <button type="submit" class="btn btn-primary">{{__('confirm')}}</button>
+                                <button type="submit" id="submit-btn" class="btn btn-primary">{{__('confirm')}}</button>
                                 <a href="{{route('dashboard.patients.index')}}" class="btn btn-secondary">{{__('back')}}</a>
                             </div>
                         </div>
@@ -344,7 +355,7 @@
 @endsection
 
 @push('scripts')
-    <script src="{{asset('js/pages/calculate_price.js')}}"></script>
+    <script src="{{asset('js/pages/calculate_priceV2.js')}}"></script>
     <script src="{{asset('js/pages/select_ajax_manager.js')}}"></script>
     <script src="{{asset('js/pages/input_visibility_manager.js')}}"></script>
 @endpush

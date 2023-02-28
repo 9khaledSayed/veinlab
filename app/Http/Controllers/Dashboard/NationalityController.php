@@ -29,6 +29,20 @@ class NationalityController extends Controller
     {
 
         $this->authorize('create_nationalities');
+
+        $existArNationality = Nationality::onlyTrashed()->where('nationality', $request->nationality);
+        $existEnNationality = Nationality::onlyTrashed()->where('name_english', $request->name_english);
+        if ($existArNationality->exists()){
+            $id = $existArNationality->first()->id;
+            return redirect()->back()->withErrors(['nationality' => __('There was a deleted nationality with the sam name ') .  "<a href='" . route('dashboard.nationalities.restore', $id) . "' class='restore-item' style='text-decoration:underline;'>" . __('click here to restore it') . "</a>"]) ;
+        }
+
+        if ($existEnNationality->exists()){
+            $id = $existEnNationality->first()->id;
+            return redirect()->back()->withErrors(['nationality' => __('There was a deleted nationality with the sam name ') .  "<a href='" . route('dashboard.nationalities.restore', $id) . "' class='restore-item' style='text-decoration:underline;'>" . __('click here to restore it') . "</a>"]) ;
+        }
+
+
         Nationality::create($this->validateAttributes());
         return redirect(route('dashboard.nationalities.index'));
     }
@@ -67,5 +81,11 @@ class NationalityController extends Controller
             'nationality' => ['required', 'string', 'max:25', 'unique:nationalities'],
             'name_english' => ['required', 'string', 'max:25', 'unique:nationalities'],
         ]);
+    }
+
+    public function restore($id)
+    {
+        $nationality = Nationality::withTrashed()->find($id)->restore();
+        return redirect(route('dashboard.nationalities.edit', $id));
     }
 }

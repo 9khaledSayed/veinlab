@@ -10,12 +10,14 @@ use App\Hospital;
 use App\Http\Controllers\Controller;
 use App\Invoice;
 use App\MainAnalysis;
+use App\Notifications\WaitingLabNotification;
 use App\Patient;
 use App\Result;
 use App\Revenue;
 use App\SubAnalysis;
 use App\WaitingLab;
 use Carbon\Carbon;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -24,9 +26,8 @@ class Dashboard extends Controller
 {
     public function index(Request $request)
     {
-//        Mail::raw('it works',function ($message){
-//            $message->to('ahmed.gamal1999@gmail.com');
-//        });
+
+
         $user = auth()->user();
         if(Auth::guard('employee')->check() && $user->roles->pluck('label')->contains('Super Admin')){
 
@@ -81,5 +82,17 @@ class Dashboard extends Controller
             return view('dashboard.default_view');
         }
 
+    }
+
+
+    /**
+     * Write code on Method
+     *
+     * @return response()
+     */
+    public function saveToken(Request $request)
+    {
+        auth()->user()->update(['device_token'=>$request->token]);
+        return response()->json(['token saved successfully.']);
     }
 }

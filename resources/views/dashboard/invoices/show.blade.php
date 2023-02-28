@@ -38,7 +38,7 @@
                         <table class="table table-bordered " style="font-weight: 500">
                             <thead>
                             <tr>
-                                <th colspan="4">مختبرات فين الطبية</th>
+                                <th colspan="4">{{setting('NameArabic')}}</th>
                                 <th colspan="1">الرقم الضريبي</th>
                                 <th colspan="5">{{Setting::get('tax_no')}}</th>
                             </tr>

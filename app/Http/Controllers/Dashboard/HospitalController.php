@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Hospital;
+use App\MainAnalysis;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -28,14 +29,36 @@ class HospitalController extends Controller implements  FromCollection, WithHead
     public function create()
     {
         $this->authorize('create_hospitals');
-        return view('dashboard.hospitals.create');
+        $mainAnalyses = MainAnalysis::get();
+        return view('dashboard.hospitals.create', compact('mainAnalyses'));
     }
 
     public function store(Request $request)
     {
         $this->authorize('create_hospitals');
-        $rules = Hospital::$rules;
-        Hospital::create($this->validate($request, $rules));
+        $mainAnalyses = [];
+        $data = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => 'required|string|email|max:255|sometimes|unique:employees',
+            'phone' => ['required'],
+            'password' => ['required' ,'min:8', 'confirmed'],
+            'main_analyses.*.id' => 'required|distinct',
+            'main_analyses.*.price' => 'required|numeric|min:0',
+        ]);
+
+
+        if (array_key_exists('main_analyses', $data)){
+            $mainAnalyses = $data['main_analyses'];
+            unset($data['main_analyses']);
+        }
+
+        $hospital = Hospital::create($data);
+
+        foreach ($mainAnalyses as $mainAnalysis) {
+            $hospital->main_analyses()->attach([$mainAnalysis['id'] => ['price' => $mainAnalysis['price']]]);
+        }
+
+
         return redirect(route('dashboard.hospitals.index'));
 
     }
@@ -51,19 +74,47 @@ class HospitalController extends Controller implements  FromCollection, WithHead
     public function edit(Hospital $hospital)
     {
         $this->authorize('update_hospitals');
-        return view('dashboard.hospitals.edit', compact('hospital'));
+        $mainAnalyses = MainAnalysis::get();
+        $hospitalMainAnalyses = $hospital->main_analyses->map(function ($main){
+            return [
+                'id' => $main->id,
+                'price' => $main->pivot->price,
+            ];
+        });
+        return view('dashboard.hospitals.edit', compact('hospital', 'mainAnalyses', 'hospitalMainAnalyses'));
     }
 
 
     public function update(Request $request, Hospital $hospital)
     {
         $this->authorize('update_hospitals');
-        $rules = Hospital::$rules;
-        $rules['email'] = ($rules['email'] . ',email,' . $hospital->id);
-        if(!isset($request->password)){
-            unset($rules['password']);
+
+        $mainAnalyses = [];
+        $data = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => 'required|string|email|max:255|sometimes|unique:employees' . ',email,' . $hospital->id,
+            'phone' => ['required'],
+            'password' => ['nullable' ,'min:8', 'confirmed'],
+            'main_analyses.*.id' => 'required|distinct',
+            'main_analyses.*.price' => 'required|numeric|min:0',
+        ]);
+
+
+        if (array_key_exists('main_analyses', $data)){
+            $mainAnalyses = $data['main_analyses'];
+            unset($data['main_analyses']);
         }
-        $hospital->update($this->validate($request, $rules));
+
+
+        if(!isset($request->password)){
+            unset($data['password']);
+        }
+        $hospital->update($data);
+        $hospital->main_analyses()->detach();
+        foreach ($mainAnalyses as $mainAnalysis) {
+            $hospital->main_analyses()->attach([$mainAnalysis['id'] => ['price' => $mainAnalysis['price']]]);
+        }
+
         return redirect(route('dashboard.hospitals.index'));
     }
 
@@ -102,7 +153,7 @@ class HospitalController extends Controller implements  FromCollection, WithHead
     public function collection()
     {
 
-        $patients = Hospital::select('name','phone','email','wallet','no_patients')->get();
+        $patients = Hospital::select('name','phone','email','no_patients')->get();
         return $patients;
     }
 

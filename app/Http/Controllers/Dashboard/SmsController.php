@@ -7,12 +7,11 @@ use App\Invoice;
 use App\Patient;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Notification;
 use SnappyPDF;
 use App;
 use Illuminate\Support\Facades\Redirect;
 
-class SmsController extends Controller
+class SendResultController extends Controller
 {
 //    public function store(Request $request)
 //    {
@@ -46,17 +45,7 @@ class SmsController extends Controller
 //    }
 
 
-    public function approve(Request $request)
-    {
 
-        $patient_id   = $request->patient_id;
-        $invoice_id   = $request->invoice_id;
-
-        $invoice = Invoice::find($invoice_id);
-        $invoice->doctor = Auth::guard('employee')->user()->name;
-        $invoice->approved = 1;
-        $invoice->save();
-    }
     public function sendSms_Noti(Request $request)
     {
 
@@ -72,12 +61,8 @@ class SmsController extends Controller
 
         $patient   = Patient::find($patient_id);
 
-
-        $analysis_url = "http://veinlab.net/dashboard/results/" . $invoice_id;
-
         $this->SendPdf($request);
 
-        Notification::send( $patient , new \App\Notifications\ResultReady($analysis_url,$patient));
 
         return Redirect::to('https://hiwhats.com/API/send?mobile=966554121213&password=446c8f5d3&instanceid=19239&message=لقد تم الأنتهاء من رصد النتائج الخاصه بك مختبرات فين تتمني لك الشفاء العاجل باذت الله&numbers=201007949946&json=1&type=1');
 
@@ -145,6 +130,27 @@ class SmsController extends Controller
 
         return $data;
 
+    }
+
+    public function sendViaEmail(Invoice $invoice)
+    {
+        $patient = $invoice->patient;
+        $patient->notify(new App\Notifications\ResultReady($patient, $invoice->id, ['mail']));
+
+        return response()->json([
+            'success' => true
+        ]);
+    }
+
+    public function sendViaWebNotification(Invoice $invoice)
+    {
+        $patient = $invoice->patient;
+        $patient->notify(new App\Notifications\ResultReady($patient, $invoice->id, ['database']));
+        pushNotification($patient);
+
+        return response()->json([
+            'success' => true
+        ]);
     }
 
 }

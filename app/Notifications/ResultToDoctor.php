@@ -17,15 +17,18 @@ class ResultToDoctor extends Notification
      * @return void
      */
 
+    public $title;
+    public $date;
+    public $icon;
+    public $class;
     public $url;
-    public $id;
-    public $message;
 
-    public function __construct($invoice_id ,$message)
+    public function __construct($invoiceId)
     {
-        $this->url     = "/dashboard/results/".$invoice_id;
-
-        $this->message = $message;
+        $this->title = "تم الانتهاء من رصد نتائج المريض في المختبر وفي انتظار المراجعة والاعتماد";
+        $this->icon = 'fa fa-clipboard-check';
+        $this->class = 'success';
+        $this->url = "/dashboard/results/$invoiceId";
     }
 
     /**
@@ -62,8 +65,11 @@ class ResultToDoctor extends Notification
     public function toArray($notifiable)
     {
         return [
-            'url' =>$this->url,
-            'message' =>$this->message,
+            'title' => $this->title,
+            'date' => $this->date,
+            'icon' => $this->icon,
+            'class' => $this->class,
+            'url' => $this->url,
         ];
     }
 }

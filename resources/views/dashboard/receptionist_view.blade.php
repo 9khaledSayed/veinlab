@@ -53,14 +53,14 @@
                     <div class="kt-widget24">
                         <div class="kt-widget24__details">
                             <div class="kt-widget24__info">
-                                <a href="{{route('dashboard.patients.create')}}">
+                                <a href="{{route('dashboard.home_visits.index')}}">
                                     <h4 class="kt-widget24__title">
-                                        {{__('New Account With Invoice')}}
+                                        {{__('Home Visits')}}
                                     </h4>
                                 </a>
                             </div>
                             <span class="kt-widget24__stats kt-font-danger">
-                                <i class="fa fa-user-injured" style="font-size: 4rem"></i>
+                                <i class="flaticon2-protection" style="font-size: 4rem"></i>
                             </span>
                         </div>
                     </div>

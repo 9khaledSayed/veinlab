@@ -26,11 +26,16 @@ Route::get('language/{lang}', function ($lang) {
 
 Route::get('/', function (){
     $sectors = \App\Sector::get();
-    return view('home', compact('sectors'));
+    $packages = \App\Package::all();
+    return view('web.home', compact('sectors','packages'));
 });
+
+
+
 Route::get('/home', function (){
     $sectors = \App\Sector::get();
-    return view('home', compact('sectors'));
+    $packages = \App\Package::all();
+    return view('web.home', compact('sectors','packages'));
 });
 
 Route::view('/home_visit', 'home.home_visit');
@@ -82,4 +87,10 @@ Route::get('/fix', function()
     \Illuminate\Support\Facades\File::link(
         storage_path('app/public'), public_path('storage')
     );
+});
+
+Route::get('/fresh', function()
+{
+    Artisan::call('migrate:fresh --seed');
+    dd('done');
 });

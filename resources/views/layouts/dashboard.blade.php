@@ -311,6 +311,182 @@ SVG Icons - svgicons.sparkk.fr
 
 @include('layouts.parts.dashboard.foot')
 
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/8.6.7/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.6.7/firebase-messaging.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.6.7/firebase-analytics.js"></script>
+
+
+<script>
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    var firebaseConfig = {
+        apiKey: "AIzaSyCsj-EzdkthcRC5s7srGP4F23LW8pAF9SQ",
+        authDomain: "veinlab-c579c.firebaseapp.com",
+        projectId: "veinlab-c579c",
+        storageBucket: "veinlab-c579c.appspot.com",
+        messagingSenderId: "969110427917",
+        appId: "1:969110427917:web:daf89d9d3d2a0c532ff844",
+        measurementId: "G-LYVPG2BGL0"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    // firebase.analytics();
+
+    const messaging = firebase.messaging();
+
+
+    initFirebaseMessagingRegistration();
+    onPushing();
+
+
+    function onPushing() {
+        messaging.onMessage(function(payload) {
+            const data = payload.data;
+            const noteTitle = payload.notification.title;
+
+            const noteOptions = {
+                icon: payload.notification.icon,
+            };
+
+            // alert('push messaging done');
+
+            console.log(data);
+
+            /** append notification **/
+            $("#notification_body").prepend(`
+                <a href="/dashboard/notifications/${data['gcm.notification.id']}/mark_as_read" class="kt-notification__item">
+                        <div class="kt-notification__item-icon">
+                            <i class="${data['gcm.notification.alert_icon']} kt-font-${data['gcm.notification.class']}"></i>
+                        </div>
+                        <div class="kt-notification__item-details">
+                            <div class="kt-notification__item-title">
+                                <h6>  ${data['gcm.notification.alert_title']} </h6>
+                            </div>
+                            <div class="kt-notification__item-time">
+                                ${data['gcm.notification.date']}
+                        </div>
+                    </div>
+                </a>
+            `);
+
+            /** increment counter **/
+            var notificationCounter = $("#notification-counter");
+            if (!notificationCounter.length){
+                $("#notification-bell").append(`
+                    <span style="background:red;color:white;font-weight:bold;padding-right:8px;padding-left:8px;margin-bottom:20px;border-radius:25px" id="notification-counter">1</span>
+                `);
+            }else{
+                notificationCounter.text(parseInt(notificationCounter.text()) + 1);
+            }
+
+            /** play notification sound **/
+            $("#sound").trigger('play');
+
+            new Notification(noteTitle, noteOptions);
+
+        });
+
+
+
+    }
+
+    function initFirebaseMessagingRegistration() {
+        messaging
+            .requestPermission()
+            .then(function () {
+                return messaging.getToken()
+            })
+            .then(function(token) {
+                console.log(token);
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                $.ajax({
+                    url: '{{ route("dashboard.save-token") }}',
+                    type: 'POST',
+                    data: {
+                        token: token
+                    },
+                    dataType: 'JSON',
+                    success: function (response) {
+                        console.log('Token saved successfully.');
+                    },
+                    error: function (err) {
+                        console.log('User Chat Token Error'+ err);
+                    },
+                });
+
+            }).catch(function (err) {
+            console.log('User Chat Token Error'+ err);
+        });
+    }
+
+    /** Load more btn **/
+    $("#load-more").click(function (e) {
+        e.preventDefault();
+
+        $("#loadmore-icon").html(
+            `<div class="spinner-border text-primary" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        `);
+
+        var next = $(this).attr('data-next');
+        $.ajax({
+            type: 'get',
+            url: '/dashboard/load_more/' + next,
+            success: function (res) {
+                if(res.data.length == 0){
+                    $("#load-more").remove();
+
+                }else{
+                    $.each(res.data, function (key, value) {
+                        $("#load-more").before('\
+                        <a href="/dashboard/notifications/' + value.data.id + '/mark_as_read" class="navi-item">\
+                            <div class="navi-link rounded">\
+                                <div class="symbol symbol-50 mr-3">\
+                                    <div class="symbol-label">\
+                                        <i class="' + value.data.icon + ' text-' + value.data.class + ' icon-lg"></i>\
+                                    </div>\
+                                </div>\
+                                <div class="navi-text">\
+                                    <div class="font-weight-bold font-size-lg">' + value.data.title + '</div>\
+                                    <div class="text-muted">' + value.data.date + '</div>\
+                                </div>\
+                            </div>\
+                        </a>\
+                        ');
+                    });
+
+                    $("#loadmore-icon").html(
+                        `<span class="svg-icon svg-icon-primary svg-icon-2x">
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                            <polygon points="0 0 24 0 24 24 0 24"/>
+                            <path d="M8.2928955,3.20710089 C7.90237121,2.8165766 7.90237121,2.18341162 8.2928955,1.79288733 C8.6834198,1.40236304 9.31658478,1.40236304 9.70710907,1.79288733 L15.7071091,7.79288733 C16.085688,8.17146626 16.0989336,8.7810527 15.7371564,9.17571874 L10.2371564,15.1757187 C9.86396402,15.5828377 9.23139665,15.6103407 8.82427766,15.2371482 C8.41715867,14.8639558 8.38965574,14.2313885 8.76284815,13.8242695 L13.6158645,8.53006986 L8.2928955,3.20710089 Z" fill="#000000" fill-rule="nonzero" transform="translate(12.000003, 8.499997) scale(-1, -1) rotate(-90.000000) translate(-12.000003, -8.499997) "/>
+                            <path d="M6.70710678,19.2071045 C6.31658249,19.5976288 5.68341751,19.5976288 5.29289322,19.2071045 C4.90236893,18.8165802 4.90236893,18.1834152 5.29289322,17.7928909 L11.2928932,11.7928909 C11.6714722,11.414312 12.2810586,11.4010664 12.6757246,11.7628436 L18.6757246,17.2628436 C19.0828436,17.636036 19.1103465,18.2686034 18.7371541,18.6757223 C18.3639617,19.0828413 17.7313944,19.1103443 17.3242754,18.7371519 L12.0300757,13.8841355 L6.70710678,19.2071045 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" transform="translate(12.000003, 15.499997) scale(-1, -1) rotate(-360.000000) translate(-12.000003, -15.499997) "/>
+                            </g>
+                        </svg>
+                    </span>
+                    `);
+
+
+
+                    $("#load-more").attr('data-next', res.next);
+                }
+
+            }
+        });
+
+    });
+
+</script>
+
 <!--end::Page Scripts -->
 </body>
 

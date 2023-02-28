@@ -36,13 +36,14 @@ class WaitingLabController extends Controller
                     'id' => $waitingLab->id,
                     'patient_name' => $waitingLab->patient->name,
                     'main_analysis_name' => $waitingLab->main_analysis->general_name,
-                    'invoice_bar_code' => $waitingLab->invoice->bar_code,
+                    'invoice_bar_code' => $waitingLab->invoice->barcode,
                     'invoice_serial_no' => $waitingLab->invoice->serial_no,
                     'status' => $waitingLab->status,
                     'result' => $waitingLab->result,
                     'created_at' => $waitingLab->created_at,
                 ];
             });
+
             return response()->json($waiting_lab);
         }
         return view('dashboard.waiting_labs.index');
@@ -68,11 +69,13 @@ class WaitingLabController extends Controller
         $this->authorize('create_patients');
         $this->validator($request);
         if ($request->ajax()){
-            return response()->json($this->calculateTotalPrice($request, $responseArray));
+            $receipt = $this->calculateTotalPrice($request, $responseArray);
+            return response()->json($receipt);
         }else{
             $invoice = $this->calculateTotalPrice($request, $responseArray);
             $this->generateWaitingLabs($invoice);
             $this->assignTransfer($request, $invoice->total_price);
+
             return redirect(route('dashboard.invoices.show', $invoice->id));
         }
     }
@@ -120,10 +123,8 @@ class WaitingLabController extends Controller
 
 
     public function disApprove($id){
-        $waitingLab = WaitingLab::find($id);
-        $employee = Employee::find(1);
-        $link = "/dashboard/results/".$waitingLab->id."/edit";
-        Notification::send( $employee , new WaitingLabNotification($link,"إعاده رصد نتائج"));
+        Employee::first()->notify(new WaitingLabNotification("تم رفض تحليل ويجب اعادة رصد النتيجة مرة اخرى", 'flaticon-warning-sign',"warning", route('dashboard.results.edit', $id)));
+        pushNotification();
     }
 
 
@@ -133,6 +134,7 @@ class WaitingLabController extends Controller
         $mainAnalysis = MainAnalysis::whereIn('id', $request->main_analysis_id??[])->get();
         $packages = Package::whereIn('id', $request->package_id??[])->get();
         $purchases = [];
+
         switch ($request->transfer){
             case config('enums.transfer.contract'):
                 foreach ($mainAnalysis as $analysis) {
@@ -141,9 +143,35 @@ class WaitingLabController extends Controller
                 }
                 break;
             case config('enums.transfer.hospital'):
-                foreach ($mainAnalysis as $analysis) {
-                    $price += $analysis->price_hospital;
-                    $purchases[$analysis->general_name] = ['price' => $analysis->price_hospital, 'code' => $analysis->code, 'discount' => 0];
+
+                $hospital = Hospital::find($request->hospital_id);
+                /** get hospital main analysis **/
+                $hospitalMainAnalysis = $hospital->main_analyses()->whereIn('id', $request->main_analysis_id)->get()->map(function ($main){
+                    return [
+                        'id' => $main->id,
+                        'general_name' => $main->general_name,
+                        'price' => $main->pivot->price,
+                        'code' => $main->code,
+                    ];
+                });
+                /** get all main analysis except hospital analysis **/
+                $main_analysis = MainAnalysis::whereIn('id', $request->main_analysis_id)->get()->map(function ($main){
+                    return [
+                        'id' => $main->id,
+                        'general_name' => $main->general_name,
+                        'price' => $main->price,
+                        'code' => $main->code,
+                    ];
+                })->whereNotIn('id', $hospitalMainAnalysis->pluck('id')->toArray());
+
+
+                $main_analysis = $main_analysis->merge($hospitalMainAnalysis);
+
+                foreach ($main_analysis as $analysis) {
+                    /** check hospital amount type **/
+
+                    $price += $analysis['price'];
+                    $purchases[$analysis['general_name']] = ['price' => $analysis['price'], 'code' => $analysis['code'], 'discount' => 0];
                 }
                 break;
             case config('enums.transfer.sector'):
@@ -158,12 +186,14 @@ class WaitingLabController extends Controller
                     $purchases[$analysis->general_name] = ['price' => $analysis->price, 'code' => $analysis->code, 'discount' => $analysis->discount];
                 }
                 foreach ($packages as $package) {
-                    foreach (MainAnalysis::whereIn('id', unserialize($package->main_analysis) ?? [])->get() as $analysis) {
-                        $price += $analysis->price;
-                    }
+//                    foreach (MainAnalysis::whereIn('id', unserialize($package->main_analysis) ?? [])->get() as $analysis) {
+//                        $price += $analysis->price;
+//                    }
+                    $price += $package->price;
                     $purchases[$package->name] = ['price' => $package->price, 'code' => '-', 'discount' => 0];
                 }
         }
+
         if($request->home_visit_fees == 'on'){
             $price += setting('home_visit_fees');
             $purchases['Home Visit Fees'] = [
@@ -172,11 +202,14 @@ class WaitingLabController extends Controller
                 'discount' => 0
             ];
         }
+
         $tax = $this->getTax($request, $price);
         $price += $tax;
         $discount = $this->calculateDiscount($request, $price, $responseArray);
         $price -= $discount;
+
         if($request->ajax()){
+            $responseArray['total_price'] = $price;
             return $responseArray;
         }else{
             return $this->storeInvoice($request, $price, $discount, $tax, $purchases);
@@ -200,6 +233,7 @@ class WaitingLabController extends Controller
 
         $discount += $this->discountFromOffers($request, $totalPrice, $responseArray);
 
+        $discount += $request->discount;
         return $discount;
     }
 
@@ -243,13 +277,27 @@ class WaitingLabController extends Controller
     public function getTax(Request $request, $totalPrice)
     {
         $tax = 0;
-        $nationality = Nationality::find(Patient::find($request->patient_id)->value('nationality_id'));
-        $taxOnSaudi = setting('tax_include') == config('enums.taxInclude.saudi');
-        $taxOnNotSaudi = setting('tax_include') == config('enums.taxInclude.not_saudi');
-        $taxOnAll = setting('tax_include') == config('enums.taxInclude.all');
-        if( $taxOnAll || ($taxOnSaudi && $nationality == 1) || ($taxOnNotSaudi && $nationality != 1) ){
+        $nationalityLabel = Patient::find($request->patient_id)->nationality_label;
+
+
+        if(setting('tax_include') == config('enums.taxInclude.all')){
+
             $tax = $totalPrice * (setting('tax')/100);
+        }elseif (setting('tax_include') == config('enums.taxInclude.saudi')){
+
+            /** check if patient is saudi **/
+            if ($nationalityLabel == 'sa'){
+                $tax = $totalPrice * (setting('tax')/100);
+            }
+
+        }elseif (setting('tax_include') == config('enums.taxInclude.not_saudi')){
+            /** check if patient is not saudi **/
+            if ($nationalityLabel != 'sa'){
+                $tax = $totalPrice * (setting('tax')/100);
+            }
         }
+
+
         return $tax;
     }
 
@@ -299,7 +347,8 @@ class WaitingLabController extends Controller
             ]);
         }
 
-        Notification::send( Employee::find(1) , new WaitingLabNotification("/dashboard/waiting_labs" , "مريض جديد قادم الأن !"));
+        Employee::first()->notify(new WaitingLabNotification());
+        pushNotification();
     }
 
     public function assignTransfer(Request $request, $price)
@@ -327,13 +376,35 @@ class WaitingLabController extends Controller
         }
     }
 
-    public function transferPrice($transfer)
+    public function transferPrice($transfer, Request $request)
     {
         $main_analysis = MainAnalysis::select('id', 'general_name', 'price', 'code')->get();
         if ($transfer == config('enums.transfer.contract')){
             $main_analysis = MainAnalysis::select('id', 'general_name', 'price_insurance as price', 'code')->get();
         }elseif ($transfer == config('enums.transfer.hospital')){
-            $main_analysis = MainAnalysis::select('id', 'general_name', 'price_hospital as price', 'code')->get();
+            if (isset($request->hospital_id)){
+                $hospital = Hospital::find($request->hospital_id);
+                $hospitalMainAnalysis = $hospital->main_analyses->map(function ($main){
+                    return [
+                        'id' => $main->id,
+                        'general_name' => $main->general_name,
+                        'price' => $main->pivot->price,
+                        'code' => $main->code,
+                    ];
+                });
+                $main_analysis = MainAnalysis::whereNotIn('id', $hospitalMainAnalysis->pluck('id')->toArray())->get()->map(function ($main){
+                    return [
+                        'id' => $main->id,
+                        'general_name' => $main->general_name,
+                        'price' => $main->price,
+                        'code' => $main->code,
+                    ];
+                });
+                $main_analysis = $main_analysis->merge($hospitalMainAnalysis);
+            }else{
+                $main_analysis = MainAnalysis::select('id', 'general_name', 'price', 'code')->get();
+            }
+
         }
         return response()->json($main_analysis);
     }
@@ -344,6 +415,7 @@ class WaitingLabController extends Controller
             "amount_paid" => 'required_unless:pay_method,' . config('enums.payMethod.overdue'),
             "transfer" => 'required',
             "pay_method" => 'required',
+            "discount" => 'nullable|numeric|min:0',
             "code_id" => 'required_if:promo_code,1',
             "hospital_id" => 'required_if:transfer,' . config('enums.transfer.hospital'),
             "sector_id" => 'required_if:transfer,' . config('enums.transfer.sector'),
@@ -358,6 +430,16 @@ class WaitingLabController extends Controller
             $rules["pay_method"] = 'nullable';
         }
         $request->validate($rules);
+    }
+
+    public function hideAllFinished()
+    {
+
+        WaitingLab::where('result', 2)->update([
+            'result' => 3
+        ]);
+
+        return redirect()->back();
     }
 
 }

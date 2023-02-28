@@ -21,6 +21,7 @@ class HrRoleSeeder extends Seeder
             'attendance',
             'memos',
         ];
+
         /*employees*/
         \App\Ability::create([
             'name'  => 'view_employees',

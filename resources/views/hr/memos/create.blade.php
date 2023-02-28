@@ -65,7 +65,7 @@
                                                              </div> <br><br>
                                                                     <div class="form-group form-group-marginless">
 
-                                                                        <label>أيقونة التنبيه</label>
+                                                                        <label>أيقونة التنبية</label>
                                                                         <input type="radio" value="success"  name="icon" style="visibility:hidden">
                                                                         <br><br>
                                                                         <div class="row">

@@ -52,7 +52,7 @@
                 </tr>
                 </thead>
                 <tbody id="table_body" >
-                @foreach( $subAnalysis->normal_ranges as $normal_range)
+                @foreach( \App\NormalRange::where('sub_analysis_id', $subAnalysis->id)->get() as $normal_range)
                     <tr>
                         <td>{{$normal_range->gender}}</td>
                         <td>{{$normal_range->from}}</td>

@@ -18,14 +18,17 @@ class SettingsController extends Controller
     }
     public function company_info(Request $request)
     {
+
+
         $this->authorize('view_company_info');
         if ($request->isMethod('post')){
+
             $this->validate($request, [
                 'logo_url' => 'nullable|image|mimes:jpeg,png,jpg',
                 'company_stamp' =>  'nullable|image|mimes:jpeg,png,jpg',
                 'ceo_signature' =>  'nullable|image|mimes:jpeg,png,jpg',
-                'header' =>  'nullable|image|mimes:jpeg,png,jpg',
-                'footer' =>  'nullable|image|mimes:jpeg,png,jpg',
+                'header' =>  'nullable|image|',
+                'footer' =>  'nullable|image|',
             ]);
             //process
             if(isset($request->logo_url)){
@@ -35,28 +38,36 @@ class SettingsController extends Controller
             }
             if(isset($request->company_stamp)) {
                 $fileName = $request->file('company_stamp')->getClientOriginalName();
+                $fileName = 'Nabd_'.time()  . $fileName;
                 $request->file('company_stamp')->storeAs('public/company_info', $fileName);
                 $request['company_stamp_path'] = 'storage/company_info/' . $fileName;
             }
             if(isset($request->ceo_signature)) {
                 $fileName = $request->file('ceo_signature')->getClientOriginalName();
+                $fileName = 'Nabd_'.time()  . $fileName;
                 $request->file('ceo_signature')->storeAs('public/company_info', $fileName);
                 $request['ceo_signature_path'] = 'storage/company_info/' . $fileName;
             }
             if(isset($request->header)) {
                 $fileName = $request->file('header')->getClientOriginalName();
+                $fileName = 'Nabd_'.time()  . $fileName;
                 $request->file('header')->storeAs('public/company_info', $fileName);
                 $request['header_path'] = 'storage/company_info/' . $fileName ;
             }
             if(isset($request->footer)) {
                 $fileName = $request->file('footer')->getClientOriginalName();
+                $fileName = 'Nabd_'.time()  . $fileName;
                 $request->file('footer')->storeAs('public/company_info', $fileName);
                 $request['footer_path'] = 'storage/company_info/' . $fileName ;
             }
 
+
             //store
             Setting::set($request->all());
             Setting::save();
+
+
+//            dd(setting('lat'), setting('lng'));
             return redirect()->back()->with('message', 'done');
         }
         $setting = Setting::all();

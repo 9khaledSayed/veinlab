@@ -42,14 +42,14 @@
                                                 <div style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';direction:rtl!important;margin:30px auto;padding:0;text-align:center;width:100%">
                                                     <div style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';direction:rtl!important;text-align:center!important">
                                                         <a href="http://veinlab.net/dashboard/hr/requests/mine" rel="noopener" style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';border-radius:4px;color:#fff;overflow:hidden;text-decoration:none;background-color:#2d3748;border-bottom:8px solid #2d3748;border-left:18px solid #2d3748;border-right:18px solid #2d3748;border-top:8px solid #2d3748;display:inline-block;text-align:center" target="_blank" data-saferedirecturl="https://www.google.com/url?q=https://nafezly.com/portfolio/2135-herpalPharma&amp;source=gmail&amp;ust=1594385525962000&amp;usg=AFQjCNFjYGLPhHqarb1HyGr1JAsznkUV-A">
-                                                            مشاهده الطلب
+                                                            مشاهدة الطلب
                                                         </a>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';text-align:center;direction:rtl!important">
-                                                نتمني لك العافيه <br>
-                                                الأداره العامه
+                                                نتمني لك العافية <br>
+                                                الأدارة العامة
                                             </div>
 
 

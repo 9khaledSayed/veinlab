@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+use App\NormalRange;
 use App\SubAnalysis;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -20,8 +21,8 @@ class SubAnalysisController extends Controller implements  FromCollection, WithH
     {
         $this->authorize('view_sub_analysis');
         if ($request->ajax()) {
-            $sub_analysis = SubAnalysis::with('main_analysis')->get();
-            return response()->json($sub_analysis);
+            $response = getModelData(new SubAnalysis(), $request, ['main_analysis' => ['general_name']]);
+            return response()->json($response);
         }
         return view('dashboard.sub_analysis.index');
     }
@@ -56,9 +57,10 @@ class SubAnalysisController extends Controller implements  FromCollection, WithH
         return redirect(route('dashboard.sub_analysis.index'));
     }
 
-    public function show(SubAnalysis $subAnalysis)
+    public function show($id)
     {
         $this->authorize('show_sub_analysis');
+        $subAnalysis = SubAnalysis::withTrashed()->find($id);
         return view('dashboard.sub_analysis.show',compact('subAnalysis'));
     }
 

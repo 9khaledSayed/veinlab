@@ -6,6 +6,7 @@ $(function() {
     let transfer = $("input[name='transfer']");
     let transferValue = $("input[name='transfer']:checked").val();
 
+    onHospitalsSelectChange();
     chooseTransferPrices(transferValue);
 
     $("select[name='company_id']").change(function() {
@@ -56,10 +57,13 @@ $(function() {
         }
     }
 
-    function chooseTransferPrices(transferValue){
+    function chooseTransferPrices(transferValue, hospitalId = null){
         $.ajax({
             method: "get",
             url: "/dashboard/transferPrice/" + transferValue,
+            data:{
+                'hospital_id' : hospitalId
+            },
             success:function(data){
                 select_analysis.empty();
                 for(let i=0; i< data.length;i++)
@@ -67,5 +71,12 @@ $(function() {
                 select_analysis.selectpicker('refresh');
             }
         });
+    }
+
+    function onHospitalsSelectChange() {
+        $("select[name='hospital_id']").change(function () {
+            let hospitalId = $(this).val();
+            chooseTransferPrices(3, $(this).val(), hospitalId)
+        })
     }
 });

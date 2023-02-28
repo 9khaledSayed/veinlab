@@ -7,6 +7,7 @@ use App\Employee;
 use App\Http\Controllers\Controller;
 use App\HR\LeaveBalance;
 use App\Nationality;
+use App\Notifications\RequestNotification;
 use App\Template;
 use App\HR\VacationType;
 use Carbon\Carbon;
@@ -127,9 +128,8 @@ class RequestsController extends Controller
                     'employee_id' => 'integer'
                 ])
             );
-            $admin = Employee::find(1);
-            $message = "يوجد طلب من موظف ينتظر الموافقه";
-            Notification::send($admin, new \App\Notifications\RequestNotification($message));
+            Employee::first()->notify(new RequestNotification());
+            pushNotification();
         }
     }
 
@@ -195,10 +195,8 @@ class RequestsController extends Controller
                 ])
             );
 
-
-            $admin = Employee::find(1);
-            $message = "يوجد طلب من موظف ينتظر الموافقه";
-            Notification::send($admin, new \App\Notifications\RequestNotification($message));
+            Employee::first()->notify(new RequestNotification());
+            pushNotification();
 
         }
 
@@ -222,9 +220,8 @@ class RequestsController extends Controller
                 ])
             );
 
-            $admin = Employee::find(1);
-            $message = "يوجد طلب من موظف ينتظر الموافقه";
-            Notification::send($admin, new \App\Notifications\RequestNotification($message));
+            Employee::first()->notify(new RequestNotification());
+            pushNotification();
 
         }
     }
@@ -250,9 +247,8 @@ class RequestsController extends Controller
                 ])
             );
 
-            $admin = Employee::find(1);
-            $message = "يوجد طلب من موظف ينتظر الموافقه";
-            Notification::send($admin, new \App\Notifications\RequestNotification($message));
+            Employee::first()->notify(new RequestNotification());
+            pushNotification();
 
         }
     }
@@ -277,9 +273,8 @@ class RequestsController extends Controller
                 ])
             );
 
-            $admin = Employee::find(1);
-            $message = "يوجد طلب من موظف ينتظر الموافقه";
-            Notification::send($admin, new \App\Notifications\RequestNotification($message));
+            Employee::first()->notify(new RequestNotification());
+            pushNotification();
 
         }
     }
@@ -303,9 +298,9 @@ class RequestsController extends Controller
                 ])
             );
 
-            $admin = Employee::find(1);
-            $message = "يوجد طلب من موظف ينتظر الموافقه";
-            Notification::send($admin, new \App\Notifications\RequestNotification($message));
+
+            Employee::first()->notify(new RequestNotification());
+            pushNotification();
 
         }
     }

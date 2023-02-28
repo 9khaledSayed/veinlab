@@ -15,15 +15,15 @@ class Result extends Model
     ];
     public function sub_analysis()
     {
-        return $this->belongsTo(SubAnalysis::class);
+        return $this->belongsTo(SubAnalysis::class)->withTrashed();
     }
     public function main_analysis()
     {
-        return $this->belongsTo(MainAnalysis::class);
+        return $this->belongsTo(MainAnalysis::class)->withTrashed();
     }
     public function patient()
     {
-        return $this->belongsTo(Patient::class);
+        return $this->belongsTo(Patient::class)->withTrashed();
     }
 
 

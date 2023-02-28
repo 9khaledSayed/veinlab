@@ -87,13 +87,14 @@
 
                 @foreach($main_analysis->sub_analysis as $sub_analysis)
 
-                    <div class="form-group row">
-                        <label for="example-text-input" class="col-form-label col-lg-3 col-sm-12"></label>
+                    <div class="form-group row d-flex justify-content-center">
+{{--                        <label for="example-text-input" class="col-form-label col-lg-3 col-sm-12"></label>--}}
                         <div class="col-lg-3 col-md-6 col-sm-6">
                             <input
                                 class="form-control"
                                 disabled="disabled"
                                 name="price"
+                                placeholder="{{__('Name')}}"
                                 value="{{$sub_analysis->name}}"
                                 id="example-text-input">
                         </div>
@@ -104,6 +105,16 @@
                                 disabled="disabled"
                                 name="price"
                                 value="{{$sub_analysis->unit}}"
+                                placeholder="{{__('Unit')}}"
+                                id="example-text-input">
+                        </div>
+                        <div class="col-lg-3 col-md-6 col-sm-6">
+                            <input
+                                class="form-control"
+                                disabled="disabled"
+                                name="classification"
+                                placeholder="{{__('Classification (optional)')}}"
+                                value="{{$sub_analysis->classification}}"
                                 id="example-text-input">
                         </div>
 

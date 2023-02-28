@@ -10,7 +10,7 @@ class Template extends Model
 {
     protected $guarded = [];
 
-    public function employee_results(\App\HR\Employee $employee)
+    public function employee_results(\App\Employee $employee)
     {
         return [
             'fullname_arabic' => $employee->fullname_arabic(),
@@ -65,7 +65,7 @@ class Template extends Model
         ];
     }
 
-    public function salary_results(\App\HR\Employee $employee)
+    public function salary_results(\App\Employee $employee)
     {
         return [
             'basic_salary' => $employee->basic_salary,
@@ -100,72 +100,149 @@ class Template extends Model
         ];
     }
 
-    public function analysis_results_tables(Invoice $invoice)
+    public function analysis_results_tables(WaitingLab $waitingLab = null, Invoice $invoice =null)
     {
         $content = '';
-        $waiting_labs = $invoice->waiting_labs;
-        $gender = $waiting_labs[0]->patient->gender;
-        $index       = 0;
-        foreach($waiting_labs as $waiting_lab){
-            $notes = $waiting_lab->notes->lab_notes ?? null;
-            $content .= '<table class="table table-striped- table-bordered table-hover">';
-            if($waiting_lab->results->count() > 0 || isset($notes)){
-                $content .= '
-                    <div class="kt-portlet__head">
-                        <div class="kt-portlet__head-label" style="margin: auto">
-                            <h3 class="kt-portlet__head-title text-center" dir="rtl">'
-                    . __('Analysis') .  ' : ' . $waiting_lab->main_analysis->general_name . '
-                            </h3>
-                        </div>
-                    </div>';
+
+
+        if ($invoice){ /** check print type if ( print all analysis ) print only one result lab **/
+
+            foreach ($invoice->waiting_labs as $waitingLab) {
+                $this->generateWaitingLab($content, $waitingLab);
             }
 
-            if($index == 0){
-                $content .= '<thead class="thead-light">
-                                <tr>
-                                    <td style="width: 10%">#</td>
-                                    <td style="width: 22.5%">' . __('Test Name') . '</td>
-                                    <td style="width: 22.5%">' . __('Result') . '</td>
-                                    <td style="width: 22.5%">' . __('Unit') . '</td>
-                                    <td style="width: 22.5%">' . __('Normal Range') . '</td>
-                                </tr>
-                            </thead>';
-                $index++;
-            }
-            $content .= '<tbody>';
-            $counter = 1;
-            foreach($waiting_lab->results as $result){
-                $normal_range = '';
-                if(isset($result->sub_analysis->normal_ranges)){
-                    $normal_range = $result->sub_analysis->normal_ranges->whereIn('gender', [$gender, 3])->first()->value ??' ';
-                }
-                if($result->sub_analysis){
-                    $content .= '<tr>
-                    <td style="width: 10%">' . $counter++ . '</td>
-                    <td style="width: 22.5%">' . $result->sub_analysis->name  . '</td>
-                    <td style="width: 22.5%">' . $result->result . '</td>
-                    <td style="width: 22.5%">' . $result->sub_analysis->unit  . '</td>
-                    <td style="width: 22.5%">' . $normal_range  . '</td>
-                </tr>';
-                }
-            }
-            $content .= '</tbody></table>';
-            if(isset($notes)){
-                $content .=
-                    '<div class="kt-portlet__foot">
-                        <div class="kt-form__actions">
-                            <div class="row " style="text-align: center" >
-                                <div class="col-lg-12" >
-                                    <h4 class="mt-3 mb-3 lab" dir="rtl">' .__('Lab Notes') . ' : ' . '</h4>
-                                    <p>' . $notes . '</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>';
-            }
+        }else{ /** check print type if ( single ) print only one result lab **/
+
+            $this->generateWaitingLab($content, $waitingLab);
+
         }
+
         return $content;
     }
+
+    public function generateWaitingLab(&$content, $waitingLab)
+    {
+        $cultivationContent = '';
+        $gender = $waitingLab->patient->gender;
+
+        $content .= '<div class="row">
+                <h4 class="text-center mb-3" style="text-decoration: underline">' . $waitingLab->main_analysis->general_name . '</h4>
+                <table class="table text-center">
+                        <thead class="text-center">
+                            <tr>
+                                <th scope="col">Test</th>
+                                <th scope="col">Result</th>
+                                <th scope="col">Unit</th>
+                                <th scope="col">Reference Range</th>
+                            </tr>
+                        </thead>
+                    <tbody>';
+
+        foreach ($waitingLab->results->groupBy('classification') as $classification => $results) {
+
+
+            foreach($results as $result){
+
+                $bgClass = $classification == $result->sub_analysis->name ? 'bg-grey' : '';
+                $normal_range =  $result->sub_analysis->normal($gender) ? '<td>' . $result->sub_analysis->normal($gender)  . '</td>' : '<td> - </td>';
+                if($result->sub_analysis){
+                    $content .=
+                        '<tr>
+                                <td class="' . $bgClass .'">' . $result->sub_analysis->name . '  ' . htmlspecialchars_decode($result->sub_analysis->unit)  . '</td>
+                                <td >' . $result->result . '</td>
+                                <td >' . htmlspecialchars_decode($result->sub_analysis->unit ?? '-') . '</td>
+                                ' . $normal_range . '
+                            </tr>';
+                }
+            }
+        }
+
+
+        /** check cultivation **/
+        if ($waitingLab->main_analysis->has_cultivation){
+            $cultivationContent .=
+                "<div class='d-flex flex-column align-items-start' style='direction: ltr'>
+                        <h3 style='text-decoration: underline'>Cultivation</h3>
+                        <p style='font-size: 18px'>On cultivation of the received specimen on the relevant media and after 24 hours of aerobic incubation, and sub-culturing suspicious colonies on selective media, the following was revealed.</p>
+                    </div>
+                    <div class='text-center ' style='padding:10px; border: 1px solid; margin: auto;font-weight: 900; font-size: 18px'>
+                        $waitingLab->cultivation
+                    </div>";
+
+            /** High Sensitive to **/
+            if ($waitingLab->growth_status == 'growth') {
+                $cultivationContent .= '<div style="direction: ltr ; text-align: left; margin-top: 20px">
+                                    <h2>The growth is highly Sensitive to: </h2>
+                                    <table class="table-bordered text-left" style="font-size: 25px">
+                                        <tbody>
+                                            <tr>';
+
+                foreach ($waitingLab->high_sensitive_to as $key => $highSensitiveTo) {
+                    $cultivationContent .= '<td class="p-3">' . ($key + 1) . '</td> <td class="p-3">' . $highSensitiveTo['name'] . '</td>';
+                }
+
+                $cultivationContent .= "          </tbody>
+                                    </table>
+                                </div>";
+
+                /** Moderate Sensitive to **/
+                $cultivationContent .= '<div style="direction: ltr ; text-align: left; margin-top: 20px">
+                                    <h2>The growth is Moderate Sensitive to: </h2>
+                                    <table class="table-bordered text-left" style="font-size: 25px">
+                                        <tbody>
+                                            <tr>';
+
+                foreach ($waitingLab->moderate_sensitive_to as $key => $moderateSensitiveTo) {
+                    $cultivationContent .= '<td class="p-3">' . ($key + 1) . '</td> <td class="p-3">' . $moderateSensitiveTo['name']. '</td>';
+                }
+
+                $cultivationContent .= "          </tbody>
+                                    </table>
+                                </div>";
+
+                /** Resistant to **/
+                $cultivationContent .= '<div style="direction: ltr ; text-align: left; margin-top: 20px">
+                                    <h2>The growth is Resistant to: </h2>
+                                    <table class="table-bordered text-left" style="font-size: 25px">
+                                        <tbody>
+                                            <tr>';
+
+                foreach ($waitingLab->resistant_to as $key => $resistantTo) {
+                    $cultivationContent .= '<td class="p-3">' . ($key + 1) . '</td> <td class="p-3">' . $resistantTo['name']. '</td>';
+                }
+
+                $cultivationContent .= "          </tbody>
+                                    </table>
+                                </div>";
+            }
+
+        }
+
+        if ($waitingLab->notes){
+            $notes = $waitingLab->notes->lab_notes;
+        }else{
+            $notes = 'There is no notes';
+        }
+
+        $content .=
+            '        </tbody>
+                    <tfoot>
+                        <tr>
+                            <td class="bg-grey">Comment</td>
+                            <td colspan="3" class="text-center">' . $notes . '</td>
+                        </tr>
+                    </tfoot>
+                </table>
+                ' . $cultivationContent;
+
+        $content .= '<div class="row d-flex flex-column flex-row-reverse">
+                        <div class="" style="width: fit-content;">
+                            <h6 class="text-center">Referred By</h6>
+                            <h6 class="">' . $waitingLab->invoice->doctor . '</h6>
+                        </div>
+                    </div> </div> </div> <hr>';
+    }
+
     public function purchase_table(Invoice $invoice)
     {
         $content = '<tr>
@@ -204,7 +281,7 @@ class Template extends Model
     {
         return ['date' => now()->format('Y-m-d')];
     }
-    public function salary_table(\App\HR\Employee $employee)
+    public function salary_table(\App\Employee $employee)
     {
         $table_start = '<table dir="rtl" style="border-collapse: collapse; width: 100%;" border="1">
                         <tbody>

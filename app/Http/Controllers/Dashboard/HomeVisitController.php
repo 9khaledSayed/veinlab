@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Dashboard;
 use App\Employee;
 use App\HomeVisit;
 use App\Http\Controllers\Controller;
+use App\Notifications\HomeVisitNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
 use Maatwebsite\Excel\Concerns\FromCollection;
@@ -32,20 +33,19 @@ class HomeVisitController extends Controller implements  FromCollection, WithHea
     public function store(Request $request)
     {
         $this->authorize('update_home_visits');
-        HomeVisit::create($this->validateHomeVisit());
+        $homeVisit = HomeVisit::create($this->validateHomeVisit());
+        Employee::first()->notify(new HomeVisitNotification($homeVisit->id));
+        pushNotification();
         return redirect(route('dashboard.home_visits.index'));
     }
 
     public function request(Request $request)
     {
-
-
         $request['dateTime'] = $request['date'] . ' ' . $request['time'] . ':00';
-        $homevisit = HomeVisit::create($this->validateHomeVisit());
+        $homeVisit = HomeVisit::create($this->validateHomeVisit());
 
-        $employee = Employee::find(1);
-        $link = 'http://veinlab.net/dashboard/home_visits/'.$homevisit->id;
-        Notification::send( $employee , new \App\Notifications\HomeVisitNotification($link , "يوجد طلب زياره منزليه جديد !"));
+        Employee::first()->notify(new HomeVisitNotification($homeVisit->id));
+        pushNotification();
 
         return redirect()->back()->with('success', 'your message,here');
     }

@@ -24,6 +24,7 @@ class CreateMainAnalysesTable extends Migration
             $table->decimal('price')->default(0);
             $table->decimal('price_insurance')->default(0);
             $table->decimal('price_hospital')->default(0);
+            $table->boolean('has_cultivation')->default(false);
             $table->softDeletes();
             $table->timestamps();
         });

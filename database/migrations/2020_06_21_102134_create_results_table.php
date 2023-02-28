@@ -20,7 +20,8 @@ class CreateResultsTable extends Migration
             $table->unsignedBigInteger('main_analysis_id');
             $table->unsignedBigInteger('patient_id');
             $table->unique(['waiting_lab_id', 'sub_analysis_id']);
-            $table->string('result');
+            $table->longText('result');
+            $table->string('classification')->nullable();
             $table->softDeletes();
             $table->timestamps();
 

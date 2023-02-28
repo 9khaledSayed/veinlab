@@ -153,71 +153,125 @@
                         @enderror
                     </div>
                 </div>
-                @foreach( $main_analysis->sub_analysis as $sub_analysis )
 
-                    <div id="sub_analysis_field{{++$count}}">
-                        <div class="form-group form-group-last row">
-                            <label class="col-form-label col-lg-3 col-sm-12">{{__('Sub Analysis')}}</label>
-                            <div  class="col-lg-9 col-md-9 col-sm-12">
-                                <div  class="form-group row align-items-center">
+                <div class="kt-separator kt-separator--border-dashed kt-separator--space-lg"></div>
+                <div class="kt-heading kt-heading--md">{{__('Sub Analysis ( Tests )')}}</div>
+                <div id="kt_repeater_1">
+                    <div class="form-group form-group-last row" id="kt_repeater_1">
+                        <label class="col-lg-2 col-form-label"></label>
+                        <div data-repeater-list="sub_analyses" class="col-lg-10">
+                            @forelse((old('sub_analyses') ?? $main_analysis->sub_analysis) as $subAnalyses)
+
+                                <div data-repeater-item class="form-group row align-items-center">
+                                    <input type="hidden" class="sub_analyses_id" name="id" value="{{$subAnalyses['id'] ?? null}}">
                                     <div class="col-md-3">
                                         <div class="kt-form__group--inline">
-
                                             <div class="kt-form__control">
-                                                <input
-                                                    type="text"
-                                                    name="sub_analysis{{$count}}"
-                                                    class="form-control"
-                                                    value="{{old('sub_analysis' . $count) ?? $sub_analysis->name}}"
-                                                    required placeholder="{{__('Sub Analysis')}} 1">
-                                                @error('sub_analysis1')
-                                                <span style="color:red" role="alert">
-                                            <small>{{ $message }}</small>
-                                            </span>
+                                                <input type="text" dir="auto" name="name" class="text-center form-control @error('name') is-invalid @enderror" value="{{$subAnalyses['name']}}" placeholder="{{__('Name')}}">
+                                                @error('sub_analyses.' . $loop->index . '.name')
+                                                <div class="text-danger">
+                                                    {{$message}}
+                                                </div>
                                                 @enderror
                                             </div>
                                         </div>
+                                        <div class="d-md-none kt-margin-b-10"></div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="kt-form__group--inline">
-
                                             <div class="kt-form__control">
-                                                <input
-                                                    type="text"
-                                                    name="unit{{$count}}"
-                                                    class="form-control"
-                                                    value="{{old('unit' . $count) ?? $sub_analysis->unit}}"
-                                                    placeholder="{{__('Unit')}}">
-                                                @error('sub_analysis1')
-                                                <span style="color:red" role="alert">
-                                            <small>{{ $message }}</small>
-                                            </span>
+                                                <input type="text" dir="auto" name="unit" class="text-center form-control @error('unit') is-invalid @enderror" value="{{$subAnalyses['unit']}}" placeholder="{{__('Unit (optional)')}}">
+                                                @error('sub_analyses.' . $loop->index . '.unit')
+                                                <div class="text-danger">
+                                                    {{$message}}
+                                                </div>
                                                 @enderror
                                             </div>
                                         </div>
+                                        <div class="d-md-none kt-margin-b-10"></div>
                                     </div>
                                     <div class="col-md-3">
-
-                                        <button  onclick="remove_old_sub_analysis({{$count}})"  type="button" class="btn-sm btn btn-label-danger btn-bold">
+                                        <div class="kt-form__group--inline">
+                                            <div class="kt-form__control">
+                                                <input type="text" dir="auto" name="classification" class="text-center form-control @error('classification') is-invalid @enderror" value="{{$subAnalyses['classification']}}" placeholder="{{__('Classification (optional)')}}">
+                                                @error('sub_analyses.' . $loop->index . '.classification')
+                                                <div class="text-danger">
+                                                    {{$message}}
+                                                </div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="d-md-none kt-margin-b-10"></div>
+                                    </div>
+                                    <div class="mx-3">
+                                        <a href="javascript:;" data-repeater-delete="" class="btn-sm btn btn-label-danger btn-bold">
                                             <i class="la la-trash-o"></i>
-                                            {{__('Delete')}}
-                                        </button>
-
+                                            Delete
+                                        </a>
+                                    </div>
                                 </div>
-                            </div>
+
+                            @empty
+                                <div data-repeater-item class="form-group row align-items-center">
+                                    <div class="col-md-3">
+                                        <div class="kt-form__group--inline">
+                                            <div class="kt-form__control">
+                                                <input type="text" dir="auto" name="name" class="text-center form-control @error('name') is-invalid @enderror" placeholder="{{__('Name')}}">
+                                                @error('name')
+                                                <div class="text-danger">
+                                                    {{$message}}
+                                                </div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="d-md-none kt-margin-b-10"></div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="kt-form__group--inline">
+                                            <div class="kt-form__control">
+                                                <input type="text" dir="auto" name="unit" class="text-center form-control @error('unit') is-invalid @enderror" placeholder="{{__('Unit (optional)')}}">
+                                                @error('unit')
+                                                <div class="text-danger">
+                                                    {{$message}}
+                                                </div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="d-md-none kt-margin-b-10"></div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="kt-form__group--inline">
+                                            <div class="kt-form__control">
+                                                <input type="text" dir="auto" name="classification" class="text-center form-control @error('classification') is-invalid @enderror" placeholder="{{__('Classification (optional)')}}">
+                                                @error('classification')
+                                                <div class="text-danger">
+                                                    {{$message}}
+                                                </div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="d-md-none kt-margin-b-10"></div>
+                                    </div>
+                                    <div class="mx-3">
+                                        <a href="javascript:;" data-repeater-delete="" class="btn-sm btn btn-label-danger btn-bold">
+                                            <i class="la la-trash-o"></i>
+                                            Delete
+                                        </a>
+                                    </div>
+                                </div>
+                            @endforelse
+
                         </div>
                     </div>
-
+                    <div class="form-group form-group-last row">
+                        <div class="mx-auto">
+                            <a href="javascript:;" data-repeater-create="" class="btn btn-bold btn-sm btn-label-brand">
+                                <i class="la la-plus"></i> Add
+                            </a>
+                        </div>
                     </div>
-                @endforeach
+                </div>
 
-
-                <input
-                    type="number"
-                    id="number_sub_analysis"
-                    value="{{old('number_sub_analysis') ?? $count}}"
-                    style="display:none"
-                    name="number_sub_analysis" >
             </div>
 
 
@@ -226,8 +280,6 @@
                     <div class="row">
                         <div class="col-12" style="text-align:center">
                             <button type="submit" class="btn btn-success">{{__('confirm')}}</button>
-                            <button onclick="add_sub_analysis()" type="button"  class="btn btn-secondary"><i class="la la-plus"></i> {{__('Add Sub Analysis')}}</button>
-
                         </div>
                     </div>
                 </div>
@@ -244,125 +296,27 @@
 
 @push('scripts')
 
-    <script type="text/javascript" >
+    @push('scripts')
 
+        <script>
+            $(function () {
+                $('#kt_repeater_1').repeater({
+                    initEmpty: false,
 
-        var no_sub_analysis = document.getElementById('number_sub_analysis').value;
+                    defaultValues: {
+                        'text-input': 'foo'
+                    },
 
-        var form = document.getElementById('form');
+                    show: function () {
+                        $(this).slideDown();
+                    },
 
-
-        function add_sub_analysis()
-        {
-
-            no_sub_analysis++;
-
-            var field   = document.createElement('DIV');
-            field.setAttribute("id", "sub_analysis_field" + no_sub_analysis);
-
-            var container = document.createElement('DIV');
-            container.className += "form-group";
-            container.className += " form-group-last";
-            container.className += " row";
-            container.setId = no_sub_analysis;
-
-            var container2 = document.createElement('DIV');
-            container2.className += "col-lg-9";
-            container2.className += " col-md-9";
-            container2.className += " col-sm-12";
-
-            var container3 = document.createElement('DIV');
-            container3.className += "form-group";
-            container3.className += " align-items-center";
-            container3.className += " row";
-
-            var container4 = document.createElement('DIV');
-            container4.className += "col-md-3";
-
-            var container5 = document.createElement('DIV');
-            container5.className += "kt-form__group--inline";
-
-            var container6 = document.createElement('DIV');
-            container6.className += "kt-form__group--inline";
-
-            var container7 = document.createElement('DIV');
-            container7.className += "col-md-3";
-
-            var class_counter = document.getElementById('number_sub_analysis');
-            class_counter.value = no_sub_analysis;
-
-
-            var div_btns = document.createElement('DIV');
-            div_btns.className = "col-md-3";
-
-            var div_sub_analysis = document.createElement('DIV');
-            div_sub_analysis.className += "kt-form__control";
-
-            var div_unit = document.createElement('DIV');
-            div_unit.className += "kt-form__control";
-
-            var sub_analysis_name = document.createElement("INPUT");
-            sub_analysis_name.setAttribute("type", "text");
-            sub_analysis_name.setAttribute("name", "sub_analysis" + no_sub_analysis);
-            sub_analysis_name.className = 'form-control';
-            sub_analysis_name.placeholder = "{{__('Sub Analysis')}} " + no_sub_analysis;
-
-            var unit = document.createElement("INPUT");
-            unit.setAttribute("type", "text");
-            unit.setAttribute("name", "unit" + no_sub_analysis);
-            unit.className = 'form-control';
-            unit.placeholder = "{{__('Unit')}}";
-
-            var minus_btn = document.createElement("BUTTON");
-            minus_btn.setAttribute("type", "button");
-            minus_btn.className  = "btn-sm";
-            minus_btn.className += " btn";
-            minus_btn.className += " btn-label-danger";
-            minus_btn.className += " btn-bold";
-            minus_btn.addEventListener("click", function(){
-                remove_sub_analysis( container )
-            });
-            minus_btn.innerHTML = '<i class="la la-trash-o"></i> {{__('Delete')}}';
-
-            var label = document.createElement('LABEL');
-            label.innerHTML = '{{__("Sub Analysis")}}'
-            label.className += "col-form-label";
-            label.className += " col-lg-3";
-            label.className += " col-sm-12";
-
-            div_btns.appendChild(minus_btn);
-
-
-            div_sub_analysis.appendChild(sub_analysis_name);
-            container5.appendChild(div_sub_analysis);
-            container4.appendChild(container5);
-
-            div_unit.appendChild(unit);
-            container6.appendChild(div_unit);
-            container7.appendChild(container6);
-
-            container3.appendChild(container4);
-            container3.appendChild(container7);
-            container2.appendChild(container3);
-            container.appendChild(label);
-            container.appendChild(container2);
-            container3.appendChild(div_btns);
-
-            field.appendChild(container);
-            form.appendChild(field);
-        }
-
-        function remove_old_sub_analysis(id) {
-
-            document.getElementById('sub_analysis_field' + id).remove();
-
-        }
-
-        function remove_sub_analysis( container )
-        {
-            container.remove();
-        }
-
-    </script>
+                    hide: function (deleteElement) {
+                        $(this).slideUp(deleteElement);
+                    }
+                });
+            })
+        </script>
+    @endpush
 
 @endpush

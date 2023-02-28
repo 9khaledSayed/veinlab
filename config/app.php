@@ -54,7 +54,7 @@ return [
 
     'url' => env('APP_URL', 'localhost'),
 
-    'asset_url' => env('ASSET_URL', null),
+    'asset_url' => env('ASSET_URL', 'https://jevara.fun/public'),
 
     /*
     |--------------------------------------------------------------------------

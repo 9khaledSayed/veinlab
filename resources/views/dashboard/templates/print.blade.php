@@ -60,7 +60,7 @@
     </style>
 </head>
 <body @if(App::isLocale('ar'))dir="rtl"@endif>
-@if($template->type == 9 || $template->type == 10)
+@if($template->type == 9 || $template->type == 10 || $template->type == 11)
     <div class="wrapper">
         <div class="header" style="width: 100%;">
             <tr>

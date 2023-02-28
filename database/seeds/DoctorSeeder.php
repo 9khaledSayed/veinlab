@@ -11,6 +11,6 @@ class DoctorSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Doctor::class,10)->create();
+        factory(App\Doctor::class,500)->create();
     }
 }

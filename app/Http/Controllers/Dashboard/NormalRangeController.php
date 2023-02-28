@@ -33,6 +33,7 @@ class NormalRangeController extends Controller
 
     public function store(Request $request)
     {
+
         $noNormRanges = (int)  $request['number_ranges'];
         $subAnalysis = SubAnalysis::find($request->sub_analysis_id);
         $subAnalysis->normal_ranges()->delete();

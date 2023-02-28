@@ -13,7 +13,7 @@
                         </div>
 
                         <div class="col-12 mb-5" style="text-align:center;padding:15px">
-                            <h4>قيمه الخصم %  {{ $promoCode->percentage }}</h4>
+                            <h4>قيمة الخصم %  {{ $promoCode->percentage }}</h4>
                         </div>
 
                         <div class="col-12 mb-5" style="text-align:center;padding:15px">

@@ -187,10 +187,10 @@
             let t1 = ''
             @switch($template->type)
                 @case (7)
-                     t1 = 'patientInfoBtn  invoiceInfoBtn othersBtn';
+                     t1 = 'patientInfoBtn  invoiceInfoBtn  othersBtn';
                 @break
                 @case (8)
-                    t1 = 'patientInfoBtn analysisInfoBtn invoiceInfoBtn'
+                    t1 = 'patientInfoBtn analysisInfoBtn othersBtn invoiceInfoBtn'
                 @break
                 @case (9)
                     t1 = 'voucherBtn'
@@ -237,6 +237,18 @@
                                 }
                             },{
                                 type: 'menuitem',
+                                text: 'Gender',
+                                onAction: function() {
+                                    editor.insertContent(' <strong>%%patient.gender%%</strong>');
+                                }
+                            },{
+                                type: 'menuitem',
+                                text: 'Age',
+                                onAction: function() {
+                                    editor.insertContent(' <strong>%%patient.age%%</strong>');
+                                }
+                            },{
+                                type: 'menuitem',
                                 text: 'File No',
                                 onAction: function() {
                                     editor.insertContent(' <strong>%%patient.id%%</strong>');
@@ -266,6 +278,12 @@
                                 text: 'Date',
                                 onAction: function() {
                                     editor.insertContent(' <strong>%%invoice.date%%</strong>');
+                                }
+                            },{
+                                type: 'menuitem',
+                                text: 'Approved Date',
+                                onAction: function() {
+                                    editor.insertContent(' <strong>%%invoice.approved_date%%</strong>');
                                 }
                             },{
                                 type: 'menuitem',
@@ -481,6 +499,19 @@
                                     editor.insertContent(' <strong>%%others.purchase_table%%</strong>');
                                 }
                             },
+                                {
+                                    type: 'menuitem',
+                                    text: locator.__('Logo URL'),
+                                    onAction: function() {
+                                        editor.insertContent('<img src="%%others.logo_url%%" class="d-block m-auto" width="100" height="100" alt="شعار الشركة" />');
+                                    }
+                                },{
+                                    type: 'menuitem',
+                                    text: locator.__('WebApp URL'),
+                                    onAction: function() {
+                                        editor.insertContent(' <strong>%%others.app_url%%</strong>');
+                                    }
+                                },
                             ];
                         }
                     });

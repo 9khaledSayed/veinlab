@@ -11,13 +11,18 @@ class HomeVisitNotification extends Notification
 {
     use Queueable;
 
+    public $title;
+    public $date;
+    public $icon;
+    public $class;
     public $url;
-    public $message;
-    public function __construct($link ,$message)
-    {
-        $this->url     = $link;
 
-        $this->message = $message;
+    public function __construct($homeVisitId)
+    {
+        $this->title = "هناك طلب زيارة منزلية";
+        $this->icon = 'flaticon2-protection';
+        $this->class = 'success';
+        $this->url = route('dashboard.home_visits.show', $homeVisitId);
     }
 
     /**
@@ -54,8 +59,11 @@ class HomeVisitNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-            'url' =>$this->url,
-            'message' =>$this->message,
+            'title' => $this->title,
+            'date' => $this->date,
+            'icon' => $this->icon,
+            'class' => $this->class,
+            'url' => $this->url,
         ];
     }
 }

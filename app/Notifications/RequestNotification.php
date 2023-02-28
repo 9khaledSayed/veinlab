@@ -17,11 +17,18 @@ class RequestNotification extends Notification
      * @return void
      */
 
-    public $message;
+    public $title;
+    public $date;
+    public $icon;
+    public $class;
+    public $url;
 
-    public function __construct($message)
+    public function __construct()
     {
-        $this->message = $message;
+        $this->title = "يوجد طلب من موظف ينتظر اجراء";
+        $this->icon = 'flaticon2-layers';
+        $this->class = 'success';
+        $this->url = route('dashboard.hr.requests.pending');
     }
 
     /**
@@ -60,8 +67,11 @@ class RequestNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-            'url' =>'http://veinlab.net/dashboard/hr/requests/mine',
-            'message' => $this->message
+            'title' => $this->title,
+            'date' => $this->date,
+            'icon' => $this->icon,
+            'class' => $this->class,
+            'url' => $this->url,
         ];
     }
 }

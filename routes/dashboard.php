@@ -8,6 +8,9 @@ Route::put("Notifications/WaitingLab/{id}","NotificationsController@markAsRead")
 Route::get('/promo_codes/{code}','Dashboard\PromoCodeController@showPromocode')->middleware('auth:patient');
 Route::put("/dashboard/disapprove/{id}","Dashboard\WaitingLabController@disApprove");
 
+/** results pdf **/
+Route::get("results/{id}/generate_pdf","Dashboard\SendResultController@generatePdf")->name('generate_pdf');
+
 Route::prefix('dashboard')->name('dashboard.')->namespace('Dashboard')->middleware('auth:employee,patient,hospital')->group(function(){
 
 
@@ -30,14 +33,21 @@ Route::prefix('dashboard')->name('dashboard.')->namespace('Dashboard')->middlewa
     Route::any('settings/offers', 'SettingsController@offers')->name('settings.offers');
     Route::any('settings/tax', 'SettingsController@tax')->name('settings.tax');
     Route::get('waiting_labs/archives', 'WaitingLabController@archives')->name('waiting_labs.archives');
+    Route::get('waiting_labs/hide_all_finished', 'WaitingLabController@hideAllFinished')->name('waiting_labs.hide_all_finished');
     Route::match(['get', 'post'],"roles/create_assignment","RoleController@create_assignment")->name('roles.create_assignment');
     Route::match(['get', 'post'],"roles/edit_assignment/{id}","RoleController@edit_assignment")->name('roles.edit_assignment');
     Route::get("roles/assigned_employees","RoleController@assigned_employees")->name('roles.assigned_employees');
     Route::get("roles/assigned_employees/{id}","RoleController@assigned_roles");
     Route::get('invoices/print/{id}', 'InvoiceController@print')->name('invoices.print');
-    Route::post("approve_result","SmsController@approve");
-    Route::post("sendWsms","SmsController@sendSms_Noti");
+    Route::post("approve_result","ResultController@approve");
+    /** send result to patient **/
+    Route::post("results/{invoice}/send_via_whatsapp","SendResultController@sendViaWhatsapp");
+    Route::post("results/{invoice}/send_via_email","SendResultController@sendViaEmail");
+    Route::post("results/{invoice}/send_via_web_notification","SendResultController@sendViaWebNotification");
+
+
     Route::get('results/print/{id}', 'ResultController@print')->name('results.print');
+    Route::get('results/print_all_results/{invoice}', 'ResultController@printAllResults')->name('results.print_all_results');
     Route::get('profits', 'ProfitController@index')->name('profits.index');
     Route::get('statistics', 'StatisticsController@index')->name('statistics.index');
     Route::get('settings', 'SettingsController@index')->name('settings.index');
@@ -64,6 +74,10 @@ Route::prefix('dashboard')->name('dashboard.')->namespace('Dashboard')->middlewa
     Route::post('myProfile/change_password', 'ProfileController@changePassword')->name('myProfile.changePassword');
     Route::get('hospital_revenue/{hospital}/create', 'RevenueController@createHospitalRevenue')->name('revenue.createHospitalRevenue');
     Route::post('hospital_revenue/{hospital}/store', 'RevenueController@storeHospitalRevenue')->name('revenue.storeHospitalRevenue');
+    Route::get('nationalities/{id}/restore', 'NationalityController@restore')->name('nationalities.restore');
+    Route::get('nationalities/{id}/restore', 'NationalityController@restore')->name('nationalities.restore');
+    Route::get('qr_code/generate', 'QRCodeController@generate')->name('qr_code.generate');
+
     Route::resources([
         'main_analysis'  => 'MainAnalysisController',
         'patients'       => 'PatientController',
@@ -74,6 +88,9 @@ Route::prefix('dashboard')->name('dashboard.')->namespace('Dashboard')->middlewa
         'roles'          => 'RoleController',
     ]);
 
+    /**For Firebase Notifications**/
+    Route::post('/save-token', 'Dashboard@saveToken')->name('save-token');
+    Route::get('notifications/{id}/mark_as_read', 'NotificationController@markAsRead')->name('notifications.mark_as_read');
 });
 
 Route::get('sub_analysis/getSubAnalysis','Dashboard\SubAnalysisController@getSubAnalysis');
@@ -99,6 +116,49 @@ Route::prefix('export')->name('export.')->namespace('Dashboard')->middleware('au
     Route::get('profits', 'ProfitController@export')->name('profits.export');
 });
 
-Route::get('/admin', function (){
-   \Illuminate\Support\Facades\Artisan::call('db:seed');
+Route::get('/alterTables', function (){
+//   \Illuminate\Support\Facades\Artisan::call('migrate --path=/database/migrations/2021_07_09_200423_add_column_to_sub_analyses_table.php');
+//   \Illuminate\Support\Facades\Artisan::call('migrate --path=/database/migrations/2021_07_10_230327_change_column_type_result_table.php');
+//   \Illuminate\Support\Facades\Artisan::call('migrate --path=/database/migrations/2021_07_10_232703_add_classifiction_column_to_result_table.php');
+//   \Illuminate\Support\Facades\Artisan::call('migrate --path=/database/migrations/2021_07_16_145545_add_has_cultivation_column_to_main_analyses_table.php');
+//   \Illuminate\Support\Facades\Artisan::call('migrate --path=/database/migrations/2021_07_16_172539_add_columns_to_waiting_labs_table.php');
+    \Illuminate\Support\Facades\Artisan::call('migrate --path=/database/migrations/2021_08_20_152821_add_approved_date_to_invoices__table.php');
+//    \Illuminate\Support\Facades\Artisan::call('migrate --path=/database/migrations/2021_08_21_174642_alter_hospitals__table.php');
+//    \Illuminate\Support\Facades\Artisan::call('migrate --path=/database/migrations/2021_08_23_230843_create_hospital_main_analyses_table.php');
+//    \Illuminate\Support\Facades\Artisan::call('migrate --path=/database/migrations/2021_08_27_163827_add_device_token_to_employees__table.php');
+//    \Illuminate\Support\Facades\Artisan::call('migrate --path=/database/migrations/2021_08_28_004635_add_device_token_to_patients__table.php');
+//    \Illuminate\Support\Facades\Artisan::call('migrate --path=/database/migrations/2021_08_30_081541_add_label_to_nationalities_table.php');
+   dd('done');
 });
+Route::get('/pushNotification', function () {
+
+    pushNotification('هناك مستخدم جديد قام بالتسجيل','flaticon2-user', 'success', '/dashboard/users/11', 'test');
+    dd('notification pushed');
+})->name('index');
+
+
+Route::view('new_result', 'new_result');
+Route::view('scan', 'dashboard.scan');
+
+Route::get('qr-code', function () {
+
+
+    return QrCode::size(400)->generate('13');
+
+
+});
+Route::get('test', function () {
+    $patients = \App\Patient::get();
+
+
+
+    foreach ($patients as $patient){
+        $patient->phone = '966' . intval($patient->phone);
+        $patient->save();
+    }
+
+    dd($patients->pluck('phone'));
+});
+
+
+
