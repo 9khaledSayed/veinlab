@@ -45,14 +45,17 @@ class EmployeeController extends Controller
     public function create()
     {
         $this->authorize('create_employees');
+
         $allowances = AllowanceType::all();
         $nationalities = Nationality::all();
         $branches = Branch::all();
         $roles = Role::where('name_english', '!=', 'Hr')->get();
         $emp_num = ++Employee::withTrashed()->get()->last()->emp_num;
+
         while (Employee::pluck('emp_num')->contains($emp_num)){
             $emp_num = rand(1000,9999);
         }
+        
         return view('hr.employees.create', [
             'nationalities' => $nationalities,
             'roles' => $roles,
@@ -69,19 +72,21 @@ class EmployeeController extends Controller
         $this->authorize('create_employees');
         if($request->ajax()){
             $rules = Employee::$rules;
+
             while (Employee::withTrashed()->pluck('emp_num')->contains($request->emp_num)){
                 return response()->json(array(
                     'status' => 3,
                     'message'   =>  'Employee number must be unique'
                 ));;
             }
+
             $data = $this->validate($request, $rules);
-            $data['password'] = Hash::make($request['password']);
             $employee = Employee::create($data);
-            $employee->allowance_types()->attach($request->allowance);
-            $role = Role::find($request->role_id);
-            $employee->assignRole($role);
-            $employee->assignRole(Role::where('label', 'Hr')->first());
+            $employee->allowance_types()->sync($request->allowance);
+
+            $hrRoleId = Role::where('label', 'Hr')->first()->id;
+            $employee->roles()->sync([$hrRoleId, $request->role_id]);
+
             return response()->json([
                 'status' => true,
             ]);
@@ -131,22 +136,17 @@ class EmployeeController extends Controller
     {
         $this->authorize('Update_employees');
         if($request->ajax()){
-            $request->password = bcrypt($request->password);
             $rules = Employee::$rules;
             $rules['email'] = ($rules['email'] . ',email,' . $employee->id);
             $rules['emp_num'] = ($rules['emp_num'] . ',emp_num,' . $employee->id);
             $data = $this->validate($request, $rules);
-            if (isset($request->password)){
-                $data['password'] = Hash::make($request['password']);
-            }
 
             $employee->update($data);
-            $employee->allowance_types()->detach($request->allowance);
-            $employee->allowance_types()->attach($request->allowance);
-            $role = Role::find($request->role_id);
-            $employee->roles()->detach($employee->roles);
-            $employee->assignRole($role);
-            $employee->assignRole(Role::where('label', 'Hr')->first());
+            $employee->allowance_types()->sync($request->allowance);
+
+            $hrRoleId = Role::where('label', 'Hr')->first()->id;
+            $employee->roles()->sync([$hrRoleId, $request->role_id]);
+
             return response()->json([
                 'status' => true,
             ]);

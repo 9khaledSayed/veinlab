@@ -135,7 +135,7 @@
     </div>
 
     <!--end: Language bar -->
-
+ 
         <!--end: Quick panel toggler -->
     </div>
 
