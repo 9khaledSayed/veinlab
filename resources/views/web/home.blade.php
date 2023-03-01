@@ -11,9 +11,9 @@
                 <div class="image-layer" style="background-image:url({{ asset('home_assets/img/bg-img/header2en.jpg') }})"></div>
                 <div class="auto-container">
                     <div class="content-box">
-                        <h5>{{__('Welcome To NABD Lab Laboratories')}}</h5>
+                        <h5>{{__('Welcome To Beta Blus Lab Laboratories')}}</h5>
                         <h3>
-                            {{__('At the heart of our mission of delivering high-quality services ... NABD Laboratories in the Al Jowf region, specifically the Department of Al Qurayyat.')}}
+                            {{__('Setting the standard in laboratory medicine for a healthier community.')}}
                         </h3>
                         <div class="btn-box mt-4">
                             <a href="#about" class="theme-btn style-two">{{__('More...')}}</a>
@@ -45,12 +45,12 @@
                         <div class="content-box">
                             <div class="sec-title left">
                                 <p>{{__('About Us')}}</p>
-                                <h2>{{ __('At NABD Laboratories') }}</h2>
+                                <h2>{{ __('At BETA BLUS Laboratories') }}</h2>
                                 <span class="separator"></span>
                             </div>
                             <div class="text">
                                 <p>
-                                    {{__('At the heart of our mission of delivering high-quality services ... NABD Laboratories in the Al Jowf region, specifically the Department of mojamaa, established the nature of the organization\'s work not only when it presented its medical data through a visit to its headquarters, but also the establishment of a wide network of governmental and private cooperatives ,NABD Laboratories are designed to become the leading medical laboratory for excellence in medical analysis in the Middle East by providing all medical services according to the highest international standards.')}}
+                                    {{__('At the heart of our mission of delivering high-quality services ... BETA BLUS Laboratories in the Al Jowf region, specifically the Department of mojamaa, established the nature of the organization\'s work not only when it presented its medical data through a visit to its headquarters, but also the establishment of a wide network of governmental and private cooperatives ,BETA BLUS Laboratories are designed to become the leading medical laboratory for excellence in medical analysis in the Middle East by providing all medical services according to the highest international standards.')}}
                                 </p>
                             </div>
                             <div class="inner-box">
@@ -91,7 +91,7 @@
         <div class="pattern-layer" style="background-image: url({{ asset('web/assets/images/shape/shape-2.png') }});"></div>
         <div class="auto-container">
             <div class="sec-title">
-                <p class="">{{__('NABD Lab Laboratories provide the following services')}}</p>
+                <p class="">{{__('BETA BLUS Lab Laboratories provide the following services')}}</p>
                 <h2 class="mb-2">{{__('Our Services')}}</h2>
                 <span class="separator"></span>
             </div>

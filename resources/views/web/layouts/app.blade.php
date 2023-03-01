@@ -5,10 +5,10 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 
-<title>{{__('Nabd Lab')}}</title>
+<title>{{app()->isLocale('ar')? setting('NameArabic'): setting('NameEnglish')}}</title>
 
 <!-- Fav Icon -->
-<link rel="icon" href="{{asset('logo/logo.png')}}" type="image/x-icon">
+<link rel="icon" href="{{asset(Setting::get('logo_path'))}}" type="image/x-icon">
 
 <!-- Google Fonts -->
 <link href="https://fonts.googleapis.com/css?family=Titillium+Web:300,300i,400,400i,600,600i,700,700i,900&display=swap" rel="stylesheet">
@@ -103,7 +103,7 @@
                     <div class="logo-box pull-left">
                         <figure class="logo">
                             <a href="/">
-                                <img src="{{asset('logo/logo1.png')}}" width="60" alt="Nabd Lab Logo">
+                                <img src="{{asset('logo/logo1.png')}}" width="230px" height="100%" alt="BETA BLUS Lab Logo">
                             </a>
                         </figure>
                     </div>
@@ -148,7 +148,7 @@
                     <div class="logo-box pull-left">
                         <figure class="logo">
                             <a href="/">
-                                <img src="{{asset('logo/logo1.png')}}" width="50" alt="Nabd Lab Logo">
+                                <img src="{{asset('logo/logo1.png')}}" width="160px" alt="BETA BLUS Lab Logo">
                             </a>
                         </figure>
                     </div>
@@ -219,7 +219,7 @@
                                 </figure>
                                 <div class="text">
                                     <p>
-                                        {{__('At the heart of our mission of delivering high-quality services ... NABD Laboratories in the Al Jowf region, specifically the Department of Al Qurayyat.')}}
+                                        {{__('Setting the standard in laboratory medicine for a healthier community.')}}
                                     </p>
                                 </div>
                             </div>
@@ -290,7 +290,7 @@
         <div class="footer-bottom centred">
             <div class="auto-container">
                 <div class="copyright">
-                    <p>{!! __("Copyright &copy; 2020 <a href='/''>NABD</a>. All rights reserved.") !!} </p>
+                    <p>{!! __("Copyright &copy; ") . date("Y") . " <a href='/'>" . (app()->isLocale('ar')? setting('NameArabic'): setting('NameEnglish')) . "</a>." . __(' All rights reserved.') !!} </p>
                 </div>
             </div>
         </div>
