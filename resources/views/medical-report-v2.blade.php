@@ -2,16 +2,21 @@
 <html>
 
 <head>
+    <title>Medical Report</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
+        integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="style.css" />
 </head>
 
 <style>
     /* Styles go here */
 
-    .page-header, .spacer {
-        height: 400px;
+    .page-header,
+    .page-header-space {
+        height: 80px;
     }
-    
 
     .page-footer,
     .page-footer-space {
@@ -23,28 +28,20 @@
         position: fixed;
         bottom: 0;
         width: 100%;
-        border-top: 1px solid black;
-        /* for demo */
-        background: transparent;
-        /* for demo */
     }
 
     .page-header {
         position: fixed;
         top: 0mm;
         width: 100%;
-        border-bottom: 1px solid black;
-        /* for demo */
-        background: transparent;
-        /* for demo */
     }
 
     .page {
-        page-break-after:always;
+        page-break-after: always;
     }
 
     @page {
-        margin: 20mm
+        margin: 10mm
     }
 
     @media print {
@@ -55,7 +52,6 @@
         tfoot {
             display: table-footer-group;
         }
-
 
         button {
             display: none;
@@ -70,24 +66,49 @@
 <body>
 
     <div class="page-header" style="text-align: center">
-        I'm The Header
-        <br />
-        <button type="button" onClick="window.print()" style="background: pink">
-            PRINT ME!
-        </button>
+        <img class="logo" src="{{asset('logo/logo1.png')}}" width="400" height="80" alt="">
     </div>
 
     <div class="page-footer">
-        I'm The Footer
+        <div class="row">
+            <div class="col-3">
+                <img class="logo" src="{{asset('logo/logo1.png')}}" width="200" height="120" alt="">
+            </div>
+            <div class="col-3 d-flex flex-column justify-content-center">
+                <div class="h6 text-black-50">
+                    <i class="fa-solid fa-phone mr-1 text-primary"></i>
+                    +966112400601
+                </div>
+                <div class="h6 text-black-50">
+                    <i class="fa-solid fa-envelope mr-1 text-primary"></i>
+                    info@betapluslab.com
+                </div>
+            </div>
+            <div class="col-3 d-flex flex-column align-items-center">
+                <img class="avatar" src="{{ asset('assets/media/medical-report/lab-signature.png') }}" width="150">
+                <h6 class="text-bold">Dr. Ahmed Saleh Alyami</h6>
+                <h6 class="text-center text-black-50">Consultant Clinical Scientist<br> Immunologist</h6>
+            </div>
+            <div class="col-3 d-flex flex-column align-items-center">
+
+                {{QrCode::gradient(28, 181, 224, 0, 8, 81, 'horizontal')
+                ->style('dot', 0.9)
+                ->size(150)
+                ->eyeColor(0, 28, 181, 224, 0, 8, 81)
+                ->eyeColor(1, 28, 181, 224, 0, 8, 81)
+                ->eyeColor(2, 28, 181, 224, 0, 8, 81)
+                ->generate('46564')}}
+            </div>
+        </div>
     </div>
 
-    <table>
+    <table class="w-100">
 
         <thead>
             <tr>
                 <td>
                     <!--place holder for the fixed-position header-->
-                    <div class="page-header-space"> This is header spacer</div>
+                    <div class="page-header-space"></div>
                 </td>
             </tr>
         </thead>
@@ -95,134 +116,160 @@
         <tbody>
             <tr>
                 <td>
-                    <div class="spacer">&nbsp;</div>
-
                     <!--*** CONTENT GOES HERE ***-->
                     <div class="page">
-                        PAGE 1
+                        <div class="row">
+                            <div class="col-6 d-flex align-items-center justify-content-center gender-avatar">
+                                <img class="avatar" src="{{ asset('assets/media/medical-report/male.png') }}"
+                                    width="100">
+                                <h3>خالد سيد محمد</h3>
+                            </div>
+                            <div class="col-6 d-flex flex-column justify-content-center px-5">
+                                <div class="row d-flex">
+                                    <span class="user-info">Gender: Male</span>
+                                    <span class="user-info">Age: 25</span>
+                                    <span class="user-info">Patient ID: 24564844</span>
+                                </div>
+                                <div class="row d-flex">
+                                    <span class="user-info">Collecion Time: 2022-10-20 10:53 AM</span>
+                                    <span class="user-info">Order ID: 5200</span>
+                                </div>
+                                <div class="row d-flex">
+                                    <span class="user-info">Result Time: 2022-10-20 10:53 AM</span>
+                                </div>
+                                <div class="row d-flex">
+                                    <span class="user-info">Medical Center: Beta Plus Laboratories</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content" style="">
+                            <h2 class="text-danger text-center mb-3">Lipid Profile</h2>
+                            <table class="table-borderless w-75 mx-auto">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Test Name</th>
+                                        <th scope="col">Result</th>
+                                        <th scope="col">Normal Range</th>
+                                        <th scope="col">Unit</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">Thyroid Stimulating Hormone (TSH)</th>
+                                        <td class="text-danger">16.84</td>
+                                        <td>0.25 - 5.8</td>
+                                        <td>ulU/ml</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Triiodothyronine - Free (FT3)</th>
+                                        <td class="text-danger">1.3</td>
+                                        <td>1.92 - 4.44</td>
+                                        <td>pg/ml</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Triiodothyronine - Free (FT3)</th>
+                                        <td class="text-danger">1.3</td>
+                                        <td>1.92 - 4.44</td>
+                                        <td>pg/ml</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Triiodothyronine - Free (FT3)</th>
+                                        <td class="text-danger">1.3</td>
+                                        <td>1.92 - 4.44</td>
+                                        <td>pg/ml</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Triiodothyronine - Free (FT3)</th>
+                                        <td class="text-danger">1.3</td>
+                                        <td>1.92 - 4.44</td>
+                                        <td>pg/ml</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Triiodothyronine - Free (FT3)</th>
+                                        <td class="text-danger">1.3</td>
+                                        <td>1.92 - 4.44</td>
+                                        <td>pg/ml</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                    <div class="spacer">&nbsp;</div>
-                    <div class="page">PAGE 2</div>
-                    <div class="spacer">&nbsp;</div>
-                    <div class="page" style="line-height: 3;">
-                        PAGE 3 - Long Content
-                        <br /> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc tincidunt metus eu
-                        consectetur rutrum. Praesent tempor facilisis dapibus. Aliquam cursus diam ac vehicula pulvinar.
-                        Integer lacinia non odio et condimentum. Aenean faucibus cursus
-                        mi, sed interdum turpis sagittis a. Quisque quis pellentesque mi. Ut erat eros, posuere sed
-                        scelerisque ut, pharetra vitae tellus. Suspendisse ligula sapien, laoreet ac hendrerit sit amet,
-                        viverra vel mi. Pellentesque faucibus nisl et dolor
-                        pharetra, vel mattis massa venenatis. Integer congue condimentum nisi, sed tincidunt velit
-                        tincidunt non. Nulla sagittis sed lorem pretium aliquam. Praesent consectetur volutpat nibh,
-                        quis pulvinar est volutpat id. Cras maximus odio posuere
-                        suscipit venenatis. Donec rhoncus scelerisque metus, in tempus erat rhoncus sed. Morbi massa
-                        sapien, porttitor id urna vel, volutpat blandit velit. Cras sit amet sem eros. Quisque commodo
-                        facilisis tristique. Proin pellentesque sodales rutrum.
-                        Vestibulum purus neque, congue vel dapibus in, venenatis ut felis. Donec et ligula enim. Sed
-                        sapien sapien, tincidunt vitae lectus quis, ultricies rhoncus mi. Nunc dapibus nulla tempus nunc
-                        interdum, sed facilisis ex pellentesque. Nunc vel
-                        lorem leo. Cras pharetra sodales metus. Cras lacus ex, consequat at consequat vel, laoreet ac
-                        dui. Curabitur aliquam, sapien quis congue feugiat, nisi nisl feugiat diam, sed vehicula velit
-                        nulla ac nisl. Aliquam quis nisi euismod massa blandit
-                        pharetra nec eget nunc. Etiam eros ante, auctor sit amet quam vel, fringilla faucibus leo. Morbi
-                        a pulvinar nulla. Praesent sed vulputate nisl. Orci varius natoque penatibus et magnis dis
-                        parturient montes, nascetur ridiculus mus. Aenean commodo
-                        mollis iaculis. Maecenas consectetur enim vitae mollis venenatis. Ut scelerisque pretium orci id
-                        laoreet. In sit amet pharetra diam. Vestibulum in molestie lorem. Nunc gravida, eros non
-                        consequat fermentum, ex orci vestibulum orci, non accumsan
-                        sem velit ac lectus. Vivamus malesuada lacus nec velit dignissim, ac fermentum nulla pretium.
-                        Aenean mi nisi, convallis sed tempor in, porttitor eu libero. Praesent et molestie ante. Duis
-                        suscipit vitae purus sit amet aliquam. Vestibulum lectus
-                        justo, lobortis a purus a, dapibus efficitur metus. Suspendisse potenti. Duis dictum ex lorem.
-                        Suspendisse nec ligula consectetur magna hendrerit ullamcorper et eget mauris. Etiam vestibulum
-                        sodales diam, eget venenatis nunc luctus quis. Ut
-                        fermentum placerat neque nec elementum. Praesent orci erat, rhoncus vitae est eu, dictum
-                        molestie metus. Cras et fermentum elit. Aenean eget augue lacinia, varius ante in, ullamcorper
-                        dolor. Cras viverra purus non egestas consectetur. Nulla
-                        nec dolor ac lectus convallis aliquet sed a metus. Suspendisse eu imperdiet nunc, id pulvinar
-                        risus. Maecenas varius sagittis est, vel fermentum risus accumsan at. Vestibulum sollicitudin
-                        dui pharetra sapien volutpat, id convallis mi vestibulum.
-                        Phasellus commodo sit amet lorem quis imperdiet. Proin nec diam sed urna euismod ultricies at
-                        sed urna. Quisque ornare, nulla et vehicula ultrices, massa purus vehicula urna, ac sodales
-                        lacus leo vitae mi. Sed congue placerat justo at placerat.
-                        Aenean suscipit fringilla vehicula. Quisque iaculis orci vitae arcu commodo maximus. Maecenas
-                        nec nunc rutrum, cursus elit quis, porttitor sapien. Sed ac hendrerit ipsum, lacinia fringilla
-                        velit. Donec ultricies feugiat dictum.
-                        justo, lobortis a purus a, dapibus efficitur metus. Suspendisse potenti. Duis dictum ex lorem.
-                        Suspendisse nec ligula consectetur magna hendrerit ullamcorper et eget mauris. Etiam vestibulum
-                        sodales diam, eget venenatis nunc luctus quis. Ut
-                        fermentum placerat neque nec elementum. Praesent orci erat, rhoncus vitae est eu, dictum
-                        molestie metus. Cras et fermentum elit. Aenean eget augue lacinia, varius ante in, ullamcorper
-                        dolor. Cras viverra purus non egestas consectetur. Nulla
-                        nec dolor ac lectus convallis aliquet sed a metus. Suspendisse eu imperdiet nunc, id pulvinar
-                        risus. Maecenas varius sagittis est, vel fermentum risus accumsan at. Vestibulum sollicitudin
-                        dui pharetra sapien volutpat, id convallis mi vestibulum.
-                        Phasellus commodo sit amet lorem quis imperdiet. Proin nec diam sed urna euismod ultricies at
-                        sed urna. Quisque ornare, nulla et vehicula ultrices, massa purus vehicula urna, ac sodales
-                        lacus leo vitae mi. Sed congue placerat justo at placerat.
-                        Aenean suscipit fringilla vehicula. Quisque iaculis orci vitae arcu commodo maximus. Maecenas
-                        nec nunc rutrum, cursus elit quis, porttitor sapien. Sed ac hendrerit ipsum, lacinia fringilla
-                        velit. Donec ultricies feugiat dictum.
-                        justo, lobortis a purus a, dapibus efficitur metus. Suspendisse potenti. Duis dictum ex lorem.
-                        Suspendisse nec ligula consectetur magna hendrerit ullamcorper et eget mauris. Etiam vestibulum
-                        sodales diam, eget venenatis nunc luctus quis. Ut
-                        fermentum placerat neque nec elementum. Praesent orci erat, rhoncus vitae est eu, dictum
-                        molestie metus. Cras et fermentum elit. Aenean eget augue lacinia, varius ante in, ullamcorper
-                        dolor. Cras viverra purus non egestas consectetur. Nulla
-                        nec dolor ac lectus convallis aliquet sed a metus. Suspendisse eu imperdiet nunc, id pulvinar
-                        risus. Maecenas varius sagittis est, vel fermentum risus accumsan at. Vestibulum sollicitudin
-                        dui pharetra sapien volutpat, id convallis mi vestibulum.
-                        Phasellus commodo sit amet lorem quis imperdiet. Proin nec diam sed urna euismod ultricies at
-                        sed urna. Quisque ornare, nulla et vehicula ultrices, massa purus vehicula urna, ac sodales
-                        lacus leo vitae mi. Sed congue placerat justo at placerat.
-                        Aenean suscipit fringilla vehicula. Quisque iaculis orci vitae arcu commodo maximus. Maecenas
-                        nec nunc rutrum, cursus elit quis, porttitor sapien. Sed ac hendrerit ipsum, lacinia fringilla
-                        velit. Donec ultricies feugiat dictum.
-                        justo, lobortis a purus a, dapibus efficitur metus. Suspendisse potenti. Duis dictum ex lorem.
-                        Suspendisse nec ligula consectetur magna hendrerit ullamcorper et eget mauris. Etiam vestibulum
-                        sodales diam, eget venenatis nunc luctus quis. Ut
-                        fermentum placerat neque nec elementum. Praesent orci erat, rhoncus vitae est eu, dictum
-                        molestie metus. Cras et fermentum elit. Aenean eget augue lacinia, varius ante in, ullamcorper
-                        dolor. Cras viverra purus non egestas consectetur. Nulla
-                        nec dolor ac lectus convallis aliquet sed a metus. Suspendisse eu imperdiet nunc, id pulvinar
-                        risus. Maecenas varius sagittis est, vel fermentum risus accumsan at. Vestibulum sollicitudin
-                        dui pharetra sapien volutpat, id convallis mi vestibulum.
-                        Phasellus commodo sit amet lorem quis imperdiet. Proin nec diam sed urna euismod ultricies at
-                        sed urna. Quisque ornare, nulla et vehicula ultrices, massa purus vehicula urna, ac sodales
-                        lacus leo vitae mi. Sed congue placerat justo at placerat.
-                        Aenean suscipit fringilla vehicula. Quisque iaculis orci vitae arcu commodo maximus. Maecenas
-                        nec nunc rutrum, cursus elit quis, porttitor sapien. Sed ac hendrerit ipsum, lacinia fringilla
-                        velit. Donec ultricies feugiat dictum.
-                        justo, lobortis a purus a, dapibus efficitur metus. Suspendisse potenti. Duis dictum ex lorem.
-                        Suspendisse nec ligula consectetur magna hendrerit ullamcorper et eget mauris. Etiam vestibulum
-                        sodales diam, eget venenatis nunc luctus quis. Ut
-                        fermentum placerat neque nec elementum. Praesent orci erat, rhoncus vitae est eu, dictum
-                        molestie metus. Cras et fermentum elit. Aenean eget augue lacinia, varius ante in, ullamcorper
-                        dolor. Cras viverra purus non egestas consectetur. Nulla
-                        nec dolor ac lectus convallis aliquet sed a metus. Suspendisse eu imperdiet nunc, id pulvinar
-                        risus. Maecenas varius sagittis est, vel fermentum risus accumsan at. Vestibulum sollicitudin
-                        dui pharetra sapien volutpat, id convallis mi vestibulum.
-                        Phasellus commodo sit amet lorem quis imperdiet. Proin nec diam sed urna euismod ultricies at
-                        sed urna. Quisque ornare, nulla et vehicula ultrices, massa purus vehicula urna, ac sodales
-                        lacus leo vitae mi. Sed congue placerat justo at placerat.
-                        Aenean suscipit fringilla vehicula. Quisque iaculis orci vitae arcu commodo maximus. Maecenas
-                        nec nunc rutrum, cursus elit quis, porttitor sapien. Sed ac hendrerit ipsum, lacinia fringilla
-                        velit. Donec ultricies feugiat dictum.
-                        justo, lobortis a purus a, dapibus efficitur metus. Suspendisse potenti. Duis dictum ex lorem.
-                        Suspendisse nec ligula consectetur magna hendrerit ullamcorper et eget mauris. Etiam vestibulum
-                        sodales diam, eget venenatis nunc luctus quis. Ut
-                        fermentum placerat neque nec elementum. Praesent orci erat, rhoncus vitae est eu, dictum
-                        molestie metus. Cras et fermentum elit. Aenean eget augue lacinia, varius ante in, ullamcorper
-                        dolor. Cras viverra purus non egestas consectetur. Nulla
-                        nec dolor ac lectus convallis aliquet sed a metus. Suspendisse eu imperdiet nunc, id pulvinar
-                        risus. Maecenas varius sagittis est, vel fermentum risus accumsan at. Vestibulum sollicitudin
-                        dui pharetra sapien volutpat, id convallis mi vestibulum.
-                        Phasellus commodo sit amet lorem quis imperdiet. Proin nec diam sed urna euismod ultricies at
-                        sed urna. Quisque ornare, nulla et vehicula ultrices, massa purus vehicula urna, ac sodales
-                        lacus leo vitae mi. Sed congue placerat justo at placerat.
-                        Aenean suscipit fringilla vehicula. Quisque iaculis orci vitae arcu commodo maximus. Maecenas
-                        nec nunc rutrum, cursus elit quis, porttitor sapien. Sed ac hendrerit ipsum, lacinia fringilla
-                        velit. Donec ultricies feugiat dictum.
+                    <div class="page">
+                        <div class="row">
+                            <div class="col-6 d-flex align-items-center justify-content-center gender-avatar">
+                                <img class="avatar" src="{{ asset('assets/media/medical-report/male.png') }}"
+                                    width="100">
+                                <h3>خالد سيد محمد</h3>
+                            </div>
+                            <div class="col-6 d-flex flex-column justify-content-center px-5">
+                                <div class="row d-flex">
+                                    <span class="user-info">Gender: Male</span>
+                                    <span class="user-info">Age: 25</span>
+                                    <span class="user-info">Patient ID: 24564844</span>
+                                </div>
+                                <div class="row d-flex">
+                                    <span class="user-info">Collecion Time: 2022-10-20 10:53 AM</span>
+                                    <span class="user-info">Order ID: 5200</span>
+                                </div>
+                                <div class="row d-flex">
+                                    <span class="user-info">Result Time: 2022-10-20 10:53 AM</span>
+                                </div>
+                                <div class="row d-flex">
+                                    <span class="user-info">Medical Center: Beta Plus Laboratories</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content" style="">
+                            <h2 class="text-danger text-center mb-3">Lipid Profile</h2>
+                            <table class="table-borderless w-75 mx-auto">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Test Name</th>
+                                        <th scope="col">Result</th>
+                                        <th scope="col">Normal Range</th>
+                                        <th scope="col">Unit</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">Thyroid Stimulating Hormone (TSH)</th>
+                                        <td class="text-danger">16.84</td>
+                                        <td>0.25 - 5.8</td>
+                                        <td>ulU/ml</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Triiodothyronine - Free (FT3)</th>
+                                        <td class="text-danger">1.3</td>
+                                        <td>1.92 - 4.44</td>
+                                        <td>pg/ml</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Triiodothyronine - Free (FT3)</th>
+                                        <td class="text-danger">1.3</td>
+                                        <td>1.92 - 4.44</td>
+                                        <td>pg/ml</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Triiodothyronine - Free (FT3)</th>
+                                        <td class="text-danger">1.3</td>
+                                        <td>1.92 - 4.44</td>
+                                        <td>pg/ml</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Triiodothyronine - Free (FT3)</th>
+                                        <td class="text-danger">1.3</td>
+                                        <td>1.92 - 4.44</td>
+                                        <td>pg/ml</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Triiodothyronine - Free (FT3)</th>
+                                        <td class="text-danger">1.3</td>
+                                        <td>1.92 - 4.44</td>
+                                        <td>pg/ml</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </td>
             </tr>

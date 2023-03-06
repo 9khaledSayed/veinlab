@@ -307,7 +307,8 @@ class ResultController extends Controller implements FromCollection , WithHeadin
         $content = $template->collect_replace($results, $template->body);
         return view('dashboard.templates.result_print', [
             'content' => $content,
-            'template' => $template
+            'template' => $template,
+            'invoice' => $invoice
         ]);
     }
 

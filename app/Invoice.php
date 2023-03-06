@@ -14,6 +14,7 @@ class Invoice extends Model
     protected $guarded = [];
     protected $casts = [
         'created_at'  => 'date:D M d Y',
+        'approved_date'  => 'date:D M d Y',
     ];
 
     public static function booted()
