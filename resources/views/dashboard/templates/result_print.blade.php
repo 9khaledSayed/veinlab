@@ -53,12 +53,12 @@
 
 </table>
 </body>
-<script>
-    setTimeout(function(){
-        function f (){
-            window.print();
-        };
-        f();
-    }, 500);
-</script>
+    <script>
+        setTimeout(function(){
+            function f (){
+                window.print();
+            };
+            f();
+        }, 500);
+    </script>
 </html>

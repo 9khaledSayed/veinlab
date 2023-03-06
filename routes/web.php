@@ -1,8 +1,9 @@
 <?php
 
 use App\Role;
-use Illuminate\Support\Facades\Route;
 use Jenssegers\Date\Date;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 
 Auth::routes();
 Route::get('/login/employee', 'Auth\LoginController@showEmployeeLoginForm');
@@ -18,6 +19,9 @@ Route::post('/login/patient', 'Auth\LoginController@patientLogin');
 //Route::post('/register/employee', 'Auth\RegisterController@createEmployee');
 //Route::post('/register/hospital', 'Auth\RegisterController@createHospital');
 //Route::post('/register/patient', 'Auth\RegisterController@createPatient');
+
+Route::view('/medical-report', 'medical-report');
+Route::view('/medical-report-v2', 'medical-report-v2');
 
 Route::get('language/{lang}', function ($lang) {
     Session::put('locale', $lang);
