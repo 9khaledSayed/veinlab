@@ -155,7 +155,8 @@ class EmployeeSeeder extends Seeder
             'name_english'  => 'Hr',
             'name_arabic'  => 'شئون الموظفين',
             'type'   => 1,
-            'system' => 'hr'
+            'system' => 'hr',
+            'label' => 'Hr'
         ]);
         $abilities = Ability::get();
         foreach($abilities as $ability){

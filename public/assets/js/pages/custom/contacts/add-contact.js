@@ -100,10 +100,10 @@ var KTContactsAdd = function () {
 					email: true
 				},
                 password: {
-					required: true,
+					required: false,
 				},
                 password_confirmation: {
-					required: true,
+					required: false,
 				},
                 basic_salary: {
 					required: true

@@ -10,7 +10,7 @@
                             <div class="kt-widget24__info">
                                 <a href="/dashboard/exports/create">
                                     <h4 class="kt-widget24__title">
-                                        {{__('Welcome To Vein Lab')}}
+                                        {{__('Welcome To ')}} {{app()->isLocale('ar')? setting('NameArabic'): setting('NameEnglish')}}
                                     </h4>
                                 </a>
                             </div>

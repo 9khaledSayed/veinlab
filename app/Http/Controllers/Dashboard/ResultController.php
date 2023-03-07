@@ -300,16 +300,9 @@ class ResultController extends Controller implements FromCollection , WithHeadin
 
     public function printAllResults(Invoice $invoice)
     {
-        $patient = $invoice->patient;
-        $template = Template::where('type', 8)->first();
-        $results = $this->generatePrintVariables($patient, $template, null, $invoice, true);
+        $invoice->load(['patient', 'waiting_labs']);
 
-        $content = $template->collect_replace($results, $template->body);
-        return view('dashboard.templates.result_print', [
-            'content' => $content,
-            'template' => $template,
-            'invoice' => $invoice
-        ]);
+        return view('dashboard.templates.result_print', compact('invoice'));
     }
 
     public function generatePrintVariables(Patient $patient, Template $template, WaitingLab $waitingLab = null, Invoice $invoice =null, $printAll = false)

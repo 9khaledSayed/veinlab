@@ -6,6 +6,8 @@ use App\AllowanceType;
 use App\Employee;
 use App\HR\Branch;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreEmployeeRequest;
+use App\Http\Requests\UpdateEmployeeRequest;
 use App\Nationality;
 use App\Role;
 use App\Template;
@@ -50,11 +52,7 @@ class EmployeeController extends Controller
         $nationalities = Nationality::all();
         $branches = Branch::all();
         $roles = Role::where('name_english', '!=', 'Hr')->get();
-        $emp_num = ++Employee::withTrashed()->get()->last()->emp_num;
-
-        while (Employee::pluck('emp_num')->contains($emp_num)){
-            $emp_num = rand(1000,9999);
-        }
+   
         
         return view('hr.employees.create', [
             'nationalities' => $nationalities,
@@ -62,27 +60,16 @@ class EmployeeController extends Controller
             'contract_type' => $this->contract_type,
             'allowances' =>$allowances,
             'branches' =>$branches,
-            'emp_num'  => $emp_num
         ]);
     }
 
 
-    public function store(Request $request)
+    public function store(StoreEmployeeRequest $request)
     {
         $this->authorize('create_employees');
         if($request->ajax()){
-            $rules = Employee::$rules;
-
-            while (Employee::withTrashed()->pluck('emp_num')->contains($request->emp_num)){
-                return response()->json(array(
-                    'status' => 3,
-                    'message'   =>  'Employee number must be unique'
-                ));;
-            }
-
-            $data = $this->validate($request, $rules);
-            $employee = Employee::create($data);
-            $employee->allowance_types()->sync($request->allowance);
+            $employee = Employee::create($request->validated());
+            $employee->allowance_types()->sync(request()->allowance);
 
             $hrRoleId = Role::where('label', 'Hr')->first()->id;
             $employee->roles()->sync([$hrRoleId, $request->role_id]);
@@ -132,16 +119,11 @@ class EmployeeController extends Controller
     }
 
 
-    public function update(Request $request, Employee $employee)
+    public function update(UpdateEmployeeRequest $request, Employee $employee)
     {
         $this->authorize('Update_employees');
         if($request->ajax()){
-            $rules = Employee::$rules;
-            $rules['email'] = ($rules['email'] . ',email,' . $employee->id);
-            $rules['emp_num'] = ($rules['emp_num'] . ',emp_num,' . $employee->id);
-            $data = $this->validate($request, $rules);
-
-            $employee->update($data);
+            $employee->update($request->validated());
             $employee->allowance_types()->sync($request->allowance);
 
             $hrRoleId = Role::where('label', 'Hr')->first()->id;

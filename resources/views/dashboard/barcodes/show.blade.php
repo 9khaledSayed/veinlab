@@ -2,7 +2,7 @@
 <head>
     <base href="">
     <meta charset="utf-8" />
-    <title>Vin | Dashboard</title>
+    <title>{{app()->isLocale('ar')? setting('NameArabic'): setting('NameEnglish')}}</title>
     <meta name="description" content="Latest updates and statistic charts">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!--begin::Fonts -->

@@ -230,7 +230,7 @@ return [
         'start_date'                  => 'تاريخ البدء',
         'contract_period'                  => 'مدة العقد',
         'basic_salary'                  => 'الراتب اساسي',
-        'phone'                  => 'رقم الجوار',
+        'phone'                  => 'رقم الجوال',
         'password'                  => 'كلمة السر',
         'sub_analyses.*.name' => 'الاسم',
         'sub_analyses.*.unit' => 'الوحدة',

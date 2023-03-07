@@ -370,7 +370,6 @@
                                                                 <input name="emp_num"
                                                                        class="form-control"
                                                                        type="text"
-                                                                       readonly style="background: #aaaa;"
                                                                        value="{{$employee->emp_num}}">
                                                             </div>
                                                             <div class="col-lg-6">

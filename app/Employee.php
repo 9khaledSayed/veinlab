@@ -38,39 +38,6 @@ class Employee extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public static $rules = [
-        'email' => 'sometimes|required|email|unique:employees',
-        'branch_id' => 'required',
-        'fname_arabic' => ['required', 'string'],
-        'mname_arabic' => ['nullable', 'string'],
-        'lname_arabic' => ['required', 'string'],
-        'fname_english' => ['required', 'string'],
-        'mname_english' => ['nullable', 'string'],
-        'lname_english' => ['required', 'string'],
-        'birthdate' => ['required'],
-        'nationality_id' => ['required'],
-        'marital_status' => ['nullable'],
-        'gender' => ['nullable'],
-        'identity_type' => ['nullable'],
-        'id_num' => ['required', 'numeric'],
-        'id_issue_date' => ['nullable'],
-        'id_expire_date' => ['nullable'],
-        'passport_num' => ['nullable'],
-        'passport_issue_date' => ['nullable'],
-        'passport_expire_date' => ['nullable'],
-        'issue_place' => ['nullable'],
-        'emp_num' => 'required|sometimes|unique:employees',
-        'joined_date' => ['required'],
-        'shift_type' => ['required'],
-        'contract_type' => ['required'],
-        'start_date' => ['required'],
-        'contract_period' => 'nullable|exclude_if:contract_type,1|numeric',
-        'basic_salary' => ['required'],
-        'phone' => ['required'],
-        'password' => ['required', 'string', 'min:8', 'confirmed'],
-
-    ];
-    
    public function setPasswordAttribute($password)
    {
        $this->attributes['password'] = Hash::make($password);

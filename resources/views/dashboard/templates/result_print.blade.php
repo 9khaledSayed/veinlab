@@ -1,94 +1,8 @@
-{{--
-<!doctype html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-</head>
-<style>
-    @page {
-        size: A4;
-        /*margin: 11mm 17mm 17mm 17mm;*/
-    }
-
-    @media print {
-
-        html,
-        body {
-            width: 280mm;
-        }
-    }
-
-    tbody,
-    td,
-    tfoot,
-    th,
-    thead,
-    tr {
-        border-color: inherit;
-        border-style: unset;
-        border-width: 0;
-    }
-
-    thead tr th {
-        border: 1px solid;
-        padding: 0
-    }
-
-    table {
-        border-collapse: separate;
-        border-spacing: 5px 3px;
-        font-size: 1rem;
-        font-weight: 500;
-    }
-
-    .bg-grey {
-        background-color: #82827d63 !important;
-    }
-
-    .table>:not(caption)>*>* {
-        padding: .3rem .5rem;
-    }
-
-    .header {
-        display: table-header-group;
-    }
-
-    .footer {
-        display: table-footer-group;
-    }
-</style>
-
-<body>
-
-    <table style="width: 100%;">
-
-        {!! $content !!}
-
-    </table>
-</body>
-<script>
-    setTimeout(function(){
-            function f (){
-                window.print();
-            };
-            f();
-        }, 500);
-</script>
-
-</html> --}}
-
 <!DOCTYPE html>
 <html>
 
 <head>
-    <title>Medical Report</title>
+    <title>{{app()->isLocale('ar')? setting('NameArabic'): setting('NameEnglish')}}</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
         integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
@@ -98,6 +12,10 @@
 
 <style>
     /* Styles go here */
+
+    .user-info {
+        margin-left: 20px;
+    }
 
     .page-header,
     .page-header-space {
@@ -205,60 +123,65 @@
             <tr>
                 <td>
                     @foreach ($invoice->waiting_labs as $waitingLab)
-                        @foreach ($waitingLab->results->groupBy('classification') as $classification => $results)
-                        <!--*** CONTENT GOES HERE ***-->
-                        <div class="page" style="margin-top: 40px">
-                            <div class="row">
-                                <div class="col-6 d-flex align-items-center justify-content-center gender-avatar" style="border-right: 2px solid #535353">
-                                    <img class="avatar"
-                                        src="{{ asset('assets/media/medical-report/' . ($invoice->patient->gender == 0? 'male.png': 'female.png')) }}"
-                                        width="100">
-                                    <h3>{{ $invoice->patient->name }}</h3>
-                                </div> 
-                                <div class="col-6 d-flex flex-column justify-content-center px-5">
-                                    <div class="row d-flex">
-                                        <span class="user-info">Gender: {{ $invoice->patient->gender }}</span>
-                                        <span class="user-info">Age: {{ $invoice->patient->age }}</span>
-                                        <span class="user-info">Patient ID: {{ $invoice->patient->id }}</span>
-                                    </div>
-                                    <div class="row d-flex">
-                                        <span class="user-info">Collecion Time: {{ $invoice->approved_date? $invoice->approved_date->format('Y-m-d h:i A') : '00-00-0000' }}</span>
-                                        <span class="user-info">Order ID: 5200</span>
-                                    </div>
-                                    <div class="row d-flex">
-                                        <span class="user-info">Result Time: {{ $invoice->created_at->format('Y-m-d h:i A') }}</span>
-                                    </div>
-                                    <div class="row d-flex">
-                                        <span class="user-info">Medical Center: Beta Plus Laboratories</span>
-                                    </div>
+                    @foreach ($waitingLab->results->groupBy('classification') as $classification => $results)
+                    <!--*** CONTENT GOES HERE ***-->
+                    <div class="page" style="margin-top: 40px">
+                        <div class="row">
+                            <div class="col-6 d-flex align-items-center justify-content-center gender-avatar"
+                                style="border-right: 2px solid #535353">
+                                <img class="avatar"
+                                    src="{{ asset('assets/media/medical-report/' . ($invoice->patient->gender == 0? 'male.png': 'female.png')) }}"
+                                    width="100">
+                                <h3>{{ $invoice->patient->name }}</h3>
+                            </div>
+                            <div class="col-6 d-flex flex-column justify-content-center px-5">
+                                <div class="row d-flex">
+                                    <span class="user-info">Gender: {{ $invoice->patient->gender }}</span>
+                                    <span class="user-info">Age: {{ $invoice->patient->age }}</span>
+                                    <span class="user-info">Patient ID: {{ $invoice->patient->id }}</span>
+                                </div>
+                                <div class="row d-flex">
+                                    <span class="user-info">Collecion Time: {{ $invoice->approved_date?
+                                        $invoice->approved_date->format('Y-m-d h:i A') : '00-00-0000' }}</span>
+                                    <span class="user-info">Order ID: 5200</span>
+                                </div>
+                                <div class="row d-flex">
+                                    <span class="user-info">Result Time: {{ $invoice->created_at->format('Y-m-d h:i A')
+                                        }}</span>
+                                </div>
+                                <div class="row d-flex">
+                                    <span class="user-info">Medical Center: Beta Plus Laboratories</span>
                                 </div>
                             </div>
-                            <div class="content" style="margin-top: 80px">
-                                <h2 class="text-danger text-center mb-3">{{ $waitingLab->main_analysis->name }}</h2>
-                                <table class="table-borderless w-75 mx-auto">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">Test Name</th>
-                                            <th scope="col">Result</th>
-                                            <th scope="col">Normal Range</th>
-                                            <th scope="col">Unit</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    @foreach ($results as $result)
-                                        <tr>
-                                            <th scope="row">{{ $result->sub_analysis->name }}</th>
-                                            <td class="text-danger">{{ $result->result }}</td>
-                                            {!! $result->sub_analysis->normal($invoice->patient->gender) ? '<td>' . $result->sub_analysis->normal($invoice->patient->gender)  . '</td>' : '<td> - </td>' !!}
-                                            <td>{{ htmlspecialchars_decode($result->sub_analysis->unit ?? '-') }}</td>
-                                        </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
                         </div>
+                        <div class="content" style="margin-top: 80px">
+                            <h2 class="text-danger text-center mb-3">{{ $waitingLab->main_analysis->general_name }}</h2>
+                            <table class="table-borderless w-75 mx-auto">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Test Name</th>
+                                        <th scope="col">Result</th>
+                                        <th scope="col">Normal Range</th>
+                                        <th scope="col">Unit</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($results as $result)
+                                    <tr>
+                                        <th scope="row">{{ $result->sub_analysis->name }}</th>
+                                        <td class="text-danger">{{ $result->result }}</td>
+                                        {!! $result->sub_analysis->normal($invoice->patient->gender) ? '<td>' .
+                                            $result->sub_analysis->normal($invoice->patient->gender) . '</td>' : '<td> -
+                                        </td>' !!}
+                                        <td>{{ htmlspecialchars_decode($result->sub_analysis->unit ?? '-') }}</td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
 
-                        @endforeach
+                    @endforeach
                     @endforeach
 
                 </td>

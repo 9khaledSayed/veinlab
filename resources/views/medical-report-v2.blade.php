@@ -289,3 +289,71 @@
 </body>
 
 </html>
+
+
+ @if ($waitingLab->main_analysis->has_cultivation)
+                                <div class='d-flex flex-column align-items-start' style='direction: ltr'>
+                                    <h3 style='text-decoration: underline'>Cultivation</h3>
+                                    <p style='font-size: 18px'>On cultivation of the received specimen on the relevant media
+                                        and after 24 hours of aerobic incubation, and sub-culturing suspicious colonies on
+                                        selective media, the following was revealed.</p>
+                                </div>
+                                <div class='text-center '
+                                    style='padding:10px; border: 1px solid; margin: auto;font-weight: 900; font-size: 18px'>
+                                    {{ $waitingLab->cultivation }}
+                                </div>
+                            @endif
+                            {{-- High Sensitive to --}}
+                            @if ($waitingLab->growth_status == 'growth') 
+                                <div style="direction: ltr ; text-align: left; margin-top: 20px">
+                                    <h2>The growth is highly Sensitive to: </h2>
+                                    <table class="table-bordered text-left" style="font-size: 25px">
+                                        <tbody>
+                                            <tr>
+                                                @foreach ($waitingLab->high_sensitive_to as $key => $highSensitiveTo) 
+                                                    <td class="p-3">{{ $key + 1 }}</td>
+                                                    <td class="p-3">{{ $highSensitiveTo['name'] }}</td>
+                                                @endforeach
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            @endif
+
+                            {{-- Moderate Sensitive to --}}
+                            $cultivationContent .= '<div style="direction: ltr ; text-align: left; margin-top: 20px">
+                                <h2>The growth is Moderate Sensitive to: </h2>
+                                <table class="table-bordered text-left" style="font-size: 25px">
+                                    <tbody>
+                                        <tr>';
+
+                                            foreach ($waitingLab->moderate_sensitive_to as $key => $moderateSensitiveTo)
+                                            {
+                                            $cultivationContent .= '<td class="p-3">' . ($key + 1) . '</td>
+                                            <td class="p-3">' . $moderateSensitiveTo['name']. '</td>';
+                                            }
+
+                                            $cultivationContent .= "
+                                    </tbody>
+                                </table>
+                            </div>";
+
+                            /** Resistant to **/
+                            $cultivationContent .= '<div style="direction: ltr ; text-align: left; margin-top: 20px">
+                                <h2>The growth is Resistant to: </h2>
+                                <table class="table-bordered text-left" style="font-size: 25px">
+                                    <tbody>
+                                        <tr>';
+
+                                            foreach ($waitingLab->resistant_to as $key => $resistantTo) {
+                                            $cultivationContent .= '<td class="p-3">' . ($key + 1) . '</td>
+                                            <td class="p-3">' . $resistantTo['name']. '</td>';
+                                            }
+
+                                            $cultivationContent .= "
+                                    </tbody>
+                                </table>
+                            </div>";
+                            }
+
+                            }

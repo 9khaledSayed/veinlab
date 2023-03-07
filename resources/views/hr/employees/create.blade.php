@@ -343,7 +343,7 @@
                                                         <div class="form-group row">
                                                             <div class="col-lg-6">
                                                                 <label>{{__('Employee Number')}} *</label>
-                                                                <input name="emp_num" class="form-control" readonly value="{{$emp_num}}" style="background: #aaaa;" type="text">
+                                                                <input name="emp_num" class="form-control" value="" type="text">
                                                             </div>
                                                             <div class="col-lg-6">
                                                                 <label>{{__('Joined Date')}} *</label>
