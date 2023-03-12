@@ -55,11 +55,16 @@ class InvoiceController extends Controller
 
     }
 
-    public function getInvoicesDone()
+    public function getInvoicesDone(Request $request)
     {
         if (Auth::guard('employee')->check())  {
 
-            $response = Invoice::where([['result_created','=',1], ['status', '=', 1]])->with('patient')->latest()->get();
+            $response = getModelData(
+                new Invoice(),
+                $request, 
+                ['patient' => ['name']],
+                [['result_created','=',1], ['status', '=', 1]]);
+
             return response()->json($response);
         }
     }
