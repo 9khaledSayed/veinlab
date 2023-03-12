@@ -62,24 +62,11 @@
                                 @foreach($waiting_lab->results->groupBy('classification') as $classification => $results)
                                     <h3 style="text-align: left; font-weight: bold">{{$classification}}</h3>
                                 <table class="table table-striped- table-bordered table-hover" style="direction: ltr" id="kt_table_1">
-{{--                                    @if($waiting_labs->first() == $waiting_lab)--}}
-{{--                                        <thead class="thead-light">--}}
-{{--                                        <tr>--}}
-{{--                                            <th style="width: 10%">#</th>--}}
-{{--                                            <th style="width: 22.5%">{{__('Test Name')}}</th>--}}
-{{--                                            <th style="width: 22.5%">{{__('Result')}}</th>--}}
-{{--                                            <th style="width: 22.5%">{{__('Unit')}}</th>--}}
-{{--                                            <th style="width: 22.5%">{{__('Normal Range')}}</th>--}}
-{{--                                        </tr>--}}
-{{--                                        </thead>--}}
-{{--                                    @endif--}}
+
                                     <tbody>
-{{--                                    @php--}}
-{{--                                        $k = 1;--}}
-{{--                                    @endphp--}}
+
                                     @foreach($results as $result)
                                         <tr>
-{{--                                            <td style="width: 10%">{{$k++}}</td>--}}
                                             <td style="width: 22.5%; direction: ltr; font-weight: 900">{{$result->sub_analysis->name}}</td>
                                             <td colspan="{{$result->sub_analysis->spans($gender)}}" style="width: 22.5%; direction: ltr;">{{$result->result}}</td>
                                             @if(isset($result->sub_analysis->unit))

@@ -2,28 +2,25 @@
 
 namespace App\Http\Controllers\Dashboard;
 
-use App\Employee;
-use App\Invoice;
-use App\MainAnalysis;
+use DNS1D;
+use Excel;
+use PDFNik;
 use App\Notes;
-use App\Notifications\ResultReady;
-use App\Notifications\ResultToDoctor;
-use App\Patient;
 use App\Result;
-use App\Http\Controllers\Controller;
-use App\SubAnalysis;
+use App\Invoice;
+use App\Patient;
+use App\Employee;
 use App\Template;
 use App\WaitingLab;
-use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Builder;
+use Carbon\Carbon; 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
-use Maatwebsite\Excel\Concerns\FromCollection;
+use App\Notifications\ResultToDoctor;
+use niklasravnsborg\LaravelPdf\Facades\Pdf;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Maatwebsite\Excel\Concerns\WithHeadings;
-use Excel;
-use DNS1D;
-use Illuminate\Support\Facades\Notification;
+use Maatwebsite\Excel\Concerns\FromCollection;
 
 class ResultController extends Controller implements FromCollection , WithHeadings
 {
@@ -301,8 +298,15 @@ class ResultController extends Controller implements FromCollection , WithHeadin
     public function printAllResults(Invoice $invoice)
     {
         $invoice->load(['patient', 'waiting_labs']);
+        $qrCode = QrCode::gradient(28, 181, 224, 0, 8, 81, 'horizontal')
+                ->style('dot', 0.9)
+                ->size(95)
+                ->eyeColor(0, 28, 181, 224, 0, 8, 81)
+                ->eyeColor(1, 28, 181, 224, 0, 8, 81)
+                ->eyeColor(2, 28, 181, 224, 0, 8, 81)
+                ->generate(route('generate_pdf', $invoice->id));
 
-        return view('dashboard.templates.result_print', compact('invoice'));
+        return view('dashboard.templates.result_print', compact('invoice', 'qrCode'));
     }
 
     public function generatePrintVariables(Patient $patient, Template $template, WaitingLab $waitingLab = null, Invoice $invoice =null, $printAll = false)
