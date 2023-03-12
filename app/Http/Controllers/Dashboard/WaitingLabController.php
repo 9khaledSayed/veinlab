@@ -31,20 +31,14 @@ class WaitingLabController extends Controller
     {
         $this->authorize('view_waiting_labs');
         if ($request->ajax()) {
-            $waiting_lab = WaitingLab::where('result','<','3')->get()->map(function ($waitingLab){
-                return [
-                    'id' => $waitingLab->id,
-                    'patient_name' => $waitingLab->patient->name,
-                    'main_analysis_name' => $waitingLab->main_analysis->general_name,
-                    'invoice_bar_code' => $waitingLab->invoice->barcode,
-                    'invoice_serial_no' => $waitingLab->invoice->serial_no,
-                    'status' => $waitingLab->status,
-                    'result' => $waitingLab->result,
-                    'created_at' => $waitingLab->created_at,
-                ];
-            });
+          
+            $response = getModelData(
+                new WaitingLab(),
+                $request, 
+                ['patient' => ['name'], 'main_analysis' => ['general_name'], 'invoice' => ['barcode', 'serial_no']],
+                [['result','<','3']]);
 
-            return response()->json($waiting_lab);
+            return response()->json($response);
         }
         return view('dashboard.waiting_labs.index');
     }
@@ -115,8 +109,14 @@ class WaitingLabController extends Controller
     {
         $this->authorize('view_waiting_labs');
         if ($request->ajax()) {
-            $waiting_lab = WaitingLab::with(['patient', 'main_analysis', 'invoice'])->where('result','3')->get();
-            return response()->json($waiting_lab);
+
+            $response = getModelData(
+                new WaitingLab(),
+                $request, 
+                ['patient' => ['name'], 'main_analysis' => ['general_name'], 'invoice' => ['barcode', 'serial_no']],
+                [['result','=','3']]);
+
+            return response()->json($response);
         }
         return view('dashboard.waiting_labs.archives');
     }

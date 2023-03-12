@@ -175,11 +175,11 @@ if(!function_exists('employeeRole')){
  * created By Khaled && Jemmy @ 17-5-2021
  */
 if(!function_exists('getModelData')){
-    function getModelData(Model $model, Request $request, $relations = [])
+    function getModelData(Model $model, Request $request, $relations = [], $wheresFilters = [])
     {
 
         $columns = $model->getConnection()->getSchemaBuilder()->getColumnListing($model->getTable());
-        $model   = $model->query()->with(array_keys($relations));
+        $model   = $model->query()->where($wheresFilters)->with(array_keys($relations));
         // Define the page and number of items per page
         $page = 1;
         $per_page = 2;
