@@ -29,6 +29,7 @@ class WaitingLabController extends Controller
     }
     public function index(Request $request)
     {
+        
         $this->authorize('view_waiting_labs');
         if ($request->ajax()) {
           
@@ -36,7 +37,7 @@ class WaitingLabController extends Controller
                 new WaitingLab(),
                 $request, 
                 ['patient' => ['name'], 'main_analysis' => ['general_name'], 'invoice' => ['barcode', 'serial_no']],
-                [['result','<','3']]);
+                [['status','!=','3']]);
 
             return response()->json($response);
         }
@@ -435,9 +436,9 @@ class WaitingLabController extends Controller
 
     public function hideAllFinished()
     {
-
-        WaitingLab::where('result', 2)->update([
-            'result' => 3
+       
+        WaitingLab::where('status', 2)->update([
+            'status' => 3
         ]);
 
         return redirect()->back();
