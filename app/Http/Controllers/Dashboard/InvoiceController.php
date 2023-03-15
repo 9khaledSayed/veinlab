@@ -29,11 +29,13 @@ class InvoiceController extends Controller
 
         if ($request->ajax()) {
             if (Auth::guard('hospital')->check()) {
-
+                
                 $response = Invoice::where([
                     ['hospital_id', '=', Auth::guard('hospital')->user()->id],
                     ['approved', '=', 1]
                 ])->with('patient')->latest()->get();
+
+                
 
             }else if (Auth::guard('patient')->check()) {
 
@@ -44,7 +46,9 @@ class InvoiceController extends Controller
 
             }else if (Auth::guard('employee')->check())  {
 
-            $response = Invoice::with('patient')->latest()->get();
+            // $response = Invoice::with('patient')->latest()->get();
+
+            $response = getModelData(new Invoice(), $request, ['patient' => ['name']]);
 
         }
 

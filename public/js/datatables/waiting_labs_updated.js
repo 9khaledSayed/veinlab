@@ -89,7 +89,6 @@ var KTDatatableChildRemoteDataDemo = function() {
                 }, {
                     field: 'patient.name',
                     title: locator.__('Patient Name'),
-                    sortable: 'asc',
                 }, {
                     field: 'main_analysis.general_name',
                     title: locator.__('Analysis Name'),
@@ -128,6 +127,7 @@ var KTDatatableChildRemoteDataDemo = function() {
                     field: 'created_at',
                     title: locator.__('Date'),
                     textAlign: 'center',
+                    sortable: 'desc',
                     template: function(row) {
 
                         var aestTime = new Date(row.created_at).toLocaleString("en-US", {timeZone: "Asia/Riyadh"})

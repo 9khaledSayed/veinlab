@@ -20,7 +20,7 @@
                         <div style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';text-align:right;direction:rtl!important">
                             <div style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';direction:rtl!important;padding:25px 0;text-align:center">
                                 <a href="http://veinlab.net/" style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';text-align:right;color:#3d4852;font-size:19px;font-weight:bold;text-decoration:none;display:inline-block" target="_blank" data-saferedirecturl="https://www.google.com/url?q=https://nafezly.com&amp;source=gmail&amp;ust=1594385525962000&amp;usg=AFQjCNEL0Av4LirlsQEqueJ0UF4JagHPcA">
-                                    <img src="{{asset('logo/logo1.png')}}">
+                                    <img src="{{asset(Setting::get('logo_path'))}}" width="50">
                                 </a>
                             </div>
                         </div>
@@ -49,8 +49,7 @@
                                             </div>
                                             <div style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';text-align:center;direction:rtl!important">
                                                 نتمني لك الشفاء العاجل <br>
-                                                فريق دعم مختبرات فين
-                                            </div>
+                                                فريق دعم مختبرات نبض الوقاية                                            </div>
 
 
 
