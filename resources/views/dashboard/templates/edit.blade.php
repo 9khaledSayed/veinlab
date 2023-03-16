@@ -205,7 +205,7 @@
             tinymce.init({
                 selector: '#kt-tinymce-2',
                 menu: {
-                    custom: { title: 'Variables', items: t1 }
+                    custom: { title: 'Variables', items: 'patientInfoBtn  invoiceInfoBtn  othersBtn' }
                 },
                 menubar: 'file edit insert custom',
                 toolbar: ['fontsizeselect |undo redo | cut copy | bold italic | lists | alignleft aligncenter alignright alignjustify',
@@ -504,6 +504,31 @@
                                     text: locator.__('Logo URL'),
                                     onAction: function() {
                                         editor.insertContent('<img src="%%others.logo_url%%" class="d-block m-auto" width="100" height="100" alt="شعار الشركة" />');
+                                    }
+                                },{
+                                    type: 'menuitem',
+                                    text: locator.__('WebApp URL'),
+                                    onAction: function() {
+                                        editor.insertContent(' <strong>%%others.app_url%%</strong>');
+                                    }
+                                },
+                                {
+                                    type: 'menuitem',
+                                    text: locator.__('Logo URL'),
+                                    onAction: function() {
+                                        editor.insertContent('<img src="%%others.logo_url%%" alt="شعار الشركة" />');
+                                    }
+                                },{
+                                    type: 'menuitem',
+                                    text: locator.__('Header URL'),
+                                    onAction: function() {
+                                        editor.insertContent('<img src="%%others.header_url%%" alt="شعار الترويسة" />');
+                                    }
+                                }, {
+                                    type: 'menuitem',
+                                    text: locator.__('Footer URL'),
+                                    onAction: function() {
+                                        editor.insertContent('<img src="%%others.footer_url%%" alt="شعار التذيل" />');
                                     }
                                 },{
                                     type: 'menuitem',

@@ -6,10 +6,10 @@
 <!-- Title -->
 <title>{{app()->isLocale('ar')? setting('NameArabic'): setting('NameEnglish')}}</title>
 
-<!-- Favicon -->
-<link rel="icon" href="{{asset('logo/logo.png')}}">
+<!-- Favicon --> 
+<link rel="icon" href="{{asset('logo/fav-logo.png')}}"> 
 
-<!-- Core Stylesheet -->
+<!-- Core Stylesheet --> 
 <link rel="stylesheet" href="{{asset('home_assets/css/style.css')}}">
 <link rel="stylesheet" href="{{asset('home_assets/css/custom.css')}}">
 

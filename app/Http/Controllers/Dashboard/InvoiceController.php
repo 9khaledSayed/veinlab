@@ -29,11 +29,13 @@ class InvoiceController extends Controller
 
         if ($request->ajax()) {
             if (Auth::guard('hospital')->check()) {
-
+                
                 $response = Invoice::where([
                     ['hospital_id', '=', Auth::guard('hospital')->user()->id],
                     ['approved', '=', 1]
                 ])->with('patient')->latest()->get();
+
+                
 
             }else if (Auth::guard('patient')->check()) {
 
@@ -44,7 +46,9 @@ class InvoiceController extends Controller
 
             }else if (Auth::guard('employee')->check())  {
 
-            $response = Invoice::with('patient')->latest()->get();
+            // $response = Invoice::with('patient')->latest()->get();
+
+            $response = getModelData(new Invoice(), $request, ['patient' => ['name']]);
 
         }
 
@@ -134,12 +138,14 @@ class InvoiceController extends Controller
         $template = Template::where('type', 7)->first();
         $patient = $invoice->patient;
         $paymentMethod = '';
+
         if($invoice->pay_method == config('enums.payMethod.cash'))
             $paymentMethod = 'نقدي :: cash';
         elseif($invoice->pay_method == config('enums.payMethod.credit'))
             $paymentMethod = 'credit :: شبكة';
         else
             $paymentMethod = 'Overdue :: مؤجل';
+            
         $results = [
             'patient' => [
                 'arabic_name' => $patient->name,

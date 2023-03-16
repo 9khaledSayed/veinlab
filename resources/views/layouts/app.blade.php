@@ -2,6 +2,7 @@
 <html lang="{{App::getLocale()}}" @if(App::isLocale('ar'))dir="rtl"@endif>
 <head>
     <title>{{app()->isLocale('ar')? setting('NameArabic'): setting('NameEnglish')}}</title>
+
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700|Roboto:300,400,500,600,700">
 
     <link href="{{asset('assets/css/pages/login/login-3.css')}}" rel="stylesheet" type="text/css" />
@@ -10,7 +11,8 @@
     <link href="{{asset('assets/css/style.bundle.css')}}" rel="stylesheet" type="text/css" />
 {{--    <link href="{{asset('assets/style.css')}}" rel="stylesheet" type="text/css" />--}}
 
-    <link rel="shortcut icon" href="{{asset(Setting::get('logo_path'))}}" />
+<link rel="shortcut icon" href="{{asset('assets/logo/fav-logo.png')}}" />
+
 </head>
 <style>
     @font-face {

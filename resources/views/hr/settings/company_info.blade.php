@@ -247,7 +247,7 @@
                                 <label class="col-xl-3 col-lg-3 col-form-label">{{__('Company Stamp')}}</label>
                                 <div class="col-lg-9 col-xl-6">
                                     <div class="kt-avatar kt-avatar--outline kt-avatar--circle" id="kt_user_avatar_2">
-                                        <div class="kt-avatar__holder" style="background-image: url({{asset($setting['company_stamp_path'] ?? '')}})"></div>
+                                        <div class="kt-avatar__holder" style="background-image: url('{{asset($setting['company_stamp_path'] ?? '')}}'')"></div>
                                         <label class="kt-avatar__upload" data-toggle="kt-tooltip" title="" data-original-title="Change avatar">
                                             <i class="fa fa-pen"></i>
                                             <input type="file" name="company_stamp" accept=".png, .jpg, .jpeg">
@@ -268,7 +268,7 @@
                                 <label class="col-xl-3 col-lg-3 col-form-label">{{__('CEO Signature')}}</label>
                                 <div class="col-lg-9 col-xl-6">
                                     <div class="kt-avatar kt-avatar--outline kt-avatar--circle" id="kt_user_avatar_3">
-                                        <div class="kt-avatar__holder" style="background-image: url({{asset($setting['ceo_signature_path'] ?? '')}})"></div>
+                                        <div class="kt-avatar__holder" style="background-image: url('{{asset($setting['ceo_signature_path'] ?? '')}}')"></div>
                                         <label class="kt-avatar__upload" data-toggle="kt-tooltip" title="" data-original-title="Change avatar">
                                             <i class="fa fa-pen"></i>
                                             <input type="file" name="ceo_signature" accept=".png, .jpg, .jpeg">
@@ -289,7 +289,7 @@
                                 <label class="col-xl-3 col-lg-3 col-form-label">{{__('Header')}}</label>
                                 <div class="col-lg-9 col-xl-6">
                                     <div class="kt-avatar kt-avatar--outline kt-avatar--circle" id="kt_user_avatar_4">
-                                        <div class="kt-avatar__holder" style="background-image: url({{asset($setting['header_path'] ?? '')}})"></div>
+                                        <div class="kt-avatar__holder" style="background-image: url('{{asset($setting['header_path'] ?? '')}}')"></div>
                                         <label class="kt-avatar__upload" data-toggle="kt-tooltip" title="" data-original-title="Change avatar">
                                             <i class="fa fa-pen"></i>
                                             <input type="file" name="header" accept=".png, .jpg, .jpeg">
@@ -312,7 +312,7 @@
                                 <label class="col-xl-3 col-lg-3 col-form-label">{{__('Footer')}}</label>
                                 <div class="col-lg-9 col-xl-6">
                                     <div class="kt-avatar kt-avatar--outline kt-avatar--circle" id="kt_user_avatar_5">
-                                        <div class="kt-avatar__holder" style="background-image: url({{asset($setting['footer_path'] ?? '')}})"></div>
+                                        <div class="kt-avatar__holder" style="background-image: url('{{asset($setting['footer_path'] ?? '')}}')"></div>
                                         <label class="kt-avatar__upload" data-toggle="kt-tooltip" title="" data-original-title="Change avatar">
                                             <i class="fa fa-pen"></i>
                                             <input type="file" name="footer" accept=".png, .jpg, .jpeg">

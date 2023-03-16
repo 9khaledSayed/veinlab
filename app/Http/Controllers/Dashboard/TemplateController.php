@@ -45,6 +45,7 @@ class TemplateController extends Controller
 
     public function edit(Template $template)
     {
+
         $types = [
             7 =>'Invoice',
             8 => 'Analysis result',

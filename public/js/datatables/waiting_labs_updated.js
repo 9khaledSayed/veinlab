@@ -89,7 +89,6 @@ var KTDatatableChildRemoteDataDemo = function() {
                 }, {
                     field: 'patient.name',
                     title: locator.__('Patient Name'),
-                    sortable: 'asc',
                 }, {
                     field: 'main_analysis.general_name',
                     title: locator.__('Analysis Name'),
@@ -111,6 +110,7 @@ var KTDatatableChildRemoteDataDemo = function() {
                         var status = {
                             1: {'title': ('Pending'), 'class': ' kt-badge--danger'},
                             2: {'title': 'Finished', 'class': ' kt-badge--success'},
+                            3: {'title': 'transfer', 'class': ' kt-badge--info'},
                         };
                         return '<span class="kt-badge ' + status[row.status].class + ' kt-badge--inline kt-badge--pill">' + status[row.status].title + '</span>';
                     },
@@ -127,6 +127,7 @@ var KTDatatableChildRemoteDataDemo = function() {
                     field: 'created_at',
                     title: locator.__('Date'),
                     textAlign: 'center',
+                    sortable: 'desc',
                     template: function(row) {
 
                         var aestTime = new Date(row.created_at).toLocaleString("en-US", {timeZone: "Asia/Riyadh"})

@@ -10,24 +10,19 @@ use App\Hospital;
 use App\Http\Controllers\Controller;
 use App\Invoice;
 use App\MainAnalysis;
-use App\Notifications\WaitingLabNotification;
 use App\Patient;
-use App\Result;
 use App\Revenue;
-use App\SubAnalysis;
 use App\WaitingLab;
 use Carbon\Carbon;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
 
 class Dashboard extends Controller
 {
     public function index(Request $request)
     {
-
-
+    
         $user = auth()->user();
         if(Auth::guard('employee')->check() && $user->roles->pluck('label')->contains('Super Admin')){
 

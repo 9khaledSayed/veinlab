@@ -8,7 +8,7 @@
 <title>{{app()->isLocale('ar')? setting('NameArabic'): setting('NameEnglish')}}</title>
 
 <!-- Fav Icon -->
-<link rel="icon" href="{{asset(Setting::get('logo_path'))}}" type="image/x-icon">
+<link rel="icon" href="{{asset('logo/fav-logo.png')}}">
 
 <!-- Google Fonts -->
 <link href="https://fonts.googleapis.com/css?family=Titillium+Web:300,300i,400,400i,600,600i,700,700i,900&display=swap" rel="stylesheet">

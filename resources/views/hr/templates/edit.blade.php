@@ -547,13 +547,13 @@
                                     type: 'menuitem',
                                     text: locator.__('Header URL'),
                                     onAction: function() {
-                                        editor.insertContent('<img src="%%others.header_url%%" style="width: 100%;height: 150px" alt="شعار الترويسة" />');
+                                        editor.insertContent('<img src="%%others.header_url%%" width="50" alt="شعار الترويسة" />');
                                     }
                                 }, {
                                     type: 'menuitem',
                                     text: locator.__('Footer URL'),
                                     onAction: function() {
-                                        editor.insertContent('<img src="%%others.footer_url%%" style="width: 100%;height: 80px" alt="شعار التذيل" />');
+                                        editor.insertContent('<img src="%%others.footer_url%%" width="50" alt="شعار التذيل" />');
                                     }
                                 },{
                                     type: 'menuitem',

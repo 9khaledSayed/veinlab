@@ -42,26 +42,25 @@ class Template extends Model
 
     public function company_results()
     {
-        $setting = Setting::all();
         return [
-            'arabic_name' => Setting::get('NameArabic')?? __('not found'),
-            'english_name' => Setting::get('NameEnglish')?? __('not found'),
-            'cr' => Setting::get('CrNumber')?? __('not found'),
-            'address_arabic' => Setting::get('AddressArabic')?? __('not found'),
-            'address_english' =>Setting::get('AddressEnglish')?? __('not found'),
-            'ceo_name_arabic' => Employee::find(Setting::get('ChiefExecutive'))->fullname_arabic()?? __('not found'),
-            'ceo_name_english' => Employee::find(Setting::get('ChiefExecutive'))->fullname_english()?? __('not found'),
-            'ceo_signature' => asset($setting['ceo_signature_path'] ?? ''),
-            'hr_name_arabic' => Employee::find(Setting::get('HrManager'))->fullname_english()?? __('not found'),
-            'hr_name_englsh' => Employee::find(Setting::get('HrManager'))->fullname_english()?? __('not found'),
-            'city_arabic' => Setting::get('CityArabic')?? __('not found'),
-            'city_english' => Setting::get('CityEnglish')?? __('not found'),
-            'country_arabic' => Setting::get('CountryArabic')?? __('not found'),
-            'country_english' => Setting::get('CountryEnglish')?? __('not found'),
-            'stamp' => asset($setting['company_stamp_path'] ?? ''),
-            'email' => Setting::get('Email')?? __('not found'),
-            'telephone' => Setting::get('Telephone')?? __('not found'),
-            'postal_code' => Setting::get('PostalCode')?? __('not found'),
+            'arabic_name' => setting('NameArabic')?? __('not found'),
+            'english_name' => setting('NameEnglish')?? __('not found'),
+            'cr' => setting('CrNumber')?? __('not found'),
+            'address_arabic' => setting('AddressArabic')?? __('not found'),
+            'address_english' =>setting('AddressEnglish')?? __('not found'),
+            'ceo_name_arabic' => Employee::find(setting('ChiefExecutive'))->fullname_arabic()?? __('not found'),
+            'ceo_name_english' => Employee::find(setting('ChiefExecutive'))->fullname_english()?? __('not found'),
+            'ceo_signature' => asset(setting('ceo_signature_path') ?? ''),
+            'hr_name_arabic' => Employee::find(setting('HrManager'))->fullname_english()?? __('not found'),
+            'hr_name_englsh' => Employee::find(setting('HrManager'))->fullname_english()?? __('not found'),
+            'city_arabic' => setting('CityArabic')?? __('not found'),
+            'city_english' => setting('CityEnglish')?? __('not found'),
+            'country_arabic' => setting('CountryArabic')?? __('not found'),
+            'country_english' => setting('CountryEnglish')?? __('not found'),
+            'stamp' => asset(setting('company_stamp_path') ?? ''),
+            'email' => setting('Email')?? __('not found'),
+            'telephone' => setting('Telephone')?? __('not found'),
+            'postal_code' => setting('PostalCode')?? __('not found'),
         ];
     }
 

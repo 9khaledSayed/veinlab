@@ -72,7 +72,7 @@
         </div>
         <div class="footer" style="width: 100%">
             <tr>
-                <td>{!! $template->footer() !!}</td>
+                <td>{!! $template->footer() !!}</td>    
             </tr>
         </div>
     </div>
@@ -95,7 +95,7 @@
 
         <tfoot class="footer">
         <tr>
-            <td @if($template->type == 8) colspan="10" @endif>{!! $template->footer() !!}</td>
+            <td></td>
         </tr>
         </tfoot>
 
