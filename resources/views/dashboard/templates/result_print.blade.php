@@ -274,13 +274,13 @@
                                         </div>
                                     @endif
 
-                                @endif
+                                @endif 
 
                                 @if(isset($waitingLab->notes->lab_notes))
                                     <div class="kt-portlet__foot">
                                         <div class="kt-form__actions">
                                             <div class="row ">
-                                                <div class="col-lg-12 text-center" >
+                                                <div class="col-lg-8 text-center mx-auto" >
                                                     <h4 class="mt-3 mb-3 lab"> {{ 'Comments'}} </h4>
                                                     <p>{!! $waitingLab->notes->lab_notes !!} </p>
                                                 </div>
