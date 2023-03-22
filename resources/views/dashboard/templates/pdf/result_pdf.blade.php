@@ -50,7 +50,7 @@
     }
 </style>
 <body style="padding-top: 0">
-
+  
 {{-- <div style="width:100%; display:flex; justify-content:center">
     <img class="logo" src="{{asset('beta-logos/translated-logo.png')}}" style="margin:auto;" alt="">
 </div> --}}
