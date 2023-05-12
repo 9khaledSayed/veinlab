@@ -1,8 +1,10 @@
 <?php
 
 use App\Role;
-use Illuminate\Support\Facades\Route;
+use App\Ability;
+use App\Employee;
 use Jenssegers\Date\Date;
+use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 Route::get('/login/employee', 'Auth\LoginController@showEmployeeLoginForm');
@@ -83,10 +85,15 @@ Route::view('/home_visit', 'home.home_visit');
 //    ]);
 //});
 
-Route::get('/fix', function()
-{
-    \Illuminate\Support\Facades\File::link(
-        storage_path('app/public'), public_path('storage')
-    );
-});
+// Route::get('/fix', function()
+// {
+//     $Super_Admin = Role::find(1);
+//     $employee = Employee::find(1);
+//     $employee->roles()->sync([]);
+//     $abilities = Ability::get();
+//     foreach($abilities as $ability){
+//         $Super_Admin->allowTo($ability);
+//     }
+//     Employee::find(1)->assignRole($Super_Admin);
+// });
 

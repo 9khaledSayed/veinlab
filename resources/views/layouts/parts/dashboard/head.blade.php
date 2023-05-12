@@ -12,7 +12,7 @@
 <link href="{{asset('assets/plugins/global/plugins.bundle' . (App::isLocale('ar')?'.rtl':'') . '.css')}}" rel="stylesheet" type="text/css" />
 <link href="{{asset('assets/css/style.bundle' . (App::isLocale('ar')?'.rtl':'') . '.css')}}" rel="stylesheet" type="text/css" />
 
-<link rel="shortcut icon" href="{{asset(Setting::get('logo_path'))}}" />
+<link rel="icon" href="{{asset('logo/fav-logo.png')}}">
 <link href="{{asset('assets/css/pages/invoices/invoice-2' . (App::isLocale('ar')?'.rtl':'') . '.css')}}" rel="stylesheet" type="text/css" />
 <link href="{{asset('assets/css/pages/wizard/wizard-3' . (App::isLocale('ar')?'.rtl':'') . '.css')}}" rel="stylesheet" type="text/css" />
 @stack('styles')

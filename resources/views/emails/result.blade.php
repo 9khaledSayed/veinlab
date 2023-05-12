@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>Demystifying Email Design</title>
+    <title>Lab Email Design</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </head>
 <body style="margin: 0; padding: 0;">
@@ -20,7 +20,7 @@
                         <div style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';text-align:right;direction:rtl!important">
                             <div style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';direction:rtl!important;padding:25px 0;text-align:center">
                                 <a href="http://veinlab.net/" style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';text-align:right;color:#3d4852;font-size:19px;font-weight:bold;text-decoration:none;display:inline-block" target="_blank" data-saferedirecturl="https://www.google.com/url?q=https://nafezly.com&amp;source=gmail&amp;ust=1594385525962000&amp;usg=AFQjCNEL0Av4LirlsQEqueJ0UF4JagHPcA">
-                                    <img src="{{asset('logo/logo1.png')}}">
+                                    <img src="{{asset(Setting::get('logo_path'))}}" width="50">
                                 </a>
                             </div>
                         </div>
@@ -49,8 +49,7 @@
                                             </div>
                                             <div style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';text-align:center;direction:rtl!important">
                                                 نتمني لك الشفاء العاجل <br>
-                                                فريق دعم مختبرات فين
-                                            </div>
+                                                فريق دعم {{ setting('NameArabic') }}                                            </div>
 
 
 
@@ -63,7 +62,7 @@
                         <div style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';direction:rtl!important;margin:0 auto;padding:0;text-align:center;width:100%">
                             <div style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';text-align:right;direction:rtl!important">
                                 <div style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';text-align:right;direction:rtl!important;max-width:100%;margin-left:auto;margin-right:auto;padding:30px;width:100%!important">
-                                    <p style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';direction:rtl!important;line-height:1.5em;margin-top:0;color:#b0adc5;font-size:12px;text-align:center">© {{date('Y')}} مختبرات فين. جميع الحقوق محفوظة</p><div class="yj6qo"></div><div class="adL">
+                                    <p style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';direction:rtl!important;line-height:1.5em;margin-top:0;color:#b0adc5;font-size:12px;text-align:center">© {{date('Y')}} {{ setting('NameArabic') }}. جميع الحقوق محفوظة</p><div class="yj6qo"></div><div class="adL">
 
                                     </div></div><div class="adL">
                                 </div></div><div class="adL">

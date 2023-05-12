@@ -130,12 +130,14 @@
                                     </span>
                                 @enderror
                             </div>
+
                             <div class="col-lg-3">
                                 <label><span class="required" >*</span>{{__('Nationality')}}:</label>
                                 <select name="nationality_id"
                                         class="form-control @error('nationality_id')is-invalid @enderror kt-selectpicker"
                                         value="{{old('nationality_id')}}"
                                         title="{{__('Choose')}}">
+                                    
                                     @foreach($nationalities as $nationality)
                                         <option value="{{$nationality->id}}" @if(old('nationality') == $nationality->id) selected @endif>{{$nationality->nationality}}</option>
                                     @endforeach

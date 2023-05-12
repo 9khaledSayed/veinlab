@@ -87,20 +87,19 @@ var KTDatatableChildRemoteDataDemo = function() {
                     width: 20,
                     textAlign: 'center',
                 }, {
-                    field: 'patient_name',
+                    field: 'patient.name',
                     title: locator.__('Patient Name'),
-                    sortable: 'asc',
                 }, {
-                    field: 'main_analysis_name',
+                    field: 'main_analysis.general_name',
                     title: locator.__('Analysis Name'),
                 }, {
-                    field: 'invoice_bar_code',
+                    field: 'invoice.bar_code',
                     title: locator.__('Barcode'),
                     template: function(raw) {
-                        return '<a class="h5" href="/dashboard/barcodes/' + raw.invoice_bar_code + '"><i class="flaticon-reply"></i>Barcode</a>';
+                        return '<a class="h5" href="/dashboard/barcodes/' + raw.invoice.bar_code + '"><i class="flaticon-reply"></i>Barcode</a>';
                     },
                 }, {
-                    field: 'invoice_serial_no',
+                    field: 'invoice.serial_no',
                     title: locator.__('Serial No'),
                 }, {
                     field: 'status',
@@ -111,6 +110,7 @@ var KTDatatableChildRemoteDataDemo = function() {
                         var status = {
                             1: {'title': ('Pending'), 'class': ' kt-badge--danger'},
                             2: {'title': 'Finished', 'class': ' kt-badge--success'},
+                            3: {'title': 'transfer', 'class': ' kt-badge--info'},
                         };
                         return '<span class="kt-badge ' + status[row.status].class + ' kt-badge--inline kt-badge--pill">' + status[row.status].title + '</span>';
                     },
@@ -127,6 +127,7 @@ var KTDatatableChildRemoteDataDemo = function() {
                     field: 'created_at',
                     title: locator.__('Date'),
                     textAlign: 'center',
+                    sortable: 'desc',
                     template: function(row) {
 
                         var aestTime = new Date(row.created_at).toLocaleString("en-US", {timeZone: "Asia/Riyadh"})

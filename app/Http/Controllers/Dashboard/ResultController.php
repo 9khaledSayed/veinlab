@@ -4,26 +4,20 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Employee;
 use App\Invoice;
-use App\MainAnalysis;
 use App\Notes;
-use App\Notifications\ResultReady;
 use App\Notifications\ResultToDoctor;
 use App\Patient;
 use App\Result;
 use App\Http\Controllers\Controller;
-use App\SubAnalysis;
 use App\Template;
 use App\WaitingLab;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Excel;
 use DNS1D;
-use Illuminate\Support\Facades\Notification;
 
 class ResultController extends Controller implements FromCollection , WithHeadings
 {

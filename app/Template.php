@@ -92,7 +92,7 @@ class Template extends Model
     {
         $setting = Setting::all();
         return [
-            'logo_url' => asset(asset($setting['logo_path'] ?? ' ')),
+            'logo_url' => asset('logo/logo.png'),
             'header_url' => asset($setting['header_path'] ?? ' '),
             'footer_url' => asset($setting['footer_path'] ?? ' '),
             'app_url' => '????',

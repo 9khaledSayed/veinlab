@@ -18,11 +18,9 @@ class SettingsController extends Controller
     }
     public function company_info(Request $request)
     {
-
-
+        // dd($request->isMethod('post'));
         $this->authorize('view_company_info');
         if ($request->isMethod('post')){
-
             $this->validate($request, [
                 'logo_url' => 'nullable|image|mimes:jpeg,png,jpg',
                 'company_stamp' =>  'nullable|image|mimes:jpeg,png,jpg',
@@ -35,6 +33,7 @@ class SettingsController extends Controller
                 $fileName = $request->file('logo_url')->getClientOriginalName();
                 $request->file('logo_url')->storeAs('public/company_info', $fileName);
                 $request['logo_path'] = 'storage/company_info/' . $fileName ;
+
             }
             if(isset($request->company_stamp)) {
                 $fileName = $request->file('company_stamp')->getClientOriginalName();

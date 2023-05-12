@@ -368,8 +368,8 @@
 
     </script>
 
-{{--    <script>--}}
-{{--        let branchMap, infoWindow;--}}
+   {{-- <script>--}}
+       let branchMap, infoWindow;--}}
 {{--        var pos = { lat: {{setting('lat') ?? 0}}, lng: {{setting('lng') ?? 0}} }--}}
 
 {{--        function initMap() {--}}
@@ -415,7 +415,7 @@
 {{--                        () => {--}}
 {{--                            handleLocationError(true, infoWindow, branchMap.getCenter());--}}
 {{--                        }--}}
-{{--                    );--}}
+{{--                    );
 {{--                } else {--}}
 {{--                    // Browser doesn't support Geolocation--}}
 {{--                    handleLocationError(false, infoWindow, map.getCenter());--}}
@@ -472,8 +472,8 @@
 {{--            }--}}
 {{--        }--}}
 {{--    </script>--}}
-{{--    <!-- Async script executes immediately and must be after any DOM elements used in callback. -->--}}
-{{--    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC4Km6L1iAALvbX18stqmhywN80NN_gGNQ&callback=initMap&libraries=&v=weekly" async></script>--}}
+{{--    <!-- Async script executes immediately and must be after any DOM elements used in callback. --> --}}
+   {{-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC4Km6L1iAALvbX18stqmhywN80NN_gGNQ&callback=initMap&libraries=&v=weekly" async></script> --}}
 
 
 @endpush
