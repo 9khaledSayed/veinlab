@@ -40,4 +40,24 @@ class Hospital extends Authenticatable
         return $this->belongsToMany(MainAnalysis::class)->withPivot('price');
     }
 
+    public function getMainAnalysesFromRequest()
+    {
+        return $this->main_analyses()->whereIn('id', request()->main_analysis_id)->get()->map(function ($main){
+            return [
+                'id' => $main->id,
+                'general_name' => $main->general_name,
+                'price' => $main->pivot->price,
+                'code' => $main->code,
+            ];
+        });
+    }
+
+    public function updateDuesAmount($price)
+    {
+        $this->update([
+            'dues' => $price,
+            'no_patients' => $this->no_patients += 1
+        ]);
+    }
+
 }

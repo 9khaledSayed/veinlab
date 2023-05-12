@@ -306,6 +306,18 @@ class ResultController extends Controller implements FromCollection , WithHeadin
                 ->eyeColor(2, 28, 181, 224, 0, 8, 81)
                 ->generate(route('generate_pdf', $invoice->id));
 
+
+        // $qrCode = QrCode::gradient(28, 181, 224, 0, 8, 81, 'horizontal')
+        //         ->format('png')->merge(asset('beta-logos/small-logo.png'), .3, true)->errorCorrection('H')
+        //         ->style('dot', 0.9)
+        //         ->size(95)
+        //         ->eyeColor(0, 28, 181, 224, 0, 8, 81)
+        //         ->eyeColor(1, 28, 181, 224, 0, 8, 81)
+        //         ->eyeColor(2, 28, 181, 224, 0, 8, 81)
+        //         ->generate(route('generate_pdf', $invoice->id));
+
+        // $qrCode = base64_encode($qrCode);
+
         return view('dashboard.templates.result_print', compact('invoice', 'qrCode'));
     }
 

@@ -20,6 +20,7 @@ class MainAnalysis extends Model
         'price_hospital' => ['required', 'min:0']
     ];
 
+    protected $guarded = [];
     protected $dates = ['deleted_at'];
     protected $casts = [
         'created_at' => 'date:Y-m',
@@ -30,6 +31,16 @@ class MainAnalysis extends Model
         return $this->hasMany(SubAnalysis::class);
     }
 
-    protected $guarded = [];
+    public static function getMainAnalysesExcept($analysesIds)
+    {
+        return MainAnalysis::whereIn('id', request()->main_analysis_id)->get()->map(function ($main){
+            return [
+                'id' => $main->id,
+                'general_name' => $main->general_name,
+                'price' => $main->price,
+                'code' => $main->code,
+            ];
+        })->whereNotIn('id', $analysesIds);
+    }
 
 }

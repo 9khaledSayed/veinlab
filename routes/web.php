@@ -1,5 +1,6 @@
 <?php
 
+use App\MainAnalysis;
 use App\Role;
 use Jenssegers\Date\Date;
 use Illuminate\Support\Facades\Route;
@@ -94,3 +95,28 @@ Route::get('/fix', function()
     );
 });
 
+
+Route::get('all-analyses', function () {
+    $analyses = \App\MainAnalysis::with(['sub_analysis', 'sub_analysis.normal_ranges'])->get();
+
+    return response($analyses);
+
+    dd('done');
+
+});
+
+
+Route::get('all-packages', function () {
+    $packages = \App\Package::get()->map(function($package) {
+        return [
+            'name' => $package->name,
+            'price' => $package->price,
+            'main_analyses' => MainAnalysis::whereIn('id', unserialize($package->main_analysis))->pluck('code')
+        ];
+    });
+
+    return response($packages);
+
+    dd('done');
+
+});

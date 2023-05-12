@@ -15,5 +15,4 @@
 <link rel="shortcut icon" href="{{asset('assets/logo/fav-logo.png')}}" />
 <link href="{{asset('assets/css/pages/invoices/invoice-2' . (App::isLocale('ar')?'.rtl':'') . '.css')}}" rel="stylesheet" type="text/css" />
 <link href="{{asset('assets/css/pages/wizard/wizard-3' . (App::isLocale('ar')?'.rtl':'') . '.css')}}" rel="stylesheet" type="text/css" />
-@stack('styles')
 <link href="{{asset('assets/style.css')}}" rel="stylesheet" type="text/css" />

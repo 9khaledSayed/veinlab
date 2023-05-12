@@ -92,6 +92,7 @@ SVG Icons - svgicons.sparkk.fr
     }
 
 </style>
+@stack('styles')
 
 <!-- end::Head -->
 

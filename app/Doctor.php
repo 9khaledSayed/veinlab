@@ -15,4 +15,14 @@ class Doctor extends Model
     protected $casts = [
         'created_at'  => 'date:Y-m-d',
     ];
+
+    public function updateWallet($totalPrice)
+    {
+        $doctorMoney  = $totalPrice * ($this->percentage / 100 );
+        $this->update([
+            'wallet' => $this->wallet += $doctorMoney,
+            'longtime_wallet' => $this->lifetime_wallet += $doctorMoney,
+            'no_patients' => $this->no_patients += 1
+        ]);
+    }
 }

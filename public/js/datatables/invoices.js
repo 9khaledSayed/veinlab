@@ -32,7 +32,7 @@ var KTDatatableLocalSortDemo = function() {
             'Deleted!': "تم المسح!",
             'Item Deleted Successfully': "تم مسح العنصر بنجاح",
             'Show invoice': "عرض الفاتورة",
-            'edit': "تعديل",
+            'Edit Invoice': "تعديل الفاتورة",
             'delete': "مسح",
             "Discarded successfully !":"تم الأرتجاع !",
             "Item Discarded Successfully":"تم إرتجاع الفاتوره بنجاح !"
@@ -212,6 +212,7 @@ var KTDatatableLocalSortDemo = function() {
 		                      </a>\
 		                      <div class="dropdown-menu dropdown-menu-right">\
 		                          <a class="dropdown-item" href="/dashboard/invoices/' + row.id  + '"><i class="flaticon-eye"></i>' + locator.__('Show Invoice') + '</a>\
+		                          <a class="dropdown-item" href="/dashboard/invoices/' + row.id  + '/edit"><i class="flaticon2-contract"></i>' + locator.__('Edit Invoice') + '</a>\
                                   <a class="dropdown-item discard-item" href="#" ><i class="fa fa-trash"></i>' + locator.__('Discard') + '</a>\
 		                      </div>\
 		                  </div>\

@@ -29,8 +29,10 @@ $(function() {
                 url: "/dashboard/categories?company_id=" + id,
                 success:function(data){
                     select_category.empty();
-                    for(let i=0; i< data.length;i++)
-                        select_category.append('<option value="' + data[i].id + '">' + data[i].percentage + " % " + data[i].name + '</option>');
+                    for(let i=0; i< data.length;i++){
+                        let isSelected = data[i].id == $('#invoice_category_id').val();
+                        select_category.append(`<option value="${data[i].id}" ${isSelected}>${data[i].percentage} % ${data[i].name}</option>`);
+                    }
                     select_category.selectpicker('refresh');
                 }
             })
@@ -65,9 +67,15 @@ $(function() {
                 'hospital_id' : hospitalId
             },
             success:function(data){
+                
                 select_analysis.empty();
-                for(let i=0; i< data.length;i++)
-                    select_analysis.append('<option value="' + data[i].id + '">' + data[i].general_name + " - " + data[i].price + " SAR" + data[i].code + '</option>');
+                let invoiceAnalysis = JSON.parse($("#analyses_ids").val() || "[]");
+                
+                for(let i=0; i< data.length;i++){
+                    let checkedStatus = invoiceAnalysis.includes(`${data[i].id}`) ? 'selected' : '';
+                    
+                    select_analysis.append(`<option value="${data[i].id}" ${checkedStatus}>${data[i].general_name} - ${data[i].price} SAR ${data[i].code}</option>`);
+                }
                 select_analysis.selectpicker('refresh');
             }
         });

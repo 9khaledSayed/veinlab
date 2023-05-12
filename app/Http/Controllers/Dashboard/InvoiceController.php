@@ -2,20 +2,28 @@
 
 namespace App\Http\Controllers\Dashboard;
 
-use App\Category;
-use App\Invoice;
-use App\Http\Controllers\Controller;
-use App\MainAnalysis;
-use App\Package;
-use App\Revenue;
-use App\Template;
-use Barryvdh\DomPDF\Facade as PDF;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\Rules\In;
 use DNS1D;
 use Setting;
+use App\Doctor;
+use App\Sector;
+use App\Company;
+use App\Invoice;
+use App\Package;
+use App\Patient;
+use App\Revenue;
+use App\Category;
+use App\Hospital;
+use App\Template;
+use App\PromoCode;
+use Carbon\Carbon;
+use App\MainAnalysis;
+use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade as PDF;
+use Illuminate\Support\Facades\App;
+use Illuminate\Validation\Rules\In;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\UpdateInvoiceRequest;
 
 class InvoiceController extends Controller
 {
@@ -58,6 +66,29 @@ class InvoiceController extends Controller
         return view('dashboard.invoices.index');
 
     }
+
+    public function update(UpdateInvoiceRequest $request, Invoice $invoice)
+    {
+        $this->authorize('create_patients');
+        $responseArray = [];
+
+        if ($request->ajax()){
+
+            $receipt = $invoice->calculateTotalPrice($responseArray);
+            return response()->json($receipt);
+
+        }else{
+
+            $invoice = $invoice->calculateTotalPrice($responseArray);
+
+            $invoice->generateWaitingLabs($invoice);
+            $invoice->assignTransfer($request, $invoice->total_price);
+
+            return redirect(route('dashboard.invoices.show', $invoice->id));
+        }
+    }
+
+    
 
     public function getInvoicesDone(Request $request)
     {
@@ -104,6 +135,45 @@ class InvoiceController extends Controller
             return view('dashboard.invoices.invoice_preview', $data);
         }
         return view('dashboard.invoices.show', $data);
+    }
+
+    public function edit(Invoice $invoice)
+    {
+        // $this->authorize('update_invoices');
+        $patient = $invoice->patient;
+        $promoCode = $invoice->promo_code;
+        $analysisWithPromo = $promoCode->main_analysis ?? null;
+        $packages = [];
+        $main_analysis = [];
+        if(unserialize($invoice->packages) !== null){
+            $packages = Package::whereIn('id', unserialize($invoice->packages))->get();
+        }
+        if(unserialize($invoice->main_analysis) !== null){
+            $main_analysis = MainAnalysis::whereIn('id', unserialize($invoice->main_analysis))->get();
+        }
+        if (isset($analysisWithPromo)){
+            $promoCodeDiscount = ($analysisWithPromo->price * ($promoCode->percentage/100));
+        }else{
+            $promoCodeDiscount = 0;
+        }
+        $data = [
+            'invoice'               => $invoice,
+            'patient'               => $patient,
+            'purchases'             => unserialize($invoice->purchases),
+            'analysisWithPromo'     => $analysisWithPromo,
+            'promoCode'             => $promoCode,
+            'promoCodeDiscount'     => $promoCodeDiscount,
+            'hospitals'      => Hospital::all(),
+            'doctors'        => Doctor::all(),
+            'companies'      => Company::all(),
+            'main_analysis'  => MainAnalysis::all(),
+            'packages'       => Package::all(),
+            'sectors'       => Sector::all(),
+            'patients' => Patient::get(),
+            'promo_codes'    => PromoCode::where('from', '<=', Carbon::today())->get()
+        ];
+
+        return view('dashboard.invoices.edit', $data);
     }
 
     public function discard(Request $request, $id)

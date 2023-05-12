@@ -50,7 +50,7 @@ $(function() {
             method: 'post',
             async: false,
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-            url: '/dashboard/waiting_labs',
+            url: $("#waiting-lab-form").attr('action'),
             data:  form.serialize() ,
             success:function (res) {
                 totalInvoiceAmount.text(res.total_price.toFixed(2));

@@ -120,14 +120,14 @@ class AttendanceController extends Controller
                 'message' => __('يجب ان تقوم بالتسجيل من جهازك او قم باعادة تحميل صفحة ال Qrcode'),
             ]);
         }
-//        if (!$employee->in_lab){
-//            return response()->json([
-//                'status' => false,
-//                'message' => __('يجب ان تكون متواجد في المختبر او قم باعادة تحميل صفحة ال Qrcode'),
-//            ]);
-//        }
+       if (!$employee->in_lab){
+           return response()->json([
+               'status' => false,
+               'message' => __('يجب ان تكون متواجد في المختبر او قم باعادة تحميل صفحة ال Qrcode'),
+           ]);
+       } 
 
-        $time = Carbon::now()->format('h:i');;
+        $time = Carbon::now()->format('h:i');
         $employee = Employee::find($request->employee_id);
 
 

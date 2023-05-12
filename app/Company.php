@@ -19,4 +19,11 @@ class Company extends Model
     {
         return $this->hasMany(Category::class);
     }
+
+    public function updateDues($price)
+    {
+        $company_discount = (Category::find(request()->category_id)->percentage / 100) * $price;
+        $this->our_money += $company_discount;
+        $this->save();
+    }
 }

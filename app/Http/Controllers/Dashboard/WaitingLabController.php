@@ -77,7 +77,6 @@ class WaitingLabController extends Controller
 
     public function show($waiting_lab_id)
     {
-
 //      $this->authorize('update_results');
         $waiting_lab = WaitingLab::with(['main_analysis','results.sub_analysis', 'patient', 'notes'])->find($waiting_lab_id);
         $genderType = ['male', 'female', 'child', 'both'];
@@ -186,9 +185,6 @@ class WaitingLabController extends Controller
                     $purchases[$analysis->general_name] = ['price' => $analysis->price, 'code' => $analysis->code, 'discount' => $analysis->discount];
                 }
                 foreach ($packages as $package) {
-//                    foreach (MainAnalysis::whereIn('id', unserialize($package->main_analysis) ?? [])->get() as $analysis) {
-//                        $price += $analysis->price;
-//                    }
                     $price += $package->price;
                     $purchases[$package->name] = ['price' => $package->price, 'code' => '-', 'discount' => 0];
                 }
@@ -265,7 +261,7 @@ class WaitingLabController extends Controller
             }else if ($promo_code->type == config('enums.promoCodeOn.analysis')){
                 $promoCodeAnalysis = $promo_code->main_analysis;
                 $patientTransferIncluded = in_array($promo_code->include, [config('enums.transfer.all'), $request->transfer]);
-//                dd( $patientTransferIncluded);
+
                 if(in_array($promoCodeAnalysis->id, $request->main_analysis_id) && $patientTransferIncluded){
                     $discount += floatval($promoCodeAnalysis->price * ($promo_code->percentage/100));
                 }

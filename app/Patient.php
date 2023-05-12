@@ -124,6 +124,21 @@ class Patient extends Authenticatable
 
         return \GuzzleHttp\json_decode($response->body());
     }
+    
 
+    public function calculateLoyaltyDiscount($totalPrice)
+    {
+        if($this->isLoyaltyDiscountApplicable()){
+            $loyaltyDiscPercentage = setting('loyalty_discount_value');
+            return $totalPrice * ($loyaltyDiscPercentage/100);
+        }
+
+        return 0;
+    }
+
+    public function isLoyaltyDiscountApplicable()
+    {
+        return $this->visit_no >= setting('no_visits') && in_array(setting('loyalty_discount_include'), [config('enums.transfer.all'), request()->transfer]);
+    }
 
 }

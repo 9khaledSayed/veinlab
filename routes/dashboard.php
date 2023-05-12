@@ -62,7 +62,7 @@ Route::prefix('dashboard')->name('dashboard.')->namespace('Dashboard')->middlewa
     Route::resource("results","ResultController")->except(['destroy', 'edit']);
     Route::resource("waiting_labs","WaitingLabController")->except(['update', 'destroy']);
     Route::resource("categories","CategoryController")->except(['create','show' , 'destroy']);
-    Route::resource("invoices","InvoiceController")->except(['create','store' , 'edit', 'update']);
+    Route::resource("invoices","InvoiceController")->except(['create','store']);
     Route::resource("normal_ranges","NormalRangeController")->except(['show','edit' , 'update', 'destroy']);
     Route::resource("exports","ExportsController")->except(['edit' , 'update', 'destroy']);
     Route::resource("revenue","RevenueController")->except(['edit' , 'update', 'destroy']);
@@ -162,6 +162,8 @@ Route::get('test-roles', function () {
     dd('done');
 
 });
+
+
 
 
 

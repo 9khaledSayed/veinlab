@@ -25,10 +25,9 @@ class QRCodeController extends Controller
         /** check if cookies contains an employee id **/
         if (array_key_exists('employee_id', $_COOKIE)){
 
-
             /** check if the current employee id not equal to the employee id then alert the manager **/
             if ($_COOKIE['employee_id'] != auth()->id()){
-//                dd('you cannot use another device to check in');
+               return "<h1>غير مسموح لتسجيل الحضور او الانصراف من الجهاز الحالى</h1>";
             }else{
                 /** else use it in the qr code  **/
                 $qr = $_COOKIE['employee_id'];
@@ -43,9 +42,8 @@ class QRCodeController extends Controller
             auth()->user()->setMobileOwner();
         }
 
-
         /*** check if employee is inside the lab ***/
-        if($this->distance($request->lat, $request->lng, setting('lat'), setting('lng'), 'M') <= 0.55){
+        if($this->distance($request->lat, $request->lng, 24.771615811654513, 46.767664592044525, 'M') <= 0.55){
             auth()->user()->setInLab();
         }
 
