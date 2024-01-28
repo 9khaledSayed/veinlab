@@ -170,7 +170,7 @@
 
                             @if($waiting_lab->results->count() > 0)
                                 <div class="row d-flex justify-content-around">
-                                     <a href="{{route('dashboard.results.print', $waiting_lab->id)}}" target="_blank" class="btn btn-brand btn-bold" >{{__('Print')}}</a>
+                                    <a href="{{route('dashboard.results.print', $waiting_lab->id)}}" target="_blank" class="btn btn-brand btn-bold" >{{__('Print')}}</a>
 
                                     @can('reject_results')
                                         <form  data-id = "{{$waiting_lab->id}}"  data-analysis = "{{$waiting_lab->main_analysis->general_name}}">
@@ -211,9 +211,11 @@
                                     </div>
                                 </div>
                                 <div class="row d-flex justify-content-around">
+                                    @can('approve_results')
                                     <button id="approve" type="button" class="btn btn-success btn-elevate btn-pill d-block mx-auto"><i class="la la-check"></i>
                                         {{__('Approve Result')}}
                                     </button>
+                                    @endcan
 
                                     <a href="{{route('dashboard.results.print_all_results', $invoice->id)}}"  class="btn btn-brand btn-elevate btn-pill d-block mx-auto"><i class="la la-print"></i>
                                         {{__('Print all analysis')}}

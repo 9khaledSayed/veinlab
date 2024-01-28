@@ -48,12 +48,9 @@ var KTDatatableLocalSortDemo = function() {
                 },
                 pageSize: 10,
                 serverPaging: true,
-                serverFiltering: false,
+                serverFiltering: true,
                 serverSorting: true,
-                saveState: {
-                    cookie: true,
-                    webstorage: true,
-                },
+                saveState: false, 
             },
 
             // layout definition

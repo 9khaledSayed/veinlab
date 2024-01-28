@@ -79,7 +79,7 @@ Route::prefix('dashboard')->name('dashboard.')->namespace('Dashboard')->middlewa
     Route::get('qr_code/generate', 'QRCodeController@generate')->name('qr_code.generate');
     Route::get('qr_code/scanner', 'QRCodeController@scanner')->name('qr_code.scanner');
     Route::any('qr_code/test', 'QRCodeController@test')->name('qr_code.test');
-
+    Route::get('branches/{branch}/change-current-branch','SettingsController@changeCurrentBranch')->name('switch-branch');
     Route::resources([
         'main_analysis'  => 'MainAnalysisController',
         'patients'       => 'PatientController',

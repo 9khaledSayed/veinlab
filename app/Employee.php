@@ -35,7 +35,7 @@ class Employee extends Authenticatable
         'joined_date'   =>'date:D M d Y'
     ];
     protected $hidden = [
-        'password', 'remember_token',
+         'remember_token',
     ];
 
     public static $rules = [

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+use App\HR\Branch;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -17,8 +18,6 @@ class SettingsController extends Controller
         $setting = setting()->all();
         return view('dashboard.settings.edit',compact('setting'));
     }
-
-
 
     public function store(Request $request)
     {
@@ -95,5 +94,13 @@ class SettingsController extends Controller
         setting($request->all())->save();
         return redirect()->back()->with('message', 'saved!');
     }
+
+    public function changeCurrentBranch($id)
+    {
+        setting(['current_branch' => $id])->save();
+
+        return redirect()->back();
+    }
+
 
 }

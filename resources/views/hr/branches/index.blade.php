@@ -107,7 +107,7 @@
 
 
                                                                             <div class="form-group row mt-5 mb-5">
-                                                                                <div class="col-6">
+                                                                                <div class="col-4">
                                                                                     <label>{{__('Name')}} *</label>
                                                                                     <input name="name" class="form-control" type="text">
                                                                                     @error('name')
@@ -116,13 +116,41 @@
                                                                                     </div>
                                                                                     @enderror
                                                                                 </div>
-                                                                                <div class="col-6">
+                                                                                <div class="col-4">
                                                                                     <label>{{__('Address')}}</label>
                                                                                     <input name="address" class="form-control"  type="text" >
                                                                                     @error('address')
                                                                                     <div class="invalid-feedback">
                                                                                         {{$message}}
                                                                                     </div>
+                                                                                    @enderror
+                                                                                </div>
+                                                                                <div class="col-4">
+                                                                                    <label>{{__('License No')}}</label>
+                                                                                    <input name="license_no" class="form-control" value="" type="text" >
+                                                                                    @error('license_no')
+                                                                                    <div class="invalid-feedback">
+                                                                                        {{$message}}
+                                                                                    </div>
+                                                                                    @enderror
+                                                                                </div>
+                                                                                <div class="col-6">
+                                                                                    <label class="col-xl-3 col-lg-3 col-form-label">{{__('Report signature')}}</label>
+                                                                                    <div class="col-lg-9 col-xl-6">
+                                                                                        <div class="kt-avatar kt-avatar--outline kt-avatar--circle" id="kt_user_avatar_1">
+                                                                                                <div class="kt-avatar__holder" style="background-image: url('')"></div>
+                                                                                            <label class="kt-avatar__upload" data-toggle="kt-tooltip" title="" data-original-title="Change avatar">
+                                                                                                <i class="fa fa-pen"></i>
+                                                                                                <input type="file" name="report_signature" >
+                                                                                            </label>
+                                                                                            <span class="kt-avatar__cancel" data-toggle="kt-tooltip" title="" data-original-title="Cancel avatar">
+                                                                                                <i class="fa fa-times"></i>
+                                                                                            </span>
+                                                                                        </div>
+                                                                                        <span class="form-text text-muted">Allowed file types: png, jpg, jpeg.</span>
+                                                                                    </div>
+                                                                                    @error('report_signature')
+                                                                                    <span class="invalid-feedback">{{$message}}</span>
                                                                                     @enderror
                                                                                 </div>
                                                                             </div>

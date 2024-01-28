@@ -314,15 +314,34 @@
                             </select>
                         </div>
                     </div>
-                    <div class="form-group row">
+                    <div class="form-group row align-items-end">
+                        @if(setting('current_branch') == 'all')
+                        <div class="col-lg-4">
+                            <label ><span class="required" >*</span>{{__('Branches')}}</label>
+                            <select class="form-control @error('branch_id') is-invalid @enderror kt-selectpicker"
+                                    data-size="7"
+                                    data-live-search="true"
+                                    data-show-subtext="true"
+                                    name="branch_id" title="{{__('Select')}}">
+                                @forelse($branches as $branch)
+                                    <option
+                                        value="{{$branch->id}}"
+                                        @if($branch->id == old('branch_id')) selected @endif
+                                    >{{$branch->name}}</option>
+                                @empty
+                                    <option disabled>{{__('There is no branches')}}</option>
+                                @endforelse
+                            </select>
+                        </div>
+                        @endif
                         <label class="col-2 col-form-label">{{__('Add home visit fees')}}</label>
                         <div class="col-3">
-                        <span class="kt-switch kt-switch--icon">
-                            <label>
-                                <input type="checkbox" @if(old('home_visit_fees') == "2") checked @endif  name="home_visit_fees">
-                                <span></span>
-                            </label>
-                        </span>
+                            <span class="kt-switch kt-switch--icon">
+                                <label>
+                                    <input type="checkbox" @if(old('home_visit_fees') == "2") checked @endif  name="home_visit_fees">
+                                    <span></span>
+                                </label>
+                            </span>
                         </div>
                     </div>
                 </div>

@@ -49,7 +49,7 @@
 
             <!--Begin::Section-->
             <div class="row" id="container_1">
-                @foreach($employees as $employee)
+                @foreach($employees->items() as $employee)
                 <div class="col-xl-3 container_2 droid_font">
 
                     <!--Begin::Portlet-->
@@ -111,6 +111,10 @@
                                 </div>
                                 <div class="kt-widget__body ">
                                     <div class="kt-widget__item mt-15">
+                                        <div class="kt-widget__contact">
+                                            <span class="kt-widget__label">{{__('Branch')}} :</span>
+                                            <a href="#" class="kt-widget__data search_item">{{$employee->branch? $employee->branch->name : 'غير محدد'}}</a>
+                                        </div>
                                         <div class="kt-widget__contact">
                                             <span class="kt-widget__label">{{__('Email')}} :</span>
                                             <a href="#" class="kt-widget__data search_item">{{$employee->email}}</a>

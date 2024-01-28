@@ -2,24 +2,25 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+use App\Doctor;
+use App\Sector;
+use App\Company;
+use App\Invoice;
+use App\Package;
+use App\Patient;
 use App\Category;
 use App\Employee;
-use App\Http\Controllers\Controller;
-use App\Invoice;
-use App\MainAnalysis;
-use App\Nationality;
-use App\Notifications\WaitingLabNotification;
-use App\Package;
-use App\PromoCode;
-use App\Sector;
-use App\WaitingLab;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
-use App\Patient;
-use App\Company;
-use App\Doctor;
 use App\Hospital;
+use App\HR\Branch;
+use App\PromoCode;
+use Carbon\Carbon;
+use App\WaitingLab;
+use App\Nationality;
+use App\MainAnalysis;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Notification;
+use App\Notifications\WaitingLabNotification;
 
 class WaitingLabController extends Controller
 {
@@ -36,7 +37,7 @@ class WaitingLabController extends Controller
             $response = getModelData(
                 new WaitingLab(),
                 $request, 
-                ['patient' => ['name'], 'main_analysis' => ['general_name'], 'invoice' => ['barcode', 'serial_no']],
+                ['patient' => ['id', 'name'], 'main_analysis' => ['id', 'general_name'], 'invoice' => ['barcode', 'serial_no']],
                 [['status','!=','3']]);
 
             return response()->json($response);
@@ -55,6 +56,7 @@ class WaitingLabController extends Controller
             'packages'       => Package::all(),
             'sectors'       => Sector::all(),
             'patients' => Patient::get(),
+            'branches' => Branch::get(),
             'promo_codes'    => PromoCode::where('from', '<=', Carbon::today())->get()
         ]);
     }

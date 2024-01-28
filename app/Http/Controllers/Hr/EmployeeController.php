@@ -27,18 +27,23 @@ class EmployeeController extends Controller
     public function index(Request $request)
     {
         $this->authorize('view_employees');
-        if ($request->ajax()){
-            $search = $request->search;
-            if($search == ''){
-                $employees = Employee::where('id','!=', 1)->orderby('fname_arabic','asc')->select('id','fname_arabic', 'lname_arabic')->get();
-            }else{
-                $employees = Employee::where('id','!=', 1)->orderby('fname_arabic','asc')->select('id','fname_arabic', 'lname_arabic')->where('fname_arabic', 'like', '%' .$search . '%')->get();
-            }
-            return response()->json($employees);
+        $query = Employee::query()->where('id', '!=', 1)->orderby('fname_arabic', 'asc');
+        
+        if(setting('current_branch') != 'all' && setting('current_branch') && Branch::get()->pluck('id')->contains(setting('current_branch'))){
+            $query = $query->whereBranchId(setting('current_branch'));
         }
-        $employees    = Employee::where('id','!=', 1)->paginate(8);
-        $no_employees = Employee::where('id','!=', 1)->get()->count();
-        return view('hr.employees.index', compact('employees','no_employees'));
+
+        if ($request->ajax()) {
+            $search = $request->search;
+
+            if ($search != '') 
+                $query = $query->where('fname_arabic', 'like', '%' . $search . '%');
+
+            return response()->json($query->get());
+        }
+        $employees = $query->paginate(8);
+        $no_employees = $query->get()->count();
+        return view('hr.employees.index', compact('employees', 'no_employees'));
     }
 
 
@@ -52,17 +57,17 @@ class EmployeeController extends Controller
         $roles = Role::where('name_english', '!=', 'Hr')->get();
         $emp_num = ++Employee::withTrashed()->get()->last()->emp_num;
 
-        while (Employee::pluck('emp_num')->contains($emp_num)){
-            $emp_num = rand(1000,9999);
+        while (Employee::pluck('emp_num')->contains($emp_num)) {
+            $emp_num = rand(1000, 9999);
         }
-        
+
         return view('hr.employees.create', [
             'nationalities' => $nationalities,
             'roles' => $roles,
             'contract_type' => $this->contract_type,
-            'allowances' =>$allowances,
-            'branches' =>$branches,
-            'emp_num'  => $emp_num
+            'allowances' => $allowances,
+            'branches' => $branches,
+            'emp_num' => $emp_num
         ]);
     }
 
@@ -70,14 +75,17 @@ class EmployeeController extends Controller
     public function store(Request $request)
     {
         $this->authorize('create_employees');
-        if($request->ajax()){
+        if ($request->ajax()) {
             $rules = Employee::$rules;
 
-            while (Employee::withTrashed()->pluck('emp_num')->contains($request->emp_num)){
-                return response()->json(array(
-                    'status' => 3,
-                    'message'   =>  'Employee number must be unique'
-                ));;
+            while (Employee::withTrashed()->pluck('emp_num')->contains($request->emp_num)) {
+                return response()->json(
+                    array(
+                        'status' => 3,
+                        'message' => 'Employee number must be unique'
+                    )
+                );
+                ;
             }
 
             $data = $this->validate($request, $rules);
@@ -100,7 +108,7 @@ class EmployeeController extends Controller
         $this->authorize('show_employees');
         $branches = Branch::all();
         $allowances = $employee->allowance_types;
-        if ($request->ajax()){
+        if ($request->ajax()) {
             return response()->json($employee);
         }
         return view('hr.employees.show', [
@@ -108,8 +116,8 @@ class EmployeeController extends Controller
             'nationalities' => Nationality::all(),
             'roles' => Role::all(),
             'contract_type' => $this->contract_type,
-            'allowances' =>$allowances,
-            'branches' =>$branches
+            'allowances' => $allowances,
+            'branches' => $branches
         ]);
     }
 
@@ -126,7 +134,7 @@ class EmployeeController extends Controller
             'nationalities' => $nationalities,
             'roles' => $roles,
             'contract_type' => $this->contract_type,
-            'allowances' =>$allowances,
+            'allowances' => $allowances,
             'branches' => $branches
         ]);
     }
@@ -135,7 +143,7 @@ class EmployeeController extends Controller
     public function update(Request $request, Employee $employee)
     {
         $this->authorize('Update_employees');
-        if($request->ajax()){
+        if ($request->ajax()) {
             $rules = Employee::$rules;
             $rules['email'] = ($rules['email'] . ',email,' . $employee->id);
             $rules['emp_num'] = ($rules['emp_num'] . ',emp_num,' . $employee->id);
@@ -156,7 +164,7 @@ class EmployeeController extends Controller
 
     public function getSalary(Request $request, $id)
     {
-        if($request->ajax()){
+        if ($request->ajax()) {
             $salary = Employee::find($id)->basic_salary;
             return response()->json([
                 'salary' => $salary
@@ -175,8 +183,7 @@ class EmployeeController extends Controller
 
     public function destroy(Request $request, Employee $employee)
     {
-        if($request->ajax())
-        {
+        if ($request->ajax()) {
             $employee->delete();
         }
     }
@@ -184,7 +191,7 @@ class EmployeeController extends Controller
     public function contract_draft($id)
     {
         $employee = Employee::find($id);
-        $type = ($employee->nationality_id == 0) ? 3: 12;
+        $type = ($employee->nationality_id == 0) ? 3 : 12;
         $template = Template::where('type', $type)->first();
         $results = [
             'employee' => $template->employee_results($employee),
@@ -194,10 +201,10 @@ class EmployeeController extends Controller
             'others' => $template->others_results(),
             'print' => $template->print_results(),
         ];
-        $content =  $template->collect_replace($results, $template->body);
-        return view('hr.printing.print',[
+        $content = $template->collect_replace($results, $template->body);
+        return view('hr.printing.print', [
             'template' => $template,
-            'content' =>$content
+            'content' => $content
         ]);
     }
 

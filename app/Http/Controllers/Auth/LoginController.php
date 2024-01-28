@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Auth;
+use App\Employee;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Http\Request;
-use Auth;
 
 class LoginController extends Controller
 {
@@ -40,9 +41,9 @@ class LoginController extends Controller
             'email'   => 'required|email|exists:employees',
             'password' => 'required|min:6|'
         ]);
-
+        $employee = Employee::withoutGlobalScopes()->whereEmail($request->email)->first();
         if (Auth::guard('employee')->attempt(['email' => $request->email, 'password' => $request->password], $request->get('remember'))) {
-
+            setting(['current_branch' => $employee->branch_id == '1' ? 'all' : $employee->branch_id])->save();
             return redirect()->intended('/dashboard');
         }
         return back()->withInput($request->only('email', 'remember'))->withErrors([

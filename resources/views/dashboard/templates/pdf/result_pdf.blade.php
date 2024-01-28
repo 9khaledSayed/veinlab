@@ -28,7 +28,7 @@
         padding-top: 12px;
         padding-bottom: 12px;
         text-align: left;
-        background-color: rgba(4, 156, 170, 0.62);
+        background-color: #3F4493;
         color: white;
     }
 
@@ -38,7 +38,7 @@
         align-content: center;
         grid-template-columns: auto auto auto;
         grid-gap: 10px;
-        background-color: #2196F3;
+        background-color: #3F4493;
         padding: 10px;
     }
 
@@ -51,7 +51,6 @@
 </style>
 <body style="padding-top: 0">
 
-<img height="90" width="100%" src="https://veinlab.net/storage/company_info/Nabd_1626706472header.jpeg">
 <div class="container">
 
     <table style="text-align: center; width: 100%; direction: rtl; font-size: 12px; border: 1px solid">

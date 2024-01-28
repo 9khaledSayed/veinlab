@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Scopes\InvoiceChildBranchScope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -16,6 +17,8 @@ class WaitingLab extends Model
 
     public static function booted()
     {
+        static::addGlobalScope(new InvoiceChildBranchScope());
+
         static::creating(function ($model){
             $mainAnalysis = MainAnalysis::find($model->main_analysis_id);
             $mainAnalysis->demand_no += 1;

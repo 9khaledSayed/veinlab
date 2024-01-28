@@ -14,6 +14,7 @@ use App\WaitingLab;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Excel;
@@ -294,15 +295,16 @@ class ResultController extends Controller implements FromCollection , WithHeadin
 
     public function printAllResults(Invoice $invoice)
     {
-        $patient = $invoice->patient;
-        $template = Template::where('type', 8)->first();
-        $results = $this->generatePrintVariables($patient, $template, null, $invoice, true);
+        $invoice->load(['patient', 'waiting_labs']);
+        $qrCode = QrCode::gradient(28, 181, 224, 0, 8, 81, 'horizontal')
+                ->style('dot', 0.9)
+                ->size(95)
+                ->eyeColor(0, 28, 181, 224, 0, 8, 81)
+                ->eyeColor(1, 28, 181, 224, 0, 8, 81)
+                ->eyeColor(2, 28, 181, 224, 0, 8, 81)
+                ->generate(route('generate_pdf', $invoice->id));
 
-        $content = $template->collect_replace($results, $template->body);
-        return view('dashboard.templates.result_print', [
-            'content' => $content,
-            'template' => $template
-        ]);
+        return view('dashboard.templates.result_print', compact('invoice', 'qrCode'));
     }
 
     public function generatePrintVariables(Patient $patient, Template $template, WaitingLab $waitingLab = null, Invoice $invoice =null, $printAll = false)
@@ -367,14 +369,12 @@ class ResultController extends Controller implements FromCollection , WithHeadin
 
     public function approve(Request $request)
     {
-        $doctor = Employee::get()->filter(function ($employee){
-           return $employee->roles->pluck('label')->contains('Doctor');
-        })->first();
 
+        $this->authorize('approve_results');
 
-        $invoice_id   = $request->invoice_id;
+        $invoice_id = $request->invoice_id;
         $invoice = Invoice::find($invoice_id);
-        $invoice->doctor = $doctor->fullname() ?? \auth()->user()->fullname();
+        $invoice->doctor = auth()->user()->fullname();
         $invoice->approved = 1;
         $invoice->approved_date = Carbon::now();
         $invoice->save();

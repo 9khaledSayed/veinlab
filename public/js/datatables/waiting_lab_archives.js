@@ -48,10 +48,11 @@ var KTDatatableChildRemoteDataDemo = function() {
                         url: '/dashboard/waiting_labs/archives',
                     },
                 },
-                pageSize: 10, // display 20 records per page
+                pageSize: 10,
                 serverPaging: true,
-                serverFiltering: false,
+                serverFiltering: true,
                 serverSorting: true,
+                saveState: false, 
             },
 
             // layout definition

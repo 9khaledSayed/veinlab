@@ -211,7 +211,7 @@ if(!function_exists('getModelData')){
 
 
             foreach ($columns as $column){
-                $model->orWhere($column, 'LIKE', "%" . $params['query']['generalSearch'] . "%");
+                $model->where($column, 'LIKE', "%" . $params['query']['generalSearch'] . "%");
             }
 
             foreach ($relations as $relation => $columns) {

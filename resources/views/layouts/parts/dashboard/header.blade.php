@@ -23,9 +23,27 @@
     <!-- end:: Aside -->
 
     <!-- begin:: Title -->
-    <h3 class="kt-header__title kt-grid__item">
-        {{app()->isLocale('ar')? setting('NameArabic'): setting('NameEnglish')}}
-    </h3>
+    <div class="d-flex flex-column justify-content-center align-items-center">
+        <h3 class="kt-header__title kt-grid__item h3" style="font-size: large">
+            {{app()->isLocale('ar')? setting('NameArabic'): setting('NameEnglish')}}
+        </h3>
+        <div class="dropdown dropleft">
+            <span class="badge badge-warning" style="cursor: pointer" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                {{ $currentBranch ? $currentBranch->name : __('جميع الفروع') }} 
+                @if($branches->count()> 1 &&auth()->user()->roles->pluck('label')->contains('Super Admin'))
+                <i class="la la-angle-double-down"></i>
+                @endif
+            </span>
+            @if($branches->count()> 1 &&auth()->user()->roles->pluck('label')->contains('Super Admin'))
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="{{ route('dashboard.switch-branch', "all") }}">{{ __("All") }}</a>
+                @foreach($branches as $branch)
+                <a class="dropdown-item" href="{{ route('dashboard.switch-branch', $branch) }}">{{ $branch->name }}</a>
+                @endforeach
+            </div>
+            @endif
+        </div>
+    </div>
 
     <!-- end:: Title -->
 

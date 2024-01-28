@@ -119,8 +119,8 @@ class Dashboard extends Controller
         $array = array();
 
         for($i = 1 ; $i <= 12 ; $i++ )
-        {
-            $MonthCount = Invoice::where('pay_method', '!=', config('enums.payMethod.overdue'))->whereYear('created_at', now()->year)->whereMonth('created_at', $i)->pluck('total_cost')->sum();
+        {  
+            $MonthCount = Invoice::withoutGlobalScopes()->where('pay_method', '!=', config('enums.payMethod.overdue'))->whereYear('created_at', now()->year)->whereMonth('created_at', $i)->pluck('total_cost')->sum();
             $MonthCount += Exports::whereYear('created_at', now()->year)->whereMonth('created_at', $i)->pluck('amount')->sum();
             array_push($array,$MonthCount);
         }

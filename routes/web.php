@@ -2,7 +2,9 @@
 
 use App\Role;
 use App\Ability;
+use App\Invoice;
 use App\Employee;
+use App\HR\Branch;
 use Jenssegers\Date\Date;
 use Illuminate\Support\Facades\Route;
 
@@ -39,6 +41,22 @@ Route::get('/home', function (){
     $sectors = \App\Sector::get();
     $packages = \App\Package::all();
     return view('web.home', compact('sectors','packages'));
+});
+
+Route::get('/alter', function (){
+    dd(Branch::get());
+    // Employee::first()->notifications->markAsRead();
+    // Role::whereLabel('Super Admin')->first()->abilities()->sync(Ability::get()->pluck('id')->toArray());
+    // \App\Ability::create([
+    //     'name'  => 'approve_results',
+    //     'label' => 'Approve Result',
+    //     'category' => 'approve_results'
+    // ]);
+    // Branch::find(10)->delete();
+    // Artisan::call('migrate --path=/database/migrations/2023_08_30_081541_alter_branches_table_add_license_no.php');
+    // Artisan::call('migrate --path=/database/migrations/2023_08_30_081541_alter_branches_table_add_soft_deletes.php');
+    // Artisan::call('migrate --path=/database/migrations/2023_08_30_081541_alter_branches_table_add_signature.php');
+    // Artisan::call('migrate --path=/database/migrations/2023_08_30_081541_alter_invoices_table_add_branch_id.php');
 });
 
 Route::view('/home_visit', 'home.home_visit');
