@@ -22,11 +22,12 @@ use App\Language;
 
 */
 
-if(!function_exists('getImagesPath')){
-    function getImagesPath($model){
+if (!function_exists('getImagesPath')) {
+    function getImagesPath($model)
+    {
         $model = Str::plural($model);
         $model = Str::ucfirst($model);
-        return asset('/storage/Images').'/'.$model.'/';
+        return asset('/storage/Images') . '/' . $model . '/';
     }
 }
 
@@ -47,15 +48,16 @@ if(!function_exists('getImagesPath')){
  * update by andrew @8-2-2021
  * replace profile_pic to image
  */
-if(!function_exists('uploadImage')){
+if (!function_exists('uploadImage')) {
 
-    function uploadImage($request, $model){
+    function uploadImage($request, $model)
+    {
         $model = Str::plural($model);
         $model = Str::ucfirst($model);
-        $path         = "/Images/".$model;
+        $path         = "/Images/" . $model;
         $originalName =  $request->getClientOriginalName(); // Get file Original Name
-        $imageName    = 'Aglha_'.rand(1000, 9999)  .$originalName;  // Set Image name based on user name and time
-        $request->storeAs($path, $imageName,'public');
+        $imageName    = 'Aglha_' . rand(1000, 9999)  . $originalName;  // Set Image name based on user name and time
+        $request->storeAs($path, $imageName, 'public');
         return $imageName;
     }
 }
@@ -71,15 +73,16 @@ if(!function_exists('uploadImage')){
  * Added condition to prevent delete default.png
  */
 
-if(!function_exists('deleteImage')){
+if (!function_exists('deleteImage')) {
 
     //$request->file('image')
 
-    function deleteImage($imageName, $model){
+    function deleteImage($imageName, $model)
+    {
         $model = Str::plural($model);
         $model = Str::ucfirst($model);
-        if ($imageName != 'default.png'){
-            $path = "/Images/".$model.'/'.$imageName;
+        if ($imageName != 'default.png') {
+            $path = "/Images/" . $model . '/' . $imageName;
             Storage::disk('public')->delete($path);
         }
     }
@@ -92,9 +95,10 @@ if(!function_exists('deleteImage')){
  * Author : Khaled
  * created By Khaled @ 15-06-2021
  */
-if(!function_exists('pushNotification')){
-    function pushNotification($patient = null){
-        if (!$patient){
+if (!function_exists('pushNotification')) {
+    function pushNotification($patient = null)
+    {
+        if (!$patient) {
             /** Get Admin Last Notification **/
             $notification = Employee::first()->unreadNotifications->first();
 
@@ -102,7 +106,7 @@ if(!function_exists('pushNotification')){
             $tokensList = Employee::whereHas('roles', function (Builder $query) use ($notification) {
                 $query->where('label', employeeRole($notification->type));
             })->whereNotNull('device_token')->pluck('device_token')->all();
-        }else{
+        } else {
             $tokensList = [$patient->device_token];
             $notification = $patient->unreadNotifications->first();
         }
@@ -118,7 +122,7 @@ if(!function_exists('pushNotification')){
                 "alert_title" => $notification->data['title'],
                 "title" => $notification->data['title'],
                 "date" => $notification->created_at->diffForHumans(),
-                "alert_icon" => $notification->data['icon'] ,
+                "alert_icon" => $notification->data['icon'],
                 "icon" => asset(setting('logo_path')),
                 "class" => $notification->data['class'],
                 "url" => $notification->data['url'],
@@ -149,24 +153,34 @@ if(!function_exists('pushNotification')){
 
 
 
-if(!function_exists('serverKey')){
-    function serverKey(){
+if (!function_exists('serverKey')) {
+    function serverKey()
+    {
         return "AAAA4aN7mQ0:APA91bH2crrFOJLJt28hsyEgVbycqXN6MBqiSbGshszGr2YvL9HrIRenf1-LYYGpk-xmW3TAmmWHrS30ZQasD3ED6vq0tYv558zxtQ3opm82hyh3V2DwNF1vf6Xn394M1Ge2c_Zmo9yw";
     }
 }
 
-if(!function_exists('employeeRole')){
-    function employeeRole($notificationType){
-        switch ($notificationType){
+if (!function_exists('employeeRole')) {
+    function employeeRole($notificationType)
+    {
+        switch ($notificationType) {
             case 'App\Notifications\WaitingLabNotification':
                 return 'Lab';
             case 'App\Notifications\ResultToDoctor':
                 return 'Doctor';
             case 'App\Notifications\HomeVisitNotification':
                 return 'Receptionist';
-            default :
+            default:
                 return 'Super Admin';
-        }    }
+        }
+    }
+}
+if (!function_exists('toggleSysStatus')) {
+    function toggleSysStatus()
+    {
+        $status = setting("sys_status") == "expired" ? "active" : "expired";
+        setting(["sys_status" => $status])->save();
+    }
 }
 
 /**
@@ -174,7 +188,7 @@ if(!function_exists('employeeRole')){
  * Author : Khaled && Jemmy
  * created By Khaled && Jemmy @ 17-5-2021
  */
-if(!function_exists('getModelData')){
+if (!function_exists('getModelData')) {
     function getModelData(Model $model, Request $request, $relations = [], $wheresFilters = [])
     {
 
@@ -192,44 +206,48 @@ if(!function_exists('getModelData')){
         $params = $request->all();
 
         // Set the current page
-        if(isset($params['pagination']['page'])) {
+        if (isset($params['pagination']['page'])) {
             $page = $params['pagination']['page'];
         }
 
         // Set the number of items
-        if(isset($params['pagination']['perpage'])) {
+        if (isset($params['pagination']['perpage'])) {
             $per_page = $params['pagination']['perpage'];
         }
 
 
-//         Set the search filter
-        if(isset($params['query']['generalSearch'])) {
+        //         Set the search filter
+        if (isset($params['query']['generalSearch'])) {
 
             if (substr($params['query']['generalSearch'], 0, 1) === '0') {
                 $params['query']['generalSearch'] = substr($params['query']['generalSearch'], 1);
             }
 
 
-            foreach ($columns as $column){
-                $model->where($column, 'LIKE', "%" . $params['query']['generalSearch'] . "%");
-            }
+            $model = $model->where(function ($query) use ($params, $columns) {
+                foreach ($columns as $column) {
+                    $query->orWhere($column, 'LIKE', "%" . $params['query']['generalSearch'] . "%");
+                }
+            });
 
             foreach ($relations as $relation => $columns) {
 
-                $model->orWhereHas($relation, function (Builder $query) use ($columns, $params){
-                    foreach ($columns as $column){
-                        $query->where($column, 'LIKE', "%" . $params['query']['generalSearch'] . "%");
+                $model->orWhereHas($relation, function (Builder $query) use ($columns, $params) {
+                    foreach ($columns as $column) {
+                        // $query->where($column, 'LIKE', "%" . $params['query']['generalSearch'] . "%");
+                        $query->where(function ($query) use ($params, $columns) {
+                            foreach ($columns as $column) {
+                                $query->orWhere($column, 'LIKE', "%" . $params['query']['generalSearch'] . "%");
+                            }
+                        });
                     }
                 });
-
             }
-
-
         }
 
 
         // Set the sort order and field
-        if(isset($params['sort']['field'])) {
+        if (isset($params['sort']['field'])) {
             $order_field = $params['sort']['field'];
             $order_sort = $params['sort']['sort'];
         }
@@ -237,10 +255,10 @@ if(!function_exists('getModelData')){
 
 
         /** if request has filters like status **/
-        if(isset($params['query'])) {
-            foreach ($columns as $column){
-                if (isset($params['query'][$column])){
-                    $model->where($column ,$params['query'][$column]);
+        if (isset($params['query'])) {
+            foreach ($columns as $column) {
+                if (isset($params['query'][$column])) {
+                    $model->where($column, $params['query'][$column]);
                 }
             }
         }
@@ -252,16 +270,15 @@ if(!function_exists('getModelData')){
         $orderFieldIsRelation = strpos($order_field, ".") !== false;
 
 
-        if ($orderFieldIsRelation){
+        if ($orderFieldIsRelation) {
 
             $orderRelation = explode(".", $order_field)[0];
             $orderField = explode(".", $order_field)[1];
 
-            $model->whereHas($orderRelation, function (Builder $query) use ($orderField ,$order_sort){
+            $model->whereHas($orderRelation, function (Builder $query) use ($orderField, $order_sort) {
                 $query->orderBy($orderField, $order_sort);
             });
-
-        }else{
+        } else {
 
             $model->orderBy($order_field, $order_sort);
         }

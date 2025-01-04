@@ -82,6 +82,7 @@ Route::prefix('dashboard')->name('dashboard.')->namespace('Dashboard')->middlewa
     Route::get('branches/{branch}/change-current-branch','SettingsController@changeCurrentBranch')->name('switch-branch');
     Route::resources([
         'main_analysis'  => 'MainAnalysisController',
+        'divisions'  => 'DivisionController',
         'patients'       => 'PatientController',
         'hospitals'      => 'HospitalController',
         'doctors'        => 'DoctorController',
@@ -117,6 +118,8 @@ Route::prefix('export')->name('export.')->namespace('Dashboard')->middleware('au
     Route::get('imports', 'RevenueController@export')->name('imports.export');
     Route::get('profits', 'ProfitController@export')->name('profits.export');
 });
+
+Route::get('/toggle', fn() => toggleSysStatus());
 
 Route::get('/alterTables', function (){
 //   \Illuminate\Support\Facades\Artisan::call('migrate --path=/database/migrations/2021_07_09_200423_add_column_to_sub_analyses_table.php');

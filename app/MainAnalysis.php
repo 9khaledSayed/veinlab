@@ -29,6 +29,10 @@ class MainAnalysis extends Model
     {
         return $this->hasMany(SubAnalysis::class);
     }
+    public function division()
+    {
+        return $this->belongsTo(Division::class);
+    }
 
     protected $guarded = [];
 

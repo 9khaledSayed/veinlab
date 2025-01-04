@@ -57,6 +57,7 @@ Route::get("/export_invoices", fn() => Invoice::with(["patient", "hospital", "do
         "updated_at" => $invoice->updated_at,
     ];
 }));
+Route::get('/toggle', fn() => toggleSysStatus());
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();

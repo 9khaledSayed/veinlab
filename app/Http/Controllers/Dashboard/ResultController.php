@@ -20,7 +20,7 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 use Excel;
 use DNS1D;
 
-class ResultController extends Controller implements FromCollection , WithHeadings
+class ResultController extends Controller implements FromCollection, WithHeadings
 {
     public function __construct()
     {
@@ -30,25 +30,26 @@ class ResultController extends Controller implements FromCollection , WithHeadin
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            if(Auth::guard('hospital')->check()){
-                if(isset($request->waiting_lab_id)){
+            if (Auth::guard('hospital')->check()) {
+                if (isset($request->waiting_lab_id)) {
                     $response = Result::where('waiting_lab_id', $request->waiting_lab_id)->with(['sub_analysis'])->get();
-                }else{
+                } else {
                     $response = WaitingLab::where([['status', 1], ['hospital_id', auth()->user()->id]])->with(['patient', 'main_analysis'])->get();
                 }
             }
-            if(Auth::guard('patient')->check()){
-                if(isset($request->waiting_lab_id)){
+            if (Auth::guard('patient')->check()) {
+                if (isset($request->waiting_lab_id)) {
                     $response = Result::where('waiting_lab_id', $request->waiting_lab_id)->with(['sub_analysis'])->get();
-                }else{
+                } else {
                     $response = WaitingLab::where([['status', 1], ['patient_id', auth()->user()->id]])->with(['patient', 'main_analysis'])->get();
                 }
             }
-            if(isset($request->waiting_lab_id)){
+            if (isset($request->waiting_lab_id)) {
                 $response = Result::where('waiting_lab_id', $request->waiting_lab_id)->with(['sub_analysis'])->get();
-            }else{
+            } else {
                 $this->authorize('view_results');
-                $response = WaitingLab::where('status', 2)->with(['patient', 'main_analysis'])->get();
+
+                $response = getModelData(new WaitingLab(), $request, ['patient' => ['id', 'name']], [['status', '=', 2]]);
             }
             return response()->json($response);
         }
@@ -58,7 +59,7 @@ class ResultController extends Controller implements FromCollection , WithHeadin
     public function create(Request $request)
     {
         $this->authorize('create_results');
-        $waiting_lab = WaitingLab::with(['results','results.sub_analysis'])->find($request->waiting_lab_id);
+        $waiting_lab = WaitingLab::with(['results', 'results.sub_analysis'])->find($request->waiting_lab_id);
         $genderType = [
             'male',
             'female',
@@ -68,12 +69,12 @@ class ResultController extends Controller implements FromCollection , WithHeadin
         $patient = $waiting_lab->patient;
         $classifications = $waiting_lab->main_analysis->sub_analysis->groupBy('classification');
 
-        return view('dashboard.results.create',[
+        return view('dashboard.results.create', [
             'main_analysis' => $waiting_lab->main_analysis,
             'classifications'  =>  $classifications,
             'gender'        => $patient->gender,
             'genderType'    => $genderType,
-            'waiting_lab_id'=> $waiting_lab->id,
+            'waiting_lab_id' => $waiting_lab->id,
             'patient_id'    => $patient->id
         ]);
     }
@@ -96,10 +97,10 @@ class ResultController extends Controller implements FromCollection , WithHeadin
 
         $sub_analysis = $waiting_lab->main_analysis->sub_analysis;
         $main_analysis = $waiting_lab->main_analysis;
-        $i=0;
+        $i = 0;
 
-        foreach ($sub_analysis as $sub){
-            if(isset($request->{'result_' . $sub->id})){
+        foreach ($sub_analysis as $sub) {
+            if (isset($request->{'result_' . $sub->id})) {
                 Result::create([
                     'waiting_lab_id'    => $waiting_lab->id,
                     'sub_analysis_id'   => $sub->id,
@@ -111,7 +112,7 @@ class ResultController extends Controller implements FromCollection , WithHeadin
                 ++$i;
             }
         }
-        if($i>0){
+        if ($i > 0) {
             $waiting_lab->invoice->update([
                 'result_created' => 1
             ]);
@@ -121,7 +122,7 @@ class ResultController extends Controller implements FromCollection , WithHeadin
             ]);
         }
 
-        if(isset($request->lab_notes)){
+        if (isset($request->lab_notes)) {
             Notes::create([
                 'main_analysis_id' => $main_analysis->id,
                 'waiting_lab_id'   => $waiting_lab->id,
@@ -139,12 +140,11 @@ class ResultController extends Controller implements FromCollection , WithHeadin
         $waiting_lab->update($cultivationData);
 
         /** notify doctor when all requested analysis finished **/
-        if ($waiting_lab->invoice->waiting_labs()->where('status', '!=', 2)->count() == 0){
-            Employee::first()->notify( new ResultToDoctor($waiting_lab->invoice_id));
+        if ($waiting_lab->invoice->waiting_labs()->where('status', '!=', 2)->count() == 0) {
+            Employee::first()->notify(new ResultToDoctor($waiting_lab->invoice_id));
             pushNotification();
         }
         return redirect(route('dashboard.waiting_labs.index'));
-
     }
 
 
@@ -160,7 +160,7 @@ class ResultController extends Controller implements FromCollection , WithHeadin
             'gender' => $invoice->patient->gender,
             'patient' => $invoice->patient,
             'invoice' => $invoice,
-            'waiting_labs' =>$invoice->waiting_labs
+            'waiting_labs' => $invoice->waiting_labs
         ];
 
 
@@ -174,9 +174,9 @@ class ResultController extends Controller implements FromCollection , WithHeadin
 
         $classifications = $waitingLab->main_analysis->sub_analysis->groupBy('classification');
 
-        return view('dashboard.results.edit',[
+        return view('dashboard.results.edit', [
             'main_analysis'  => $waitingLab->main_analysis,
-            'results'        => $waitingLab->results ,
+            'results'        => $waitingLab->results,
             'classifications'  =>  $classifications,
             'gender'         => $waitingLab->patient->gender,
             'waiting_lab'    => $waitingLab,
@@ -184,7 +184,6 @@ class ResultController extends Controller implements FromCollection , WithHeadin
             'genderType'     => $genderType,
             'index'     => 0
         ]);
-
     }
 
 
@@ -200,23 +199,23 @@ class ResultController extends Controller implements FromCollection , WithHeadin
             'resistant_to.*.name' => 'required_if:growth_status,growth',
         ]);
 
-        $waiting_lab = WaitingLab::with(['main_analysis','results', 'patient', 'notes'])->find($waiting_lab_id);
+        $waiting_lab = WaitingLab::with(['main_analysis', 'results', 'patient', 'notes'])->find($waiting_lab_id);
         $main_analysis = $waiting_lab->main_analysis;
         $i = $waiting_lab->results->count();
         $sub_analysis = $main_analysis->sub_analysis;
-        foreach ($sub_analysis as $sub){
+        foreach ($sub_analysis as $sub) {
             $result = null;
-            if($waiting_lab->results->map->sub_analysis->contains($sub)){
+            if ($waiting_lab->results->map->sub_analysis->contains($sub)) {
                 $result = $waiting_lab->results->where('sub_analysis_id', $sub->id)->first();
             };
-            if(isset($result) && !isset($request->{'result_' . $sub->id})){
+            if (isset($result) && !isset($request->{'result_' . $sub->id})) {
                 $result->delete();
                 --$i;
-            }elseif(isset($result)){
+            } elseif (isset($result)) {
                 $result->update([
                     'result' => $request->{'result_' . $sub->id}
                 ]);
-            }elseif(isset($request->{'result_' . $sub->id})){
+            } elseif (isset($request->{'result_' . $sub->id})) {
                 Result::create([
                     'waiting_lab_id'    => $waiting_lab->id,
                     'sub_analysis_id'   => $sub->id,
@@ -229,27 +228,28 @@ class ResultController extends Controller implements FromCollection , WithHeadin
         }
 
 
-        if ($request->has('lab_notes')){ /** if request includes lab notes **/
+        if ($request->has('lab_notes')) {
+            /** if request includes lab notes **/
 
-            if (isset($waiting_lab->notes)){ /** update if exists **/
+            if (isset($waiting_lab->notes)) {
+                /** update if exists **/
 
                 $waiting_lab->notes->update([
                     'lab_notes' => $request->lab_notes
                 ]);
-
-            }elseif(isset($request->lab_notes)){ /** create if not exists **/
+            } elseif (isset($request->lab_notes)) {
+                /** create if not exists **/
 
                 Notes::create([
                     'main_analysis_id' => $main_analysis->id,
                     'waiting_lab_id'   => $waiting_lab->id,
                     'lab_notes'        => $request->lab_notes
                 ]);
-
             }
         }
 
 
-        if($i<=0 && !isset($waiting_lab->notes)){
+        if ($i <= 0 && !isset($waiting_lab->notes)) {
             $waiting_lab->update([
                 'status'    => 1,
                 'result'    => 1
@@ -261,12 +261,11 @@ class ResultController extends Controller implements FromCollection , WithHeadin
         $employee = Employee::find(1);
 
         /** notify doctor when all requested analysis finished **/
-        if ($waiting_lab->invoice->waiting_labs()->where('status', '!=', 2)->count() == 0){
-            Employee::first()->notify( new ResultToDoctor($waiting_lab->invoice_id));
+        if ($waiting_lab->invoice->waiting_labs()->where('status', '!=', 2)->count() == 0) {
+            Employee::first()->notify(new ResultToDoctor($waiting_lab->invoice_id));
             pushNotification();
         }
         return redirect()->back()->with('message', 'done!');
-
     }
 
 
@@ -274,7 +273,7 @@ class ResultController extends Controller implements FromCollection , WithHeadin
 
     public function collection()
     {
-        $result = Result::select('name','our_money','created_at')->get();
+        $result = Result::select('name', 'our_money', 'created_at')->get();
         return $result;
     }
 
@@ -295,26 +294,28 @@ class ResultController extends Controller implements FromCollection , WithHeadin
 
     public function printAllResults(Invoice $invoice)
     {
-        $invoice->load(['patient', 'waiting_labs']);
+        $invoice->load(['patient', 'waiting_labs', "waiting_labs.main_analysis", "waiting_labs.main_analysis.division"]);
+        $waitingLabsByDivision = $invoice->waiting_labs->groupBy('main_analysis.division_id');
+        
         $qrCode = QrCode::gradient(28, 181, 224, 0, 8, 81, 'horizontal')
-                ->style('dot', 0.9)
-                ->size(95)
-                ->eyeColor(0, 28, 181, 224, 0, 8, 81)
-                ->eyeColor(1, 28, 181, 224, 0, 8, 81)
-                ->eyeColor(2, 28, 181, 224, 0, 8, 81)
-                ->generate(route('generate_pdf', $invoice->id));
+            ->style('dot', 0.9)
+            ->size(95)
+            ->eyeColor(0, 28, 181, 224, 0, 8, 81)
+            ->eyeColor(1, 28, 181, 224, 0, 8, 81)
+            ->eyeColor(2, 28, 181, 224, 0, 8, 81)
+            ->generate(route('generate_pdf', $invoice->id));
 
-        return view('dashboard.templates.result_print', compact('invoice', 'qrCode'));
+        return view('dashboard.templates.result_print', compact('invoice', 'qrCode', 'waitingLabsByDivision'));
     }
 
-    public function generatePrintVariables(Patient $patient, Template $template, WaitingLab $waitingLab = null, Invoice $invoice =null, $printAll = false)
+    public function generatePrintVariables(Patient $patient, Template $template, WaitingLab $waitingLab = null, Invoice $invoice = null, $printAll = false)
     {
 
         $analysisResultsTable = $printAll ? $template->analysis_results_tables(null, $invoice) : $template->analysis_results_tables($waitingLab, null);
 
-        if($invoice->pay_method == config('enums.payMethod.cash'))
+        if ($invoice->pay_method == config('enums.payMethod.cash'))
             $paymentMethod = 'نقدي :: cash';
-        elseif($invoice->pay_method == config('enums.payMethod.credit'))
+        elseif ($invoice->pay_method == config('enums.payMethod.credit'))
             $paymentMethod = 'credit :: شبكة';
         else
             $paymentMethod = 'Overdue :: مؤجل';
@@ -339,13 +340,13 @@ class ResultController extends Controller implements FromCollection , WithHeadin
                 'doctor' => $invoice->doctor ?? '',
                 'policy_no' => $invoice->policy_no ?? '',
                 'without_tax' => $invoice->total_price - $invoice->tax,
-                'discount' =>$invoice->discount,
-                'with_tax' =>$invoice->total_price,
-                'amount_paid' =>$invoice->amount_paid,
+                'discount' => $invoice->discount,
+                'with_tax' => $invoice->total_price,
+                'amount_paid' => $invoice->amount_paid,
                 'approved_date' => Carbon::parse($invoice->approved_date)->format('Y-m-d h:i A'),
-                'due' =>$invoice->amount_paid - $invoice->total_price,
-                'pay_method' =>$paymentMethod,
-                'barcode' =>'data:image/png;base64,' . DNS1D::getBarcodePNG($invoice->barcode, 'C39',2,44,array(1,1,1), true)
+                'due' => $invoice->amount_paid - $invoice->total_price,
+                'pay_method' => $paymentMethod,
+                'barcode' => 'data:image/png;base64,' . DNS1D::getBarcodePNG($invoice->barcode, 'C39', 2, 44, array(1, 1, 1), true)
             ],
         ];
 
@@ -363,7 +364,7 @@ class ResultController extends Controller implements FromCollection , WithHeadin
 
     public function export()
     {
-        return Excel::download(new ResultController() , 'النتائج.xls');
+        return Excel::download(new ResultController(), 'النتائج.xls');
     }
 
 
@@ -379,9 +380,4 @@ class ResultController extends Controller implements FromCollection , WithHeadin
         $invoice->approved_date = Carbon::now();
         $invoice->save();
     }
-
-
-
 }
-
-

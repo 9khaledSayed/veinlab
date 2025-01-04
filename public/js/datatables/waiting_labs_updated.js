@@ -83,11 +83,12 @@ var KTDatatableChildRemoteDataDemo = function() {
                 {
                     field: 'id',
                     title: '',
-                    sortable: false,
+                    sortable: true,
                     width: 20,
                     textAlign: 'center',
                 }, {
                     field: 'patient.name',
+                    sortable: false,
                     title: locator.__('Patient Name'),
                 }, {
                     field: 'main_analysis.general_name',

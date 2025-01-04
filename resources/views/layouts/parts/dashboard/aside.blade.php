@@ -167,6 +167,9 @@
                 @can('view_results')
                 <li class="kt-menu__item  kt-menu__item" aria-haspopup="true" data-ktmenu-submenu-toggle="hover"><a href="{{Route('dashboard.results.index')}}" class="kt-menu__link kt-menu__toggle"><i class="kt-menu__link-icon  fa fa-clipboard-check"></i><span class="kt-menu__link-text">{{__('All Results')}}</span></a></li>
                 @endcan
+                @can('view_results')
+                <li class="kt-menu__item  kt-menu__item" aria-haspopup="true" data-ktmenu-submenu-toggle="hover"><a href="{{Route('dashboard.divisions.index')}}" class="kt-menu__link kt-menu__toggle"><i class="kt-menu__link-icon  fa fa-boxes"></i><span class="kt-menu__link-text">{{__('Divisions')}}</span></a></li>
+                @endcan
 
                 @can('view_invoices')
                 <li class="kt-menu__item " aria-haspopup="true"><a href="{{route('dashboard.invoices.index')}}" class="kt-menu__link "><i class="kt-menu__link-icon  fas fa-file-invoice"></i><span class="kt-menu__link-text">{{__('Invoices')}}</span></a></li>

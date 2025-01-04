@@ -13,7 +13,7 @@ use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Excel;
 
-class MainAnalysisController extends Controller implements  FromCollection, WithHeadings
+class MainAnalysisController extends Controller implements FromCollection, WithHeadings
 {
     public function __construct()
     {
@@ -43,6 +43,7 @@ class MainAnalysisController extends Controller implements  FromCollection, With
         $this->authorize('create_main_analysis');
 
         $data = $request->validate([
+            'division_id' => ['nullable', 'exists:divisions,id'],
             'general_name' => ['required', 'string', 'max:200'],
             'abbreviated_name' => ['required', 'string', 'max:100'],
             'code' => 'required|string|max:255|sometimes|unique:main_analyses',
@@ -61,7 +62,7 @@ class MainAnalysisController extends Controller implements  FromCollection, With
 
         $mainAnalysis = MainAnalysis::create($data);
 
-        foreach ($request->sub_analyses ?? [] as $subAnalyses){
+        foreach ($request->sub_analyses ?? [] as $subAnalyses) {
             $subAnalysis = new SubAnalysis();
             $subAnalysis->main_analysis_id = $mainAnalysis->id;
             $subAnalysis->name             = $subAnalyses['name'];
@@ -85,7 +86,7 @@ class MainAnalysisController extends Controller implements  FromCollection, With
         $this->authorize('update_main_analysis');
         $main_analysis = MainAnalysis::find($id);
         $count  = 0;
-        return view('dashboard.main_analysis.edit', compact('main_analysis','count'));
+        return view('dashboard.main_analysis.edit', compact('main_analysis', 'count'));
     }
 
 
@@ -95,6 +96,7 @@ class MainAnalysisController extends Controller implements  FromCollection, With
         $this->authorize('update_main_analysis');
 
         $data = $request->validate([
+            'division_id' => ['nullable', 'exists:divisions,id'],
             'general_name' => ['required', 'string', 'max:200'],
             'abbreviated_name' => ['required', 'string', 'max:100'],
             'code' => 'required|string|max:255|sometimes|unique:main_analyses,code,' . $id,
@@ -119,25 +121,23 @@ class MainAnalysisController extends Controller implements  FromCollection, With
         $diff = array_diff($main_analysis->sub_analysis->pluck('id')->toArray(), collect($request->sub_analyses)->pluck('id')->toArray());
 
         SubAnalysis::whereIn('id', $diff)->delete();
-//        dd('done');
+        //        dd('done');
 
         foreach ($request->sub_analyses ?? [] as $key => $subAnalyses) {
 
             /** delete the ids that doesnt come from the form **/
 
             /** 1- Check if there is an id then update**/
-            if(isset($subAnalyses['id'])){
+            if (isset($subAnalyses['id'])) {
                 SubAnalysis::find($subAnalyses['id'])->update($subAnalyses);
-
-            }else{ /** 2- If there is no id found then create new bank account **/
+            } else {
+                /** 2- If there is no id found then create new bank account **/
 
                 $subAnalyses['main_analysis_id'] = $main_analysis->id;
                 unset($subAnalyses['id']);
 
                 SubAnalysis::create($subAnalyses);
-
             }
-
         }
 
 
@@ -146,10 +146,10 @@ class MainAnalysisController extends Controller implements  FromCollection, With
     }
 
 
-    public function destroy($id ,Request $request)
+    public function destroy($id, Request $request)
     {
         $this->authorize('delete_main_analysis');
-        if($request->ajax()){
+        if ($request->ajax()) {
 
             MainAnalysis::find($id)->destroy($id);
 
@@ -164,7 +164,7 @@ class MainAnalysisController extends Controller implements  FromCollection, With
     public function report(Request $request)
     {
         $this->authorize('view_reports');
-        if(isset($request->date)){
+        if (isset($request->date)) {
             $date = Carbon::create($request->date);
             $main_analysis = MainAnalysis::whereMonth('created_at', $date->month)->whereYear('created_at', $date->year)->get();
             $total_amount = $main_analysis->pluck('price')->sum();
@@ -181,19 +181,18 @@ class MainAnalysisController extends Controller implements  FromCollection, With
             return ($analysis->demand_no * $analysis->price) - ($analysis->demand_no * $analysis->cost);
         })->sum();
         return view('dashboard.main_analysis.report', compact(['main_analysis', 'total_amount', 'total_cost', 'total_profits']));
-
     }
 
 
     public function export()
     {
-        return Excel::download(new MainAnalysisController() , 'التحاليل الرئيسيه.xls');
+        return Excel::download(new MainAnalysisController(), 'التحاليل الرئيسيه.xls');
     }
 
     public function collection()
     {
 
-        $main_analysis = MainAnalysis::select('general_name','abbreviated_name','price','price_insurance')->get();
+        $main_analysis = MainAnalysis::select('general_name', 'abbreviated_name', 'price', 'price_insurance')->get();
         return $main_analysis;
     }
 
@@ -206,8 +205,4 @@ class MainAnalysisController extends Controller implements  FromCollection, With
             'Insurance Price'
         ];
     }
-
 }
-
-
-
